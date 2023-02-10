@@ -15,26 +15,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 )
 public class UsuarioRol  implements java.io.Serializable {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idusuario_rol", unique=true, nullable=false)
      private int idusuarioRol;
-     private Regional regional;
-     private Rol rol;
+    @ManyToOne(fetch=FetchType.EAGER)
+    private Rol rol;
+    @ManyToOne(fetch=FetchType.EAGER)
      private Usuario usuario;
 
-    public UsuarioRol() {
-    }
 
-    public UsuarioRol(int idusuarioRol, Regional regional, Rol rol, Usuario usuario) {
-       this.idusuarioRol = idusuarioRol;
-       this.regional = regional;
-       this.rol = rol;
-       this.usuario = usuario;
-    }
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-
-    
-    @Column(name="idusuario_rol", unique=true, nullable=false)
     public int getIdusuarioRol() {
         return this.idusuarioRol;
     }
@@ -43,18 +33,7 @@ public class UsuarioRol  implements java.io.Serializable {
         this.idusuarioRol = idusuarioRol;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idregional", nullable=false)
-    public Regional getRegional() {
-        return this.regional;
-    }
-    
-    public void setRegional(Regional regional) {
-        this.regional = regional;
-    }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idrol", nullable=false)
     public Rol getRol() {
         return this.rol;
     }
@@ -63,8 +42,7 @@ public class UsuarioRol  implements java.io.Serializable {
         this.rol = rol;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idusuario", nullable=false)
+
     public Usuario getUsuario() {
         return this.usuario;
     }
@@ -73,9 +51,4 @@ public class UsuarioRol  implements java.io.Serializable {
         this.usuario = usuario;
     }
 
-
-
-
 }
-
-

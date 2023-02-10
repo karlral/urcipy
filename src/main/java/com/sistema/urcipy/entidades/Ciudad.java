@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -24,11 +26,17 @@ import javax.persistence.Table;
 )
 public class Ciudad  implements java.io.Serializable {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idciudad", unique=true, nullable=false)
      private Integer idciudad;
+    private String nomciudad;
+    @ManyToOne(fetch=FetchType.EAGER)
      private Pais pais;
-     private String nomciudad;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
+    @JsonIgnore
      private Set<Corredor> corredors = new HashSet<>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
+    @JsonIgnore
      private Set<Campeones> campeoneses = new HashSet<>(0);
 
     public Ciudad() {
@@ -45,10 +53,7 @@ public class Ciudad  implements java.io.Serializable {
        this.campeoneses = campeoneses;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idciudad", unique=true, nullable=false)
     public Integer getIdciudad() {
         return this.idciudad;
     }
@@ -57,8 +62,7 @@ public class Ciudad  implements java.io.Serializable {
         this.idciudad = idciudad;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idpais", nullable=false)
+
     public Pais getPais() {
         return this.pais;
     }
@@ -77,7 +81,7 @@ public class Ciudad  implements java.io.Serializable {
         this.nomciudad = nomciudad;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
+
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }
@@ -86,7 +90,7 @@ public class Ciudad  implements java.io.Serializable {
         this.corredors = corredors;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
+
     public Set<Campeones> getCampeoneses() {
         return this.campeoneses;
     }

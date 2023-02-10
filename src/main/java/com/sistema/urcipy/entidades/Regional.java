@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -44,14 +46,14 @@ public class Regional  implements java.io.Serializable {
      private Set<Campeones> campeoneses = new HashSet<>(0);
      private Set<Auspicio> auspicios = new HashSet<>(0);
      private Set<Promocion> promocions = new HashSet<>(0);
-     private Set<UsuarioRol> usuarioRols = new HashSet<>(0);
+     private Set<Usuario> usuarios = new HashSet<>(0);
      private Set<Participante> participantes = new HashSet<>(0);
      private Set<Club> clubs = new HashSet<>(0);
 
     public Regional() {
     }
 
-    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarioRols, Set<Participante> participantes, Set clubs) {
+    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set<Participante> participantes, Set clubs) {
        this.nomregional = nomregional;
        this.nomcorto = nomcorto;
        this.telefono = telefono;
@@ -72,7 +74,7 @@ public class Regional  implements java.io.Serializable {
        this.campeoneses = campeoneses;
        this.auspicios = auspicios;
        this.promocions = promocions;
-       this.usuarioRols = usuarioRols;
+       this.usuarios = usuarios;
        this.participantes = participantes;
        this.clubs = clubs;
     }
@@ -250,6 +252,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Concepto> getConceptos() {
         return this.conceptos;
     }
@@ -259,6 +262,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Campeones> getCampeoneses() {
         return this.campeoneses;
     }
@@ -268,6 +272,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Auspicio> getAuspicios() {
         return this.auspicios;
     }
@@ -277,6 +282,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Promocion> getPromocions() {
         return this.promocions;
     }
@@ -286,15 +292,17 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
-    public Set<UsuarioRol> getUsuarioRols() {
-        return this.usuarioRols;
+
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
     }
     
-    public void setUsuarioRols(Set<UsuarioRol> usuarioRols) {
-        this.usuarioRols = usuarioRols;
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Participante> getParticipantes() {
         return this.participantes;
     }
@@ -304,6 +312,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+@JsonIgnore
     public Set<Club> getClubs() {
         return this.clubs;
     }
