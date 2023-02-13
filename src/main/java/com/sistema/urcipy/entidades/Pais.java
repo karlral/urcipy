@@ -1,10 +1,9 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -23,16 +22,13 @@ import javax.persistence.Table;
 @Table(name="pais"
     ,catalog="urcipy"
 )
-public class Pais  implements Serializable {
+public class Pais  implements java.io.Serializable {
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-    @Column(name="idpais", unique=true, nullable=false)
+
      private Integer idpais;
      private String nompais;
      private String nacionalidad;
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="pais")
-    @JsonIgnore
-     private Set<Ciudad> ciudads = new HashSet<>();
+     private Set<Ciudad> ciudads = new HashSet<Ciudad>(0);
 
     public Pais() {
     }
@@ -42,7 +38,11 @@ public class Pais  implements Serializable {
        this.nacionalidad = nacionalidad;
        this.ciudads = ciudads;
     }
+   
+     @Id @GeneratedValue(strategy=IDENTITY)
 
+    
+    @Column(name="idpais", unique=true, nullable=false)
     public Integer getIdpais() {
         return this.idpais;
     }
@@ -71,7 +71,8 @@ public class Pais  implements Serializable {
         this.nacionalidad = nacionalidad;
     }
 
-
+@OneToMany(fetch=FetchType.LAZY, mappedBy="pais")
+@JsonIgnore
     public Set<Ciudad> getCiudads() {
         return this.ciudads;
     }

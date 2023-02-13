@@ -46,14 +46,15 @@ public class Regional  implements java.io.Serializable {
      private Set<Campeones> campeoneses = new HashSet<>(0);
      private Set<Auspicio> auspicios = new HashSet<>(0);
      private Set<Promocion> promocions = new HashSet<>(0);
+    private Set<Participante> participantes = new HashSet<>(0);
      private Set<Usuario> usuarios = new HashSet<>(0);
-     private Set<Participante> participantes = new HashSet<>(0);
+
      private Set<Club> clubs = new HashSet<>(0);
 
     public Regional() {
     }
 
-    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set<Participante> participantes, Set clubs) {
+    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set clubs, Set participantes) {
        this.nomregional = nomregional;
        this.nomcorto = nomcorto;
        this.telefono = telefono;
@@ -75,7 +76,7 @@ public class Regional  implements java.io.Serializable {
        this.auspicios = auspicios;
        this.promocions = promocions;
        this.usuarios = usuarios;
-       this.participantes = participantes;
+        this.participantes=participantes;
        this.clubs = clubs;
     }
    
@@ -292,7 +293,7 @@ public class Regional  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
-
+@JsonIgnore
     public Set<Usuario> getUsuarios() {
         return this.usuarios;
     }
@@ -301,17 +302,17 @@ public class Regional  implements java.io.Serializable {
         this.usuarios = usuarios;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
-@JsonIgnore
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+    @JsonIgnore
     public Set<Participante> getParticipantes() {
-        return this.participantes;
+        return participantes;
     }
-    
+
     public void setParticipantes(Set<Participante> participantes) {
         this.participantes = participantes;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
 @JsonIgnore
     public Set<Club> getClubs() {
         return this.clubs;
@@ -320,8 +321,6 @@ public class Regional  implements java.io.Serializable {
     public void setClubs(Set clubs) {
         this.clubs = clubs;
     }
-
-
 
 
 }

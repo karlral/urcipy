@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -56,11 +56,11 @@ public class Evento  implements java.io.Serializable {
      private Integer montomenc;
      private Integer montomens;
      private Integer doble;
-     private Set<Resultimio> resultimios = new HashSet<>(0);
-     private Set<Enlaces> enlaceses = new HashSet<>(0);
-     private Set<Participante> participantes = new HashSet<>(0);
-     private Set<Sugerencia> sugerencias = new HashSet<>(0);
-     private Set<Fotos> fotoses = new HashSet<>(0);
+     private Set<Fotos> fotoses = new HashSet<Fotos>(0);
+     private Set<Participante> participantes = new HashSet<Participante>(0);
+     private Set<Enlaces> enlaceses = new HashSet<Enlaces>(0);
+     private Set<Resultimio> resultimios = new HashSet<Resultimio>(0);
+     private Set<Sugerencia> sugerencias = new HashSet<Sugerencia>(0);
 
     public Evento() {
     }
@@ -69,7 +69,7 @@ public class Evento  implements java.io.Serializable {
     public Evento(Club club) {
         this.club = club;
     }
-    public Evento(Club club, Date fecha, String nomevento, Integer activo, String direccion, String latitud, String longitud, String urlpromocional, String urlcategoria, Integer tipoevento, Integer modo, Integer verencuesta, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, Integer nacional, Integer preinscrip, String contacto, String fondo, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, Integer doble, Set resultimios, Set enlaceses, Set<Participante> participantes, Set sugerencias, Set fotoses) {
+    public Evento(Club club, Date fecha, String nomevento, Integer activo, String direccion, String latitud, String longitud, String urlpromocional, String urlcategoria, Integer tipoevento, Integer modo, Integer verencuesta, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, Integer nacional, Integer preinscrip, String contacto, String fondo, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, Integer doble, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
        this.club = club;
        this.fecha = fecha;
        this.nomevento = nomevento;
@@ -97,11 +97,11 @@ public class Evento  implements java.io.Serializable {
        this.montomenc = montomenc;
        this.montomens = montomens;
        this.doble = doble;
-       this.resultimios = resultimios;
-       this.enlaceses = enlaceses;
-       this.participantes = participantes;
-       this.sugerencias = sugerencias;
        this.fotoses = fotoses;
+       this.participantes = participantes;
+       this.enlaceses = enlaceses;
+       this.resultimios = resultimios;
+       this.sugerencias = sugerencias;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -117,7 +117,7 @@ public class Evento  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idclub", nullable=false)
+    @JoinColumn(name="club_idclub", nullable=false)
     public Club getClub() {
         return this.club;
     }
@@ -387,21 +387,12 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-    public Set<Resultimio> getResultimios() {
-        return this.resultimios;
+    public Set<Fotos> getFotoses() {
+        return this.fotoses;
     }
     
-    public void setResultimios(Set<Resultimio> resultimios) {
-        this.resultimios = resultimios;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-    public Set<Enlaces> getEnlaceses() {
-        return this.enlaceses;
-    }
-    
-    public void setEnlaceses(Set<Enlaces> enlaceses) {
-        this.enlaceses = enlaceses;
+    public void setFotoses(Set<Fotos> fotoses) {
+        this.fotoses = fotoses;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
@@ -414,21 +405,30 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<Enlaces> getEnlaceses() {
+        return this.enlaceses;
+    }
+    
+    public void setEnlaceses(Set<Enlaces> enlaceses) {
+        this.enlaceses = enlaceses;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    public Set<Resultimio> getResultimios() {
+        return this.resultimios;
+    }
+    
+    public void setResultimios(Set<Resultimio> resultimios) {
+        this.resultimios = resultimios;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
     public Set<Sugerencia> getSugerencias() {
         return this.sugerencias;
     }
     
     public void setSugerencias(Set<Sugerencia> sugerencias) {
         this.sugerencias = sugerencias;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-    public Set<Fotos> getFotoses() {
-        return this.fotoses;
-    }
-    
-    public void setFotoses(Set<Fotos> fotoses) {
-        this.fotoses = fotoses;
     }
 
 

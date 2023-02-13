@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -66,9 +66,9 @@ public class Corredor  implements java.io.Serializable {
      private Date fecmodi;
      private Integer montopuntua;
      private Byte carnetfpc;
-     private Set imcs = new HashSet<>(0);
-     private Set<Participante> participantes = new HashSet<>(0);
-     private Set miembroses = new HashSet<>(0);
+     private Set<Imc> imcs = new HashSet<Imc>(0);
+     private Set<Participante> participantes = new HashSet<Participante>(0);
+     private Set<Miembros> miembroses = new HashSet<Miembros>(0);
 
     public Corredor() {
     }
@@ -80,7 +80,7 @@ public class Corredor  implements java.io.Serializable {
         this.club = club;
         this.usuario = usuario;
     }
-    public Corredor(Categoria categoria, Ciudad ciudad, Club club, Usuario usuario, String nombre, String apellido, String ci, Integer sexo, Date fecnac, String telefono, String direccion, String email, Integer courci, String nacionalidad, String carnet, String cidelante, String ciatras, String certificado, String deposito, String docfirma1, String docfirma2, Integer tipocat, String tutorp, String tutorm, String citp, String citm, String domicilio, String nrocasa, String ciudadt, String paist, Integer licencia, Integer modificar, String gruposanguineo, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, Set imcs, Set<Participante> participantes, Set miembroses) {
+    public Corredor(Categoria categoria, Ciudad ciudad, Club club, Usuario usuario, String nombre, String apellido, String ci, Integer sexo, Date fecnac, String telefono, String direccion, String email, Integer courci, String nacionalidad, String carnet, String cidelante, String ciatras, String certificado, String deposito, String docfirma1, String docfirma2, Integer tipocat, String tutorp, String tutorm, String citp, String citm, String domicilio, String nrocasa, String ciudadt, String paist, Integer licencia, Integer modificar, String gruposanguineo, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
        this.categoria = categoria;
        this.ciudad = ciudad;
        this.club = club;
@@ -136,7 +136,7 @@ public class Corredor  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcategoria", nullable=false)
+    @JoinColumn(name="categoria_idcategoria", nullable=false)
     public Categoria getCategoria() {
         return this.categoria;
     }
@@ -146,7 +146,7 @@ public class Corredor  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idciudad", nullable=false)
+    @JoinColumn(name="ciudad_idciudad", nullable=false)
     public Ciudad getCiudad() {
         return this.ciudad;
     }
@@ -156,7 +156,7 @@ public class Corredor  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idclub", nullable=false)
+    @JoinColumn(name="club_idclub", nullable=false)
     public Club getClub() {
         return this.club;
     }
@@ -166,7 +166,7 @@ public class Corredor  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idusuario", nullable=false)
+    @JoinColumn(name="usuario_idusuario", nullable=false)
     public Usuario getUsuario() {
         return this.usuario;
     }

@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,18 +26,11 @@ import javax.persistence.Table;
 )
 public class Ciudad  implements java.io.Serializable {
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-    @Column(name="idciudad", unique=true, nullable=false)
+
      private Integer idciudad;
-    private String nomciudad;
-    @ManyToOne(fetch=FetchType.EAGER)
      private Pais pais;
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
-    @JsonIgnore
-     private Set<Corredor> corredors = new HashSet<>(0);
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
-    @JsonIgnore
-     private Set<Campeones> campeoneses = new HashSet<>(0);
+     private String nomciudad;
+     private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Ciudad() {
     }
@@ -46,14 +39,16 @@ public class Ciudad  implements java.io.Serializable {
     public Ciudad(Pais pais) {
         this.pais = pais;
     }
-    public Ciudad(Pais pais, String nomciudad, Set<Corredor> corredors, Set<Campeones> campeoneses) {
+    public Ciudad(Pais pais, String nomciudad, Set<Corredor> corredors) {
        this.pais = pais;
        this.nomciudad = nomciudad;
        this.corredors = corredors;
-       this.campeoneses = campeoneses;
     }
    
+     @Id @GeneratedValue(strategy=IDENTITY)
 
+    
+    @Column(name="idciudad", unique=true, nullable=false)
     public Integer getIdciudad() {
         return this.idciudad;
     }
@@ -62,7 +57,8 @@ public class Ciudad  implements java.io.Serializable {
         this.idciudad = idciudad;
     }
 
-
+@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="pais_idpais", nullable=false)
     public Pais getPais() {
         return this.pais;
     }
@@ -81,22 +77,14 @@ public class Ciudad  implements java.io.Serializable {
         this.nomciudad = nomciudad;
     }
 
-
+@OneToMany(fetch=FetchType.LAZY, mappedBy="ciudad")
+@JsonIgnore
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }
     
     public void setCorredors(Set<Corredor> corredors) {
         this.corredors = corredors;
-    }
-
-
-    public Set<Campeones> getCampeoneses() {
-        return this.campeoneses;
-    }
-    
-    public void setCampeoneses(Set<Campeones> campeoneses) {
-        this.campeoneses = campeoneses;
     }
 
 

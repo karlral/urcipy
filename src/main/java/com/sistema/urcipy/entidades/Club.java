@@ -1,6 +1,8 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,10 +38,9 @@ public class Club  implements java.io.Serializable {
      private String email;
      private String ruta;
      private String rutagrande;
-     private Set<Campeones> campeoneses = new HashSet<>(0);
-     private Set<Participante> participantes = new HashSet<>(0);
-     private Set<Evento> eventos = new HashSet<>(0);
-     private Set<Corredor> corredors = new HashSet<>(0);
+     private Set<Evento> eventos = new HashSet<Evento>(0);
+     private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
+     private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Club() {
     }
@@ -48,7 +49,7 @@ public class Club  implements java.io.Serializable {
     public Club(Regional regional) {
         this.regional = regional;
     }
-    public Club(Regional regional, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Campeones> campeoneses, Set<Participante> participantes, Set<Evento> eventos, Set<Corredor> corredors) {
+    public Club(Regional regional, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors) {
        this.regional = regional;
        this.nomclub = nomclub;
        this.presidente = presidente;
@@ -59,9 +60,8 @@ public class Club  implements java.io.Serializable {
        this.email = email;
        this.ruta = ruta;
        this.rutagrande = rutagrande;
-       this.campeoneses = campeoneses;
-       this.participantes = participantes;
        this.eventos = eventos;
+       this.campeoneses = campeoneses;
        this.corredors = corredors;
     }
    
@@ -77,8 +77,8 @@ public class Club  implements java.io.Serializable {
         this.idclub = idclub;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idregional", nullable=false)
+@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="regional_idregional", nullable=false)
     public Regional getRegional() {
         return this.regional;
     }
@@ -178,24 +178,7 @@ public class Club  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-    public Set<Campeones> getCampeoneses() {
-        return this.campeoneses;
-    }
-    
-    public void setCampeoneses(Set<Campeones> campeoneses) {
-        this.campeoneses = campeoneses;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-    public Set<Participante> getParticipantes() {
-        return this.participantes;
-    }
-    
-    public void setParticipantes(Set<Participante> participantes) {
-        this.participantes = participantes;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+@JsonIgnore
     public Set<Evento> getEventos() {
         return this.eventos;
     }
@@ -205,6 +188,17 @@ public class Club  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+@JsonIgnore
+    public Set<Campeones> getCampeoneses() {
+        return this.campeoneses;
+    }
+    
+    public void setCampeoneses(Set<Campeones> campeoneses) {
+        this.campeoneses = campeoneses;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+@JsonIgnore
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }

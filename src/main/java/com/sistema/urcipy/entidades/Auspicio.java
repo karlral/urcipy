@@ -1,13 +1,11 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,7 +23,7 @@ import javax.persistence.TemporalType;
 public class Auspicio  implements java.io.Serializable {
 
 
-     private Integer idauspicio;
+     private int idauspicio;
      private Regional regional;
      private String comentario;
      private String ruta;
@@ -38,10 +36,12 @@ public class Auspicio  implements java.io.Serializable {
     }
 
 	
-    public Auspicio(Regional regional) {
+    public Auspicio(int idauspicio, Regional regional) {
+        this.idauspicio = idauspicio;
         this.regional = regional;
     }
-    public Auspicio(Regional regional, String comentario, String ruta, String titulo, Date fechadesde, Date fechahasta, Integer activo) {
+    public Auspicio(int idauspicio, Regional regional, String comentario, String ruta, String titulo, Date fechadesde, Date fechahasta, Integer activo) {
+       this.idauspicio = idauspicio;
        this.regional = regional;
        this.comentario = comentario;
        this.ruta = ruta;
@@ -51,20 +51,20 @@ public class Auspicio  implements java.io.Serializable {
        this.activo = activo;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
+     @Id 
 
     
     @Column(name="idauspicio", unique=true, nullable=false)
-    public Integer getIdauspicio() {
+    public int getIdauspicio() {
         return this.idauspicio;
     }
     
-    public void setIdauspicio(Integer idauspicio) {
+    public void setIdauspicio(int idauspicio) {
         this.idauspicio = idauspicio;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idregional", nullable=false)
+    @JoinColumn(name="regional_idregional", nullable=false)
     public Regional getRegional() {
         return this.regional;
     }

@@ -1,7 +1,8 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,25 +28,26 @@ public class Imc  implements java.io.Serializable {
 
      private Integer idimc;
      private Corredor corredor;
-     private Date fecha;
      private String nomimc;
+     private Date fecha;
      private Byte peso;
-     private int idpersonal;
+     private Integer altura;
+     private BigDecimal imc;
 
     public Imc() {
     }
 
 	
-    public Imc(Corredor corredor, int idpersonal) {
+    public Imc(Corredor corredor) {
         this.corredor = corredor;
-        this.idpersonal = idpersonal;
     }
-    public Imc(Corredor corredor, Date fecha, String nomimc, Byte peso, int idpersonal) {
+    public Imc(Corredor corredor, String nomimc, Date fecha, Byte peso, Integer altura, BigDecimal imc) {
        this.corredor = corredor;
-       this.fecha = fecha;
        this.nomimc = nomimc;
+       this.fecha = fecha;
        this.peso = peso;
-       this.idpersonal = idpersonal;
+       this.altura = altura;
+       this.imc = imc;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -61,13 +63,23 @@ public class Imc  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcorredor", nullable=false)
+    @JoinColumn(name="corredor_idcorredor", nullable=false)
     public Corredor getCorredor() {
         return this.corredor;
     }
     
     public void setCorredor(Corredor corredor) {
         this.corredor = corredor;
+    }
+
+    
+    @Column(name="nomimc", length=10)
+    public String getNomimc() {
+        return this.nomimc;
+    }
+    
+    public void setNomimc(String nomimc) {
+        this.nomimc = nomimc;
     }
 
     @Temporal(TemporalType.DATE)
@@ -81,16 +93,6 @@ public class Imc  implements java.io.Serializable {
     }
 
     
-    @Column(name="nomimc", length=10)
-    public String getNomimc() {
-        return this.nomimc;
-    }
-    
-    public void setNomimc(String nomimc) {
-        this.nomimc = nomimc;
-    }
-
-    
     @Column(name="peso")
     public Byte getPeso() {
         return this.peso;
@@ -101,13 +103,23 @@ public class Imc  implements java.io.Serializable {
     }
 
     
-    @Column(name="idpersonal", nullable=false)
-    public int getIdpersonal() {
-        return this.idpersonal;
+    @Column(name="altura")
+    public Integer getAltura() {
+        return this.altura;
     }
     
-    public void setIdpersonal(int idpersonal) {
-        this.idpersonal = idpersonal;
+    public void setAltura(Integer altura) {
+        this.altura = altura;
+    }
+
+    
+    @Column(name="imc", precision=3, scale=1)
+    public BigDecimal getImc() {
+        return this.imc;
+    }
+    
+    public void setImc(BigDecimal imc) {
+        this.imc = imc;
     }
 
 

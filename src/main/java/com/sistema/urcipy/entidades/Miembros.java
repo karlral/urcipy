@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -54,7 +54,7 @@ public class Miembros  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcargo", nullable=false)
+    @JoinColumn(name="cargo_idcargo", nullable=false)
     public Cargo getCargo() {
         return this.cargo;
     }
@@ -64,7 +64,7 @@ public class Miembros  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcorredor", nullable=false)
+    @JoinColumn(name="corredor_idcorredor", nullable=false)
     public Corredor getCorredor() {
         return this.corredor;
     }

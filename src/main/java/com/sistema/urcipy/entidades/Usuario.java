@@ -43,7 +43,7 @@ public class Usuario  implements Serializable, UserDetails {
     @JsonIgnore
      private Set<UsuarioRol> usuarioRols = new HashSet<>();
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idregional", nullable=false)
+    @JoinColumn(name="regional_idregional", nullable=false)
     @JsonIgnore
     private Regional regional;
 

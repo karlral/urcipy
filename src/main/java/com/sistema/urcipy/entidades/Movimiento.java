@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -64,7 +64,7 @@ public class Movimiento  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconcepto", nullable=false)
+    @JoinColumn(name="concepto_idconcepto", nullable=false)
     public Concepto getConcepto() {
         return this.concepto;
     }
@@ -74,7 +74,7 @@ public class Movimiento  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="iddepartamento", nullable=false)
+    @JoinColumn(name="departamento_iddepartamento", nullable=false)
     public Departamento getDepartamento() {
         return this.departamento;
     }
@@ -84,7 +84,7 @@ public class Movimiento  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="usuario", nullable=false)
+    @JoinColumn(name="usuario_idusuario", nullable=false)
     public Usuario getUsuario() {
         return this.usuario;
     }

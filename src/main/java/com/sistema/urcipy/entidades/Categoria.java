@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -35,13 +35,12 @@ public class Categoria  implements java.io.Serializable {
      private Byte edadfin;
      private Byte sexo;
      private Byte tipo;
-     private Set<Participante> participantes = new HashSet<>(0);
-     private Set<Corredor> corredors = new HashSet<>(0);
+     private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Categoria() {
     }
 
-    public Categoria(String nomcategoria, Byte activo, String nomcorto, Byte orden, Byte tanda, Byte ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, Set<Participante> participantes, Set<Corredor> corredors) {
+    public Categoria(String nomcategoria, Byte activo, String nomcorto, Byte orden, Byte tanda, Byte ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, Set<Corredor> corredors) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -53,7 +52,6 @@ public class Categoria  implements java.io.Serializable {
        this.edadfin = edadfin;
        this.sexo = sexo;
        this.tipo = tipo;
-       this.participantes = participantes;
        this.corredors = corredors;
     }
    
@@ -177,15 +175,6 @@ public class Categoria  implements java.io.Serializable {
     
     public void setTipo(Byte tipo) {
         this.tipo = tipo;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
-    public Set<Participante> getParticipantes() {
-        return this.participantes;
-    }
-    
-    public void setParticipantes(Set<Participante> participantes) {
-        this.participantes = participantes;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")

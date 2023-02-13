@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class Cargo  implements java.io.Serializable {
 
      private Integer idcargo;
      private String nomcargo;
-     private Set<Miembros> miembroses = new HashSet<>(0);
+     private Set<Miembros> miembroses = new HashSet<Miembros>(0);
 
     public Cargo() {
     }

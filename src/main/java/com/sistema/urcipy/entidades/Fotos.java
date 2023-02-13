@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
@@ -55,7 +55,7 @@ public class Fotos  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idevento", nullable=false)
+    @JoinColumn(name="evento_idevento", nullable=false)
     public Evento getEvento() {
         return this.evento;
     }

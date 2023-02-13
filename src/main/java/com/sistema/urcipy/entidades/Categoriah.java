@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -27,7 +27,7 @@ public class Categoriah  implements java.io.Serializable {
      private String nomcategoria;
      private String nomcorto;
      private Integer ano;
-     private Set<Campeones> campeoneses = new HashSet<>(0);
+     private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
 
     public Categoriah() {
     }

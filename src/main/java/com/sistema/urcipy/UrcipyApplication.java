@@ -1,20 +1,11 @@
 package com.sistema.urcipy;
 
-import com.sistema.urcipy.entidades.Regional;
-import com.sistema.urcipy.entidades.Rol;
-import com.sistema.urcipy.entidades.Usuario;
-import com.sistema.urcipy.entidades.UsuarioRol;
-import com.sistema.urcipy.excepciones.UsuarioFoundException;
 import com.sistema.urcipy.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @SpringBootApplication

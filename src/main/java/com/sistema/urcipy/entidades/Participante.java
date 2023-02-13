@@ -1,5 +1,5 @@
 package com.sistema.urcipy.entidades;
-// Generated 03/02/2023 12:59:13 AM by Hibernate Tools 4.3.1
+// Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -27,11 +27,9 @@ public class Participante  implements java.io.Serializable {
 
 
      private Integer idparticipante;
-     private Categoria categoria;
-     private Club club;
      private Corredor corredor;
      private Evento evento;
-     private Regional regional;
+    private Regional regional;
      private Date fecha;
      private Integer pagado;
      private String nrogiro;
@@ -58,19 +56,14 @@ public class Participante  implements java.io.Serializable {
     }
 
 	
-    public Participante(Categoria categoria, Club club, Corredor corredor, Evento evento, Regional regional) {
-        this.categoria = categoria;
-        this.club = club;
+    public Participante(Corredor corredor, Evento evento,Regional regional) {
         this.corredor = corredor;
         this.evento = evento;
-        this.regional = regional;
+        this.regional=regional;
     }
-    public Participante(Categoria categoria, Club club, Corredor corredor, Evento evento, Regional regional, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Byte ordenc, Byte tanda, Integer totalpuntos, Integer acobrar) {
-       this.categoria = categoria;
-       this.club = club;
+    public Participante(Corredor corredor, Evento evento, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Byte ordenc, Byte tanda, Integer totalpuntos, Integer acobrar,Regional regional) {
        this.corredor = corredor;
        this.evento = evento;
-       this.regional = regional;
        this.fecha = fecha;
        this.pagado = pagado;
        this.nrogiro = nrogiro;
@@ -92,6 +85,7 @@ public class Participante  implements java.io.Serializable {
        this.tanda = tanda;
        this.totalpuntos = totalpuntos;
        this.acobrar = acobrar;
+        this.regional=regional;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -107,27 +101,7 @@ public class Participante  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcategoria", nullable=false)
-    public Categoria getCategoria() {
-        return this.categoria;
-    }
-    
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idclub", nullable=false)
-    public Club getClub() {
-        return this.club;
-    }
-    
-    public void setClub(Club club) {
-        this.club = club;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcorredor", nullable=false)
+    @JoinColumn(name="corredor_idcorredor", nullable=false)
     public Corredor getCorredor() {
         return this.corredor;
     }
@@ -137,7 +111,7 @@ public class Participante  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idevento", nullable=false)
+    @JoinColumn(name="evento_idevento", nullable=false)
     public Evento getEvento() {
         return this.evento;
     }
@@ -146,12 +120,12 @@ public class Participante  implements java.io.Serializable {
         this.evento = evento;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idregional", nullable=false)
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="regional_idregional", nullable=false)
     public Regional getRegional() {
-        return this.regional;
+        return regional;
     }
-    
+
     public void setRegional(Regional regional) {
         this.regional = regional;
     }
