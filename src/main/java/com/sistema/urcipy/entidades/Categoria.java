@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,25 +24,28 @@ import javax.persistence.Table;
 )
 public class Categoria  implements java.io.Serializable {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idcategoria", unique=true, nullable=false)
      private Integer idcategoria;
      private String nomcategoria;
-     private Byte activo;
+     private Boolean activo;
      private String nomcorto;
      private Byte orden;
      private Byte tanda;
-     private Byte ascenso;
+     private Boolean ascenso;
      private Byte activonacional;
      private Byte edadinicio;
      private Byte edadfin;
      private Byte sexo;
      private Byte tipo;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
+    @JsonIgnore
      private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Categoria() {
     }
 
-    public Categoria(String nomcategoria, Byte activo, String nomcorto, Byte orden, Byte tanda, Byte ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, Set<Corredor> corredors) {
+    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, Set<Corredor> corredors) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -54,76 +59,73 @@ public class Categoria  implements java.io.Serializable {
        this.tipo = tipo;
        this.corredors = corredors;
     }
-   
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idcategoria", unique=true, nullable=false)
     public Integer getIdcategoria() {
         return this.idcategoria;
     }
-    
+
     public void setIdcategoria(Integer idcategoria) {
         this.idcategoria = idcategoria;
     }
 
-    
+
     @Column(name="nomcategoria", length=60)
     public String getNomcategoria() {
         return this.nomcategoria;
     }
-    
+
     public void setNomcategoria(String nomcategoria) {
         this.nomcategoria = nomcategoria;
     }
 
-    
+
+
+
     @Column(name="activo")
-    public Byte getActivo() {
-        return this.activo;
+    public Boolean getActivo() {
+        return activo;
     }
-    
-    public void setActivo(Byte activo) {
+
+    public void setActivo(Boolean activo) {
         this.activo = activo;
     }
 
-    
     @Column(name="nomcorto", length=60)
     public String getNomcorto() {
         return this.nomcorto;
     }
-    
+
     public void setNomcorto(String nomcorto) {
         this.nomcorto = nomcorto;
     }
 
-    
+
     @Column(name="orden")
     public Byte getOrden() {
         return this.orden;
     }
-    
+
     public void setOrden(Byte orden) {
         this.orden = orden;
     }
 
-    
+
     @Column(name="tanda")
     public Byte getTanda() {
         return this.tanda;
     }
-    
+
     public void setTanda(Byte tanda) {
         this.tanda = tanda;
     }
 
-    
+
     @Column(name="ascenso")
-    public Byte getAscenso() {
+    public Boolean getAscenso() {
         return this.ascenso;
     }
-    
-    public void setAscenso(Byte ascenso) {
+
+    public void setAscenso(Boolean ascenso) {
         this.ascenso = ascenso;
     }
 
@@ -177,7 +179,7 @@ public class Categoria  implements java.io.Serializable {
         this.tipo = tipo;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
+
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }

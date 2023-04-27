@@ -48,14 +48,17 @@ public class AuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
         }catch (DisabledException disabledException){
+            System.out.println("Usuario DESHABILITADO");
             throw new Exception("USUARIO DESHABILITADO "+disabledException.getMessage());
         }catch (BadCredentialsException badCredentialsException){
+            System.out.println("Usuario Invalido");
             throw new Exception("Credenciales invalidas "+badCredentialsException.getMessage());
         }
     }
 
     @GetMapping("/actual-usuario")
     public Usuario obtenerUsuarioActual(Principal principal){
+        System.out.println("qUERIENDO EL USUARIO ACTUAL");
         return (Usuario) this.userDetailsService.loadUserByUsername(principal.getName());
     }
 }

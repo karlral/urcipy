@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,28 +36,32 @@ public class Evento  implements java.io.Serializable {
      private String nomevento;
      private Integer activo;
      private String direccion;
-     private String latitud;
-     private String longitud;
-     private String urlpromocional;
-     private String urlcategoria;
+     private Integer orden;
+
      private Integer tipoevento;
      private Integer modo;
      private Integer verencuesta;
+    private Integer ranqueable;
+    private Integer preinscrip;
+
+     private Integer doble;
      private Integer km;
      private Integer kmpromo;
      private Integer kmmenor;
      private String informacion;
      private String locales;
      private String deposito;
-     private Integer nacional;
-     private Integer preinscrip;
+     private String urlpromocional;
+    private String urlcategoria;
      private String contacto;
-     private String fondo;
+
      private Integer montopric;
      private Integer montopris;
      private Integer montomenc;
      private Integer montomens;
-     private Integer doble;
+
+    private String fondocolor;
+    private String fondo;
      private Set<Fotos> fotoses = new HashSet<Fotos>(0);
      private Set<Participante> participantes = new HashSet<Participante>(0);
      private Set<Enlaces> enlaceses = new HashSet<Enlaces>(0);
@@ -69,42 +75,44 @@ public class Evento  implements java.io.Serializable {
     public Evento(Club club) {
         this.club = club;
     }
-    public Evento(Club club, Date fecha, String nomevento, Integer activo, String direccion, String latitud, String longitud, String urlpromocional, String urlcategoria, Integer tipoevento, Integer modo, Integer verencuesta, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, Integer nacional, Integer preinscrip, String contacto, String fondo, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, Integer doble, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
-       this.club = club;
-       this.fecha = fecha;
-       this.nomevento = nomevento;
-       this.activo = activo;
-       this.direccion = direccion;
-       this.latitud = latitud;
-       this.longitud = longitud;
-       this.urlpromocional = urlpromocional;
-       this.urlcategoria = urlcategoria;
-       this.tipoevento = tipoevento;
-       this.modo = modo;
-       this.verencuesta = verencuesta;
-       this.km = km;
-       this.kmpromo = kmpromo;
-       this.kmmenor = kmmenor;
-       this.informacion = informacion;
-       this.locales = locales;
-       this.deposito = deposito;
-       this.nacional = nacional;
-       this.preinscrip = preinscrip;
-       this.contacto = contacto;
-       this.fondo = fondo;
-       this.montopric = montopric;
-       this.montopris = montopris;
-       this.montomenc = montomenc;
-       this.montomens = montomens;
-       this.doble = doble;
-       this.fotoses = fotoses;
-       this.participantes = participantes;
-       this.enlaceses = enlaceses;
-       this.resultimios = resultimios;
-       this.sugerencias = sugerencias;
+
+    public Evento(Integer idevento, Club club, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+        this.idevento = idevento;
+        this.club = club;
+        this.fecha = fecha;
+        this.nomevento = nomevento;
+        this.activo = activo;
+        this.direccion = direccion;
+        this.orden = orden;
+        this.tipoevento = tipoevento;
+        this.modo = modo;
+        this.verencuesta = verencuesta;
+        this.ranqueable = ranqueable;
+        this.preinscrip = preinscrip;
+        this.doble = doble;
+        this.km = km;
+        this.kmpromo = kmpromo;
+        this.kmmenor = kmmenor;
+        this.informacion = informacion;
+        this.locales = locales;
+        this.deposito = deposito;
+        this.urlpromocional = urlpromocional;
+        this.urlcategoria = urlcategoria;
+        this.contacto = contacto;
+        this.montopric = montopric;
+        this.montopris = montopris;
+        this.montomenc = montomenc;
+        this.montomens = montomens;
+        this.fondocolor = fondocolor;
+        this.fondo = fondo;
+        this.fotoses = fotoses;
+        this.participantes = participantes;
+        this.enlaceses = enlaceses;
+        this.resultimios = resultimios;
+        this.sugerencias = sugerencias;
     }
-   
-     @Id @GeneratedValue(strategy=IDENTITY)
+
+    @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idevento", unique=true, nullable=false)
@@ -116,7 +124,7 @@ public class Evento  implements java.io.Serializable {
         this.idevento = idevento;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="club_idclub", nullable=false)
     public Club getClub() {
         return this.club;
@@ -166,24 +174,14 @@ public class Evento  implements java.io.Serializable {
         this.direccion = direccion;
     }
 
-    
-    @Column(name="latitud", length=20)
-    public String getLatitud() {
-        return this.latitud;
-    }
-    
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
+
+    @Column(name="orden")
+    public Integer getOrden() {
+        return orden;
     }
 
-    
-    @Column(name="longitud", length=20)
-    public String getLongitud() {
-        return this.longitud;
-    }
-    
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
     
@@ -297,13 +295,13 @@ public class Evento  implements java.io.Serializable {
     }
 
     
-    @Column(name="nacional")
-    public Integer getNacional() {
-        return this.nacional;
+    @Column(name="ranqueable")
+    public Integer getRanqueable() {
+        return this.ranqueable;
     }
     
-    public void setNacional(Integer nacional) {
-        this.nacional = nacional;
+    public void setRanqueable(Integer ranqueable) {
+        this.ranqueable = ranqueable;
     }
 
     
@@ -386,7 +384,17 @@ public class Evento  implements java.io.Serializable {
         this.doble = doble;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @Column(name="fondocolor", length=45)
+    public String getFondocolor() {
+        return fondocolor;
+    }
+
+    public void setFondocolor(String fondocolor) {
+        this.fondocolor = fondocolor;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+@JsonIgnore
     public Set<Fotos> getFotoses() {
         return this.fotoses;
     }
@@ -396,6 +404,7 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+@JsonIgnore
     public Set<Participante> getParticipantes() {
         return this.participantes;
     }
@@ -405,6 +414,7 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+@JsonIgnore
     public Set<Enlaces> getEnlaceses() {
         return this.enlaceses;
     }
@@ -414,6 +424,7 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+@JsonIgnore
     public Set<Resultimio> getResultimios() {
         return this.resultimios;
     }
@@ -423,6 +434,7 @@ public class Evento  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+@JsonIgnore
     public Set<Sugerencia> getSugerencias() {
         return this.sugerencias;
     }
