@@ -13,10 +13,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>urcipy</name>
     <description>urcipy</description>
-   <!-- <packaging>war</packaging> -->
-
+   <!-- <packaging>war</packaging> poner para war-->
+    <packaging>war</packaging>
     <properties>
         <java.version>1.8</java.version>
+        <!--start-class>com.sistema.urcipy.UrcipyApplication</start-class-->
     </properties>
     <dependencies>
         <dependency>
@@ -75,14 +76,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency> poner para war-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
     <build>
 
-            <!--<finalName>${project.artifactId}</finalName>-->
-
+            <!--<finalName>${project.artifactId}</finalName> poner para war-->
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -28,7 +28,10 @@ public class CorredorServiceImpl implements CorredorService{
     public Corredor obtenerCorredor(Integer idcorredor) {
         return corredorRepository.findById(idcorredor).get();
     }
-
+    @Override
+    public Corredor obtenerCorredorCi(String ci) {
+        return corredorRepository.findByCiEquals(ci);
+    }
     @Override
     public void eliminarCorredor(Integer idcorredor) {
         Corredor corredor= new Corredor();

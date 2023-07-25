@@ -14,7 +14,7 @@ public interface CategoriaService {
     public Set<Categoria> obtenerCategoriaes();
 
     public Categoria obtenerCategoria(Integer idcategoria);
-
+    public Set<Categoria> obtenerCategoriasActivos();
     public void eliminarCategoria(Integer idcategoria);
 
 }

@@ -84,7 +84,7 @@ public class Campeones  implements java.io.Serializable {
         this.idcampeones = idcampeones;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="categoriah_idcategoriah", nullable=false)
     public Categoriah getCategoriah() {
         return this.categoriah;
@@ -94,7 +94,7 @@ public class Campeones  implements java.io.Serializable {
         this.categoriah = categoriah;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="club_idclub", nullable=false)
     public Club getClub() {
         return this.club;
@@ -104,7 +104,7 @@ public class Campeones  implements java.io.Serializable {
         this.club = club;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="regional_idregional", nullable=false)
     public Regional getRegional() {
         return this.regional;

@@ -55,6 +55,16 @@ public class MediaController {
                 .header(HttpHeaders.CONTENT_TYPE,contentType)
                 .body(file);
     }
+    @GetMapping("/{folder}/{fielname:.+}")
+    public ResponseEntity<Resource> getFileFolder(@PathVariable String folder,@PathVariable String fielname) throws IOException {
+        Resource file = storageService.loadAsResourceFolder(folder,fielname);
+        String contentType= Files.probeContentType(file.getFile().toPath());
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE,contentType)
+                .body(file);
+    }
 
 
 }

@@ -30,6 +30,8 @@ public class Participante  implements java.io.Serializable {
      private Corredor corredor;
      private Evento evento;
     private Regional regional;
+    private Club club;
+    private Categoria categoria;
      private Date fecha;
      private Integer pagado;
      private String nrogiro;
@@ -47,8 +49,6 @@ public class Participante  implements java.io.Serializable {
      private Integer orden;
      private Integer puntajeaux;
      private Integer puntua;
-     private Byte ordenc;
-     private Byte tanda;
      private Integer totalpuntos;
      private Integer acobrar;
 
@@ -56,12 +56,14 @@ public class Participante  implements java.io.Serializable {
     }
 
 	
-    public Participante(Corredor corredor, Evento evento,Regional regional) {
+    public Participante(Corredor corredor, Evento evento, Regional regional, Club club,Categoria categoria) {
         this.corredor = corredor;
         this.evento = evento;
         this.regional=regional;
+        this.club = club;
+        this.categoria=categoria;
     }
-    public Participante(Corredor corredor, Evento evento, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Byte ordenc, Byte tanda, Integer totalpuntos, Integer acobrar,Regional regional) {
+    public Participante(Corredor corredor, Evento evento,  Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua,  Integer totalpuntos, Integer acobrar,Regional regional,Club club,Categoria categoria) {
        this.corredor = corredor;
        this.evento = evento;
        this.fecha = fecha;
@@ -81,11 +83,11 @@ public class Participante  implements java.io.Serializable {
        this.orden = orden;
        this.puntajeaux = puntajeaux;
        this.puntua = puntua;
-       this.ordenc = ordenc;
-       this.tanda = tanda;
        this.totalpuntos = totalpuntos;
        this.acobrar = acobrar;
         this.regional=regional;
+        this.club = club;
+        this.categoria=categoria;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -100,7 +102,7 @@ public class Participante  implements java.io.Serializable {
         this.idparticipante = idparticipante;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="corredor_idcorredor", nullable=false)
     public Corredor getCorredor() {
         return this.corredor;
@@ -110,7 +112,7 @@ public class Participante  implements java.io.Serializable {
         this.corredor = corredor;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="evento_idevento", nullable=false)
     public Evento getEvento() {
         return this.evento;
@@ -120,7 +122,7 @@ public class Participante  implements java.io.Serializable {
         this.evento = evento;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="regional_idregional", nullable=false)
     public Regional getRegional() {
         return regional;
@@ -129,6 +131,26 @@ public class Participante  implements java.io.Serializable {
     public void setRegional(Regional regional) {
         this.regional = regional;
     }
+
+@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="club_idclub", nullable=false)
+    public Club getClub() {
+        return club;
+    }
+
+    public void setClub(Club club) {
+        this.club = club;
+    }
+@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="categoria_idcategoria", nullable=false)
+    public Categoria getCategoria() {
+    return this.categoria;
+}
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="fecha", length=19)
@@ -298,26 +320,6 @@ public class Participante  implements java.io.Serializable {
     
     public void setPuntua(Integer puntua) {
         this.puntua = puntua;
-    }
-
-    
-    @Column(name="ordenc")
-    public Byte getOrdenc() {
-        return this.ordenc;
-    }
-    
-    public void setOrdenc(Byte ordenc) {
-        this.ordenc = ordenc;
-    }
-
-    
-    @Column(name="tanda")
-    public Byte getTanda() {
-        return this.tanda;
-    }
-    
-    public void setTanda(Byte tanda) {
-        this.tanda = tanda;
     }
 
     

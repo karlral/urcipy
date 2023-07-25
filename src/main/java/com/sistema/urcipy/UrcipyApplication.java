@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -18,14 +19,18 @@ import java.util.Set;
 
 
 @SpringBootApplication
-//public class UrcipyApplication extends SpringBootServletInitializer implements CommandLineRunner {
-public class UrcipyApplication implements CommandLineRunner {
+public class UrcipyApplication extends SpringBootServletInitializer implements CommandLineRunner { // poner para war
+//public class UrcipyApplication implements CommandLineRunner { //poner para jar
 
     @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    /*@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(UrcipyApplication.class);
+    }*/
 
     public static void main(String[] args) {
         SpringApplication.run(UrcipyApplication.class, args);

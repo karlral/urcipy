@@ -42,6 +42,8 @@ public class Club  implements java.io.Serializable {
      private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
      private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
+    private Set<Participante> participantes = new HashSet<>(0);
+
     public Club() {
     }
 
@@ -49,7 +51,7 @@ public class Club  implements java.io.Serializable {
     public Club(Regional regional) {
         this.regional = regional;
     }
-    public Club(Regional regional, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors) {
+    public Club(Regional regional, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors, Set<Participante> participantes) {
        this.regional = regional;
        this.nomclub = nomclub;
        this.presidente = presidente;
@@ -63,6 +65,7 @@ public class Club  implements java.io.Serializable {
        this.eventos = eventos;
        this.campeoneses = campeoneses;
        this.corredors = corredors;
+       this.participantes=participantes;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -207,6 +210,15 @@ public class Club  implements java.io.Serializable {
         this.corredors = corredors;
     }
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
+    public Set<Participante> getParticipantes() {
+        return this.participantes;
+    }
+
+    public void setParticipantes(Set<Participante> participantes) {
+        this.participantes = participantes;
+    }
 
 
 

@@ -23,6 +23,10 @@ public class CategoriaServiceImpl implements CategoriaService{
     public Set<Categoria> obtenerCategoriaes() {
         return new LinkedHashSet<>(categoriaRepository.findAll());
     }
+    @Override
+    public Set<Categoria> obtenerCategoriasActivos() {
+        return new LinkedHashSet<>(categoriaRepository.findByActivoIsTrue());
+    }
 
     @Override
     public Categoria obtenerCategoria(Integer idcategoria) {

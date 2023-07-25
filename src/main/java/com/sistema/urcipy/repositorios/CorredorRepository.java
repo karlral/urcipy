@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
-
+    Corredor findByCiEquals(String ci);
 }

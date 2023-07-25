@@ -14,6 +14,7 @@ public interface CorredorService {
     public Set<Corredor> obtenerCorredores();
 
     public Corredor obtenerCorredor(Integer idcorredor);
+    public Corredor obtenerCorredorCi(String ci);
 
     public void eliminarCorredor(Integer idcorredor);
 

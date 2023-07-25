@@ -11,4 +11,5 @@ public interface StorageService {
     String store(MultipartFile file);
 
     Resource loadAsResource(String filename);
+    public Resource loadAsResourceFolder(String folder,String filename);
 }

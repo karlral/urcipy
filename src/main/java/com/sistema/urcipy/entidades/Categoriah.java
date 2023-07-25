@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -82,6 +84,7 @@ public class Categoriah  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="categoriah")
+@JsonIgnore
     public Set<Campeones> getCampeoneses() {
         return this.campeoneses;
     }
