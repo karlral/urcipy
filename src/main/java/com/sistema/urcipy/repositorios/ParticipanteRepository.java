@@ -3,10 +3,7 @@ package com.sistema.urcipy.repositorios;
 
 
 import com.sistema.urcipy.entidades.Participante;
-import com.sistema.urcipy.entidades.custom.Punclub;
-import com.sistema.urcipy.entidades.custom.Punclubpartici;
-import com.sistema.urcipy.entidades.custom.Puncorredor;
-import com.sistema.urcipy.entidades.custom.Puntoscorredor;
+import com.sistema.urcipy.entidades.custom.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,8 +21,25 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Participante> findParticipantesporAnho(
             @Param("anho") Integer anho
     );
-    List<Participante> findParticipantesByEventoIdeventoOrderByPuestocat(Integer idevento);
-    List<Participante> findParticipantesByEventoActivo(Integer activo);
+    @Query(value = "SELECT c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor,p.puestocat, p.tiempo\n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "where p.evento_idevento=:idevento\n" +
+            " order by 1,3",nativeQuery = true)
+    List<Resultado> buscarParticipantesByEventoIdeventoOrderByPuestocat(
+            @Param("idevento") Integer idevento);
+    Participante findParticipanteByEventoIdeventoAndCorredorCi(Integer idevento,String ci);
+    @Query(value = "SELECT cl.ruta,cl.nomclub as club,c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor\n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "inner join club cl on cl.idclub=p.club_idclub\n" +
+            "where e.activo=:activo\n" +
+            " order by p.fecha ",nativeQuery = true)
+    List<Inscripcion> buscarParticipantesByEventoActivo(
+            @Param("activo") Integer activo);
 
     @Query(value = "SELECT co.idcorredor,concat(co.nombre,' ',co.apellido) as corredor,c.nomcorto as categoria,sum(p.puntaje) as puntaje,p.orden \n" +
             "FROM participante p \n" +

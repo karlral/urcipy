@@ -3,10 +3,7 @@ package com.sistema.urcipy.servicios;
 
 
 import com.sistema.urcipy.entidades.Participante;
-import com.sistema.urcipy.entidades.custom.Punclub;
-import com.sistema.urcipy.entidades.custom.Punclubpartici;
-import com.sistema.urcipy.entidades.custom.Puncorredor;
-import com.sistema.urcipy.entidades.custom.Puntoscorredor;
+import com.sistema.urcipy.entidades.custom.*;
 
 import java.util.Set;
 
@@ -18,8 +15,9 @@ public interface ParticipanteService {
     public Set<Participante> obtenerParticipantees();
     public Set<Participante> obtenerParticipantesProceso(Integer anho);
 
-    public Set<Participante> obtenerParticipantesActivo(Integer activo);
-    public Set<Participante> obtenerParticipantesByEvento(Integer idevento);
+    public Set<Inscripcion> obtenerParticipantesActivo(Integer activo);
+    public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
+    public Participante obtenerParticipantesByEventoCi(Integer idevento,String ci);
     public Participante obtenerParticipante(Integer idparticipante);
 
     public void eliminarParticipante(Integer idparticipante);

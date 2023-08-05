@@ -30,39 +30,42 @@ public class ParticiPubController {
     @Autowired
     private EntidadService entidadService;
 
-    @GetMapping("/inscrip/{activo}/{ci}")
-    public ResponseEntity<?> inscribirPartiCi(@PathVariable("activo") Integer activo,@PathVariable("ci") String ci){
+    @GetMapping("/inscrip/{idevento}/{ci}")
+    public ResponseEntity<?> inscribirPartiCi(@PathVariable("idevento") Integer idevento,@PathVariable("ci") String ci){
 
-        Corredor corredor=corredorService.obtenerCorredorCi(ci);
-        if(corredor==null){
-            return ResponseEntity.badRequest().body("Corredor no existe");
+        Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
+        if(participanteaux==null) {
+
+
+            Corredor corredor = corredorService.obtenerCorredorCi(ci);
+            if (corredor == null) {
+                return ResponseEntity.badRequest().body("Corredor no existe");
+            }
+
+            Participante participante = new Participante();
+            participante.setCorredor(corredor);
+            participante.setClub(corredor.getClub());
+            participante.setCategoria(corredor.getCategoria());
+
+            Date fecha = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fecha);
+            participante.setFecha(fecha);
+
+            Evento evento = eventoService.obtenerEvento(idevento);
+            participante.setEvento(evento);
+
+            Regional regional = new Regional();
+            regional.setIdregional(1);
+            participante.setRegional(regional);
+
+            participante.setCosto(evento.getMontopric());
+
+
+            participanteaux = participanteService.guardarParticipante(participante);
         }
 
-        Participante participante=new Participante();
-        participante.setCorredor(corredor);
-        participante.setClub(corredor.getClub());
-        participante.setCategoria(corredor.getCategoria());
-
-        Date fecha = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fecha);
-        participante.setFecha(fecha);
-
-        Evento evento=eventoService.obtenerEventoActivo(activo);
-        if(evento==null){
-            return ResponseEntity.badRequest().body("Evento no activo");
-        }
-        participante.setEvento(evento);
-
-        Regional regional= new Regional();
-        regional.setIdregional(1);
-        participante.setRegional(regional);
-
-        participante.setCosto(evento.getMontopric());
-
-
-        Participante participanteGuardada = participanteService.guardarParticipante(participante);
-        return ResponseEntity.ok(participanteGuardada);
+        return ResponseEntity.ok(participanteaux);
     }
 
     @GetMapping("/proceso")
@@ -84,11 +87,6 @@ public class ParticiPubController {
         return ResponseEntity.ok(participanteService.obtenerParticipantesByEvento(idevento));
     }
 
-    @GetMapping("/activoo/{activo}")
-    @ResponseBody
-    public Set<Participante> listarParticipantesActivoos(@PathVariable("activo") Integer activo){
-        return participanteService.obtenerParticipantesActivo(activo);
-    }
 
     @GetMapping("/id/{idparticipante}")
     public Participante obtenerParticipantePorId(@PathVariable("idparticipante") Integer idparticipante){

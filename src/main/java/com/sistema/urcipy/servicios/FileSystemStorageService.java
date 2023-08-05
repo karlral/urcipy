@@ -35,7 +35,7 @@ public class FileSystemStorageService implements StorageService{
     private String mediaLocation2020;
     @Value("${media.location}/carnet/2021")
     private String mediaLocation2021;
-    @Value("${media.location}/carnet/2021")
+    @Value("${media.location}/carnet/2022")
     private String mediaLocation2022;
     private Path rootLocation;
 
