@@ -195,7 +195,7 @@ public class Evento  implements java.io.Serializable {
     }
 
     
-    @Column(name="urlcategoria", length=60)
+    @Column(name="urlcategoria", length=100)
     public String getUrlcategoria() {
         return this.urlcategoria;
     }

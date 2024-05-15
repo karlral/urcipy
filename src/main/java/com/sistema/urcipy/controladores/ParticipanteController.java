@@ -1,6 +1,7 @@
 package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.Participante;
+import com.sistema.urcipy.servicios.EventoService;
 import com.sistema.urcipy.servicios.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class ParticipanteController {
     @Autowired
     private ParticipanteService participanteService;
-
+    @Autowired
+    private EventoService eventoService;
 
     @PostMapping("/")
     public ResponseEntity<Participante> guardarParticipante(@RequestBody Participante participante){
@@ -35,5 +37,17 @@ public class ParticipanteController {
     @DeleteMapping("/{idparticipante}")
     public void eliminarParticipante(@PathVariable("idparticipante") Integer idparticipante){
         participanteService.eliminarParticipante(idparticipante);
+    }
+    @GetMapping("/evento/{activo}")
+    public ResponseEntity<?> listarParticipantesEvento(@PathVariable("activo") Integer activo){
+        Integer idevento;
+        idevento=eventoService.obtenerEventoActivo(activo).getIdevento();
+        return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEvento(idevento));
+    }
+    @GetMapping("/pago/{activo}")
+    public ResponseEntity<?> listarPagParticipantesEvento(@PathVariable("activo") Integer activo){
+        Integer idevento;
+        idevento=eventoService.obtenerEventoActivo(activo).getIdevento();
+        return ResponseEntity.ok(participanteService.obtenerLisPagParticipantesByEvento(idevento));
     }
 }

@@ -3,6 +3,7 @@ package com.sistema.urcipy.servicios;
 
 
 import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.custom.Corredormen;
 
 import java.util.Set;
 
@@ -18,4 +19,7 @@ public interface CorredorService {
 
     public void eliminarCorredor(Integer idcorredor);
 
+    public Corredormen obtenerCorredormenCi(String ci);
+
+    public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado);
 }

@@ -37,6 +37,8 @@ public class FileSystemStorageService implements StorageService{
     private String mediaLocation2021;
     @Value("${media.location}/carnet/2022")
     private String mediaLocation2022;
+    @Value("${media.location}/carnet/2023")
+    private String mediaLocation2023;
     private Path rootLocation;
 
     private Path rootLocationBanderas;
@@ -47,6 +49,7 @@ public class FileSystemStorageService implements StorageService{
     private Path rootLocation2020;
     private Path rootLocation2021;
     private Path rootLocation2022;
+    private Path rootLocation2023;
     @Override
     @PostConstruct
     public void init() throws IOException {
@@ -60,6 +63,7 @@ public class FileSystemStorageService implements StorageService{
         rootLocation2020=Paths.get(mediaLocation2020);
         rootLocation2021=Paths.get(mediaLocation2021);
         rootLocation2022=Paths.get(mediaLocation2022);
+        rootLocation2023=Paths.get(mediaLocation2023);
         //System.out.println("Localizacion del archivo: "+rootLocation);
        // Files.createDirectories(rootLocation);
     }
@@ -121,6 +125,8 @@ public class FileSystemStorageService implements StorageService{
                 file = rootLocation2021.resolve(filename);
             }else if (folder.equals("2022")) {
                 file = rootLocation2022.resolve(filename);
+            }else if (folder.equals("2023")) {
+                file = rootLocation2023.resolve(filename);
             }
 
 

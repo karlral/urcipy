@@ -51,6 +51,7 @@ public class Participante  implements java.io.Serializable {
      private Integer puntua;
      private Integer totalpuntos;
      private Integer acobrar;
+     private String tiempos;
 
     public Participante() {
     }
@@ -63,7 +64,7 @@ public class Participante  implements java.io.Serializable {
         this.club = club;
         this.categoria=categoria;
     }
-    public Participante(Corredor corredor, Evento evento,  Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua,  Integer totalpuntos, Integer acobrar,Regional regional,Club club,Categoria categoria) {
+    public Participante(Corredor corredor, Evento evento,  Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua,  Integer totalpuntos, Integer acobrar,Regional regional,Club club,Categoria categoria,String tiempos) {
        this.corredor = corredor;
        this.evento = evento;
        this.fecha = fecha;
@@ -88,6 +89,7 @@ public class Participante  implements java.io.Serializable {
         this.regional=regional;
         this.club = club;
         this.categoria=categoria;
+        this.tiempos=tiempos;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -342,9 +344,14 @@ public class Participante  implements java.io.Serializable {
         this.acobrar = acobrar;
     }
 
+    @Column(name="tiempos", length=12)
+    public String getTiempos() {
+        return tiempos;
+    }
 
-
-
+    public void setTiempos(String tiempos) {
+        this.tiempos = tiempos;
+    }
 }
 
 

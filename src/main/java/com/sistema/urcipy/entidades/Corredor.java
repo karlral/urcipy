@@ -67,10 +67,10 @@ public class Corredor  implements java.io.Serializable {
      private Integer licencia;
      private Boolean modificar;
      private String gruposanguineo;
-     private Boolean puntua;
+     private Integer puntua;
      private Date fecmodi;
      private Integer montopuntua;
-     private Boolean carnetfpc;
+     private Byte carnetfpc;
     private String observacion;
     @OneToMany(fetch=FetchType.LAZY, mappedBy="corredor")
     @JsonIgnore
@@ -93,7 +93,7 @@ public class Corredor  implements java.io.Serializable {
         this.usuario = usuario;
     }
 
-    public Corredor(Integer idcorredor, Categoria categoria, Ciudad ciudad, Club club, Usuario usuario, String nombre, String apellido, String ci, Byte sexo, Date fecnac, String telefono, String direccion, String email, Byte verificar, String nacionalidad, String carnet, String carnetatras, String foto, String cidelante, Byte tipocat, String tutorp, String citp, Integer licencia, Boolean modificar, String gruposanguineo, Boolean puntua, Date fecmodi, Integer montopuntua, Boolean carnetfpc, String observacion, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
+    public Corredor(Integer idcorredor, Categoria categoria, Ciudad ciudad, Club club, Usuario usuario, String nombre, String apellido, String ci, Byte sexo, Date fecnac, String telefono, String direccion, String email, Byte verificar, String nacionalidad, String carnet, String carnetatras, String foto, String cidelante, Byte tipocat, String tutorp, String citp, Integer licencia, Boolean modificar, String gruposanguineo, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
         this.idcorredor = idcorredor;
         this.categoria = categoria;
         this.ciudad = ciudad;
@@ -374,11 +374,11 @@ public class Corredor  implements java.io.Serializable {
 
 
     @Column(name="puntua")
-    public Boolean getPuntua() {
+    public Integer getPuntua() {
         return this.puntua;
     }
 
-    public void setPuntua(Boolean puntua) {
+    public void setPuntua(Integer puntua) {
         this.puntua = puntua;
     }
 
@@ -404,11 +404,11 @@ public class Corredor  implements java.io.Serializable {
 
 
     @Column(name="carnetfpc")
-    public Boolean getCarnetfpc() {
+    public Byte getCarnetfpc() {
         return this.carnetfpc;
     }
 
-    public void setCarnetfpc(Boolean carnetfpc) {
+    public void setCarnetfpc(Byte carnetfpc) {
         this.carnetfpc = carnetfpc;
     }
     @Column(name="observacion", length=100)
