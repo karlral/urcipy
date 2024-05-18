@@ -31,7 +31,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             "from corredor co \n" +
             "inner join club cl on cl.idclub=co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "where ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado",nativeQuery = true)
+            "where ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado or cl.nomcorto like :buscado",nativeQuery = true)
     List<Corredormen> corredoresBusCiNomApeClub(
             @Param("buscado") String buscado);
 

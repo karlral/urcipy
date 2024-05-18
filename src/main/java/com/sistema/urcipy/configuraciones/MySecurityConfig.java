@@ -73,7 +73,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/eventopub/*","/regionalpub/*","/eventopub/*/*"
                         ,"/participub/*","/participub/*/*","/participub/*/*/*"
                         ,"/campeonespub/*","/correpub/*"
-                        ,"/categoriapub/*").permitAll()
+                        ,"/categoriapub/*","/historialpub/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .and()
