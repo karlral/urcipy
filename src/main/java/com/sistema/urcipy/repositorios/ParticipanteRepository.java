@@ -152,4 +152,12 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     void desactivarPuntajeId(
             @Param("idcorredor") Integer idcorredor
     );
+
+    @Modifying
+    @Query(value = "update participante set promedio =km*3600/time_to_sec(tiempo)  \n" +
+            "where evento_idevento=:idevento",nativeQuery = true)
+    void updatePromedio(
+            @Param("idevento") Integer idevento
+    );
+
 }

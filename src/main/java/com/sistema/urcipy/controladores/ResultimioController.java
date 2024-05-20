@@ -37,6 +37,7 @@ public class ResultimioController {
 
         Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
         resultimioService.eliminarSendtimioEvento(idevento);
+        Corredor corredor;
 
         Evento evento=new Evento();
         evento.setIdevento(idevento);
@@ -44,6 +45,13 @@ public class ResultimioController {
         for (Resultimio resultimio:resultimios) {
 
             resultimio.setEvento(evento);
+
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi());
+            if (corredor == null) {
+                return ResponseEntity.badRequest().body("Corredor no existe CI: "+resultimio.getCi()
+                        +" Corredor: "+resultimio.getNomparticipante());
+            }
+            resultimio.setPuntua(corredor.getPuntua());
 
             System.out.println("Encontro: "+resultimio.getNomparticipante()+resultimio.getPoscategoria()+resultimio.getTiempos());
             hora=Integer.parseInt(resultimio.getTiempos().substring(0, 2));
@@ -108,6 +116,7 @@ public class ResultimioController {
                 System.out.println(resultimio.getNomparticipante()+" NO ACTUALIZO EL PUNTAJE ");
             }
         }
+        participanteService.actualizarPromedio(idevento);
 
         return ResponseEntity.ok(resultimios);
     }

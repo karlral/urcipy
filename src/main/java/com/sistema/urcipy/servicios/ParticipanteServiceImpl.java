@@ -107,4 +107,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         participanteRepository.desactivarPuntajeId(idcorredor);
     }
 
+    @Override
+    @Transactional
+    public void actualizarPromedio(Integer idevento) {
+        participanteRepository.updatePromedio(idevento);
+    }
+
 }

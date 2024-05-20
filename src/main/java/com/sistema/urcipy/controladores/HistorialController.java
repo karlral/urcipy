@@ -36,4 +36,9 @@ public class HistorialController {
     public void eliminarHistorial(@PathVariable("idhistorial") Integer idhistorial){
         historialService.eliminarHistorial(idhistorial);
     }
+    @PostMapping("/send/{idevento}")
+    public ResponseEntity<?> sendtoHistorial(@PathVariable("idevento") Integer idevento){
+         historialService.cargarHistorial(idevento);
+        return ResponseEntity.ok("ok");
+    }
 }

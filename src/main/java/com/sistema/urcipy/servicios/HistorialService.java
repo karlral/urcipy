@@ -14,4 +14,6 @@ public interface HistorialService {
     public void eliminarHistorial(Integer identidad);
 
     public Set<Historial> obtenerHistoriales(String ci);
+
+    public void cargarHistorial(Integer idevento);
 }

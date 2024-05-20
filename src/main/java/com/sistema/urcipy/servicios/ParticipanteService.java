@@ -36,4 +36,5 @@ public interface ParticipanteService {
 
     public void activarPuntaje(Integer idcorredor);
     public void desactivarPuntaje(Integer idcorredor);
+    public void actualizarPromedio(Integer idevento);
 }
