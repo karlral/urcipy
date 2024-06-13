@@ -38,7 +38,7 @@ public class ParticipanteController {
     public void eliminarParticipante(@PathVariable("idparticipante") Integer idparticipante){
         participanteService.eliminarParticipante(idparticipante);
     }
-    @GetMapping("/evento/{activo}")
+    @GetMapping("/activo/{activo}")
     public ResponseEntity<?> listarParticipantesEvento(@PathVariable("activo") Integer activo){
         Integer idevento;
         idevento=eventoService.obtenerEventoActivo(activo).getIdevento();

@@ -26,7 +26,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     public int actualizarPuntajes(Resultimio resultimio){
         int rows=participanteRepository.setPuntajePosicion(resultimio.getTiempo(),resultimio.getPoscategoria(),
                 resultimio.getPoscategoria(),resultimio.getDorsal(),resultimio.getPuntaje(),
-                resultimio.getPuntajeaux(),resultimio.getCompleto(),resultimio.getId());
+                resultimio.getPuntajeaux(),resultimio.getCompleto(),resultimio.getEvento().getIdevento(),
+                resultimio.getCi());
         return rows;
     }
     @Override
@@ -112,5 +113,9 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     public void actualizarPromedio(Integer idevento) {
         participanteRepository.updatePromedio(idevento);
     }
-
+    @Override
+    @Transactional
+    public void actualizarClubCat(Integer idevento,String ci, Integer idclub, Integer idcategoria){
+        participanteRepository.updateParticipanteClubCat(idevento,ci,idclub,idcategoria);
+    }
 }

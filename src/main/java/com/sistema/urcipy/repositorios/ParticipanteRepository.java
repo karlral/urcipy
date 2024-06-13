@@ -32,9 +32,9 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Resultado> buscarParticipantesByEventoIdeventoOrderByPuestocat(
             @Param("idevento") Integer idevento);
 
-    @Query(value = "SELECT p.idparticipante as idresultimio,p.fecha,co.ci, concat(co.nombre,' ',co.apellido) as  nomparticipante, co.sexo,\n" +
+    @Query(value = "SELECT p.idparticipante as id,p.fecha,co.ci, concat(co.nombre,' ',co.apellido) as  corredor, co.sexo,\n" +
             "co.fecnac, co.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
-            "cl.nomclub as club,c.nomcorto as categoria,t.km as distancia,p.tiempo,p.puntaje,p.completo,p.proceso,p.acobrar,p.pagado,p.dorsal,p.nrogiro\n" +
+            "cl.nomclub as club,c.nomcorto as categoria,t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
@@ -100,7 +100,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Punclub> listaPuntajesInClubNative(
             @Param("anho") Integer anho,@Param("tipoone") Integer tipoone,@Param("tipotwo") Integer tipotwo);
 
-    @Query(value = "SELECT cl.rutagrande,e.nomevento,concat(co.nombre,' ',co.apellido) as partici,p.puntaje\n" +
+    @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(co.nombre,' ',co.apellido) as partici,p.puntaje\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
@@ -112,13 +112,15 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("anho") Integer anho,@Param("tipoone") Integer tipoone,@Param("tipotwo") Integer tipotwo,@Param("idclub") Integer idclub);
 
     @Modifying
-    @Query("update Participante p set p.tiempo = :tiempo, p.puestocat=:puestocat," +
-            "p.puesto=:puesto,p.dorsal=:dorsal,p.puntaje=:puntaje,p.puntajeaux=:puntajeaux," +
-            "p.completo=:completo where p.idparticipante = :idparticipante ")
+    @Query(value = "update participante p inner join corredor c on c.idcorredor=p.corredor_idcorredor " +
+            "set p.tiempo = :tiempo, p.puestocat=:puestocat,p.puesto=:puesto," +
+            "p.dorsal=:dorsal,p.puntaje=:puntaje,p.puntajeaux=:puntajeaux,p.completo=:completo " +
+            " where p.evento_idevento = :idevento and c.ci = :ci ",nativeQuery = true)
     int setPuntajePosicion( @Param("tiempo") Date tiempo, @Param("puestocat") Integer puestocat,
                             @Param("puesto") Integer puesto, @Param("dorsal")    Integer dorsal,
                             @Param("puntaje")     Integer puntaje, @Param("puntajeaux")     Integer puntajeaux,
-                            @Param("completo")     Integer completo, @Param("idparticipante")     Integer idparticipante);
+                            @Param("completo")     Integer completo, @Param("idevento")     Integer idevento,
+                            @Param("ci")     String ci);
 
     @Modifying
     @Query(value = "DELETE FROM participante \n" +
@@ -160,4 +162,12 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento
     );
 
+    @Modifying
+    @Query(value = "update participante p inner join corredor c on p.corredor_idcorredor=c.idcorredor " +
+            "set p.club_idclub = :idclub, p.categoria_idcategoria=:idcategoria  \n" +
+            "where p.evento_idevento=:idevento and c.ci=:ci",nativeQuery = true)
+    void updateParticipanteClubCat(
+            @Param("idevento") Integer idevento, @Param("ci") String ci,
+            @Param("idclub") Integer idclub, @Param("idcategoria") Integer idcategoria
+    );
 }

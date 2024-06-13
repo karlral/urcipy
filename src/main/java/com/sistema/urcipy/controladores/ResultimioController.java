@@ -143,8 +143,7 @@ public class ResultimioController {
 
              corredor= corredorService.obtenerCorredorCi(resultimio.getCi());
             if (corredor == null) {
-                return ResponseEntity.badRequest().body("Corredor no existe CI: "+resultimio.getCi()
-                +" Corredor: "+resultimio.getNomparticipante());
+                return ResponseEntity.badRequest().body(resultimio);
             }
             participante = new Participante();
             participante.setCorredor(corredor);

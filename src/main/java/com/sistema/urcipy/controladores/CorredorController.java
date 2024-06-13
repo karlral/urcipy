@@ -2,7 +2,9 @@ package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.Corredor;
 import com.sistema.urcipy.servicios.CorredorService;
+import com.sistema.urcipy.servicios.EventoService;
 import com.sistema.urcipy.servicios.ParticipanteService;
+import com.sistema.urcipy.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ public class CorredorController {
 
     @Autowired
     private ParticipanteService participanteService;
+
+    @Autowired
+    private EventoService eventoService;
 
 
     @PostMapping("/")
@@ -34,8 +39,14 @@ public class CorredorController {
     }
     @PutMapping("/")
     public Corredor actualizarCorredor(@RequestBody Corredor corredor){
-
-        return corredorService.guardarCorredor(corredor);
+        Corredor corredor1=corredorService.guardarCorredor(corredor);
+        if (corredor1==null){
+            return  null;
+        }else {
+            Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+            participanteService.actualizarClubCat(idevento,corredor.getCi(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
+            return corredor1;
+        }
     }
     @DeleteMapping("/{idcorredor}")
     public void eliminarCorredor(@PathVariable("idcorredor") Integer idcorredor){

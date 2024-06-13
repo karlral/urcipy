@@ -237,6 +237,18 @@ public class Resultimio  implements java.io.Serializable {
     public void setPuntajeaux(Integer puntajeaux) {
         this.puntajeaux = puntajeaux;
     }
+
+    @Override
+    public String toString() {
+        return "Resultimio{" +
+                "nomparticipante='" + nomparticipante + '\'' +
+                ", ci='" + ci + '\'' +
+                ", club='" + club + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", poscategoria=" + poscategoria +
+                ", tiempo=" + tiempo +
+                '}';
+    }
 }
 
 

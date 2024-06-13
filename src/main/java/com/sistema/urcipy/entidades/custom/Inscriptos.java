@@ -3,7 +3,8 @@ package com.sistema.urcipy.entidades.custom;
 
 import java.util.Date;
 
-public interface Inscriptos {
+public interface Inscriptos
+{
     Integer getId();
     Date getFecha();
     String getCi();
