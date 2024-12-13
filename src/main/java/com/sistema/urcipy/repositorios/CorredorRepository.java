@@ -3,6 +3,7 @@ package com.sistema.urcipy.repositorios;
 
 
 import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -33,6 +34,17 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
             "where ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado",nativeQuery = true)
     List<Corredormen> corredoresBusCiNomApeClub(
+            @Param("buscado") String buscado);
+
+    @Query(value = "select co.ci,concat(co.nombre,' ',co.apellido) as corredor,co.fecnac,co.sexo,co.telefono,ca.nomcorto as categoria,cl.nomclub as club, \n" +
+            "pa.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua \n" +
+            "from corredor co \n" +
+            "inner join club cl on cl.idclub=co.club_idclub \n" +
+            "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
+            "inner join ciudad ci on ci.idciudad=co.ciudad_idciudad\n" +
+            "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
+            "where co.ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado",nativeQuery = true)
+    List<Corredorbus> corredoresBusCiNomApeClubDato(
             @Param("buscado") String buscado);
 
 }

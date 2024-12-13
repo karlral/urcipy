@@ -20,15 +20,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 )
 public class Trayecto implements Serializable {
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-    @Column(name="idtrayecto", unique=true, nullable=false)
+
      private int idtrayecto;
      private String nomtrayecto;
      
      private int km;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "trayecto")
-    @JsonIgnore
+
     private Set<Categoria> categorias = new HashSet<Categoria>(0);
 
     public Trayecto() {
@@ -40,7 +38,8 @@ public class Trayecto implements Serializable {
        this.categorias = categorias;
     }
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idtrayecto", unique=true, nullable=false)
     public int getIdtrayecto() {
         return idtrayecto;
     }
@@ -69,7 +68,8 @@ public class Trayecto implements Serializable {
         this.km = km;
     }
 
-
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "trayecto")
+    @JsonIgnore
     public Set<Categoria> getCategorias() {
         return this.categorias;
     }

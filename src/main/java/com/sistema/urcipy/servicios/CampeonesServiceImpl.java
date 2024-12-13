@@ -46,4 +46,12 @@ public class CampeonesServiceImpl implements CampeonesService{
     public Set<Campeones> obtenerCampeonesByAnhoAndIdcat(Integer idcategoriah){
         return new LinkedHashSet<>(campeonesRepository.findCampeonesByCategoriahIdcategoriah(idcategoriah));
     }
+    @Override
+    public Set<Campeones> obtenerCampeonesByAnho(Integer anho){
+        return new LinkedHashSet<>(campeonesRepository.findCampeonesByAno(anho));
+    }
+    @Override
+    public void procesarCampeones(){
+        campeonesRepository.procesarcampeones();
+    }
 }

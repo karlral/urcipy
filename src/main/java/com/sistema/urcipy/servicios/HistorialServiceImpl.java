@@ -39,6 +39,11 @@ public class HistorialServiceImpl implements HistorialService {
     public Set<Historial> obtenerHistoriales(String ci) {
         return new LinkedHashSet<>(historialRepository.findAllByCi(ci));
     }
+
+    public Set<Historial> obtenerHistorialAnual(Integer anho){
+        return new LinkedHashSet<>(historialRepository.searchByYearNative(anho));
+    }
+
     @Override
     public void cargarHistorial(Integer idevento){
         historialRepository.cargahistorial(idevento);

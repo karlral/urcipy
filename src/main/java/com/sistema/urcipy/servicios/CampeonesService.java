@@ -20,7 +20,7 @@ public interface CampeonesService {
 
     public Set<Anhocat> obtenerCategoriahInAnho();
     public Set<Campeones> obtenerCampeonesByAnhoAndIdcat(Integer idcategoriah);
-
-
+    public Set<Campeones> obtenerCampeonesByAnho(Integer anho);
+    public void procesarCampeones();
 
 }

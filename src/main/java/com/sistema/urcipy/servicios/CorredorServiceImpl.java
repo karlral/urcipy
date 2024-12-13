@@ -1,6 +1,7 @@
 package com.sistema.urcipy.servicios;
 
 import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
 import com.sistema.urcipy.repositorios.CorredorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,8 @@ public class CorredorServiceImpl implements CorredorService{
     }
     public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado){
         return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClub(buscado));
+    }
+    public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado){
+        return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClubDato(buscado));
     }
 }

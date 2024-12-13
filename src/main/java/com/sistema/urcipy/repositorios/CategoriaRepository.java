@@ -12,4 +12,5 @@ import java.util.List;
 public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
     List<Categoria> findByActivoIsTrue();
 
+    List<Categoria> findByActivoIsTrueOrderByTandaAscOrdenAsc();
 }

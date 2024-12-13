@@ -25,12 +25,25 @@ public class CorredorController {
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredor(@RequestBody Corredor corredor){
-        Corredor corredorGuardada = corredorService.guardarCorredor(corredor);
+        Corredor corredorGuardada;
+        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getCi());
+        if(corredorGuardada==null){
+
+            corredor.setNombre(corredor.getNombre().toUpperCase());
+            corredor.setApellido(corredor.getApellido().toUpperCase());
+            corredorGuardada = corredorService.guardarCorredor(corredor);
+        }
+
         return ResponseEntity.ok(corredorGuardada);
     }
     @GetMapping("/{idcorredor}")
     public Corredor obtenerCorredorPorId(@PathVariable("idcorredor") Integer idcorredor){
         return corredorService.obtenerCorredor(idcorredor);
+    }
+
+    @GetMapping("/ci/{ci}")
+    public Corredor obtenerCorredorPorCi(@PathVariable("ci") String ci){
+        return corredorService.obtenerCorredorCi(ci);
     }
 
     @GetMapping("/")
@@ -53,11 +66,18 @@ public class CorredorController {
         corredorService.eliminarCorredor(idcorredor);
     }
 
-    @GetMapping("/bus/{buscado}")
+    @GetMapping("/men/{buscado}")
     public ResponseEntity<?> obtenerCorredorPorCiNomApeClub(@PathVariable("buscado") String buscado){
         String variable;
         variable="%"+buscado+"%";
         return ResponseEntity.ok(corredorService.obtenerCorredoresmenCiNomApeClub(variable));
+    }
+
+    @GetMapping("/bus/{buscado}")
+    public ResponseEntity<?> obtenerCorredorPorCiNomApeClubDatos(@PathVariable("buscado") String buscado){
+        String variable;
+        variable="%"+buscado+"%";
+        return ResponseEntity.ok(corredorService.obtenerCorredoresbusCiNomApeClubDato(variable));
     }
 
     @PutMapping("/puntua")

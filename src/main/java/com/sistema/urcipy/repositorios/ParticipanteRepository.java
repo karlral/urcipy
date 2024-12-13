@@ -59,14 +59,16 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
 
     Participante findParticipanteByEventoIdeventoAndCorredorCi(Integer idevento,String ci);
 
-    @Query(value = "SELECT cl.ruta,cl.nomclub as club,c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor\n" +
+    @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
+            "c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor,p.totalpuntos\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
             "inner join club cl on cl.idclub=p.club_idclub\n" +
             "where e.activo=:activo\n" +
-            " order by p.fecha ",nativeQuery = true)
+            " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
     List<Inscripcion> buscarParticipantesByEventoActivo(
             @Param("activo") Integer activo);
 

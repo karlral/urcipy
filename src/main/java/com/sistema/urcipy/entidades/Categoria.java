@@ -19,8 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 )
 public class Categoria  implements java.io.Serializable {
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-    @Column(name="idcategoria", unique=true, nullable=false)
+
      private Integer idcategoria;
      private String nomcategoria;
      private Boolean activo;
@@ -33,10 +32,11 @@ public class Categoria  implements java.io.Serializable {
      private Byte edadfin;
      private Byte sexo;
      private Byte tipo;
+    private String horario;
+
 
      private Trayecto trayecto;
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
-    @JsonIgnore
+
      private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Categoria() {
@@ -45,7 +45,7 @@ public class Categoria  implements java.io.Serializable {
         this.trayecto=trayecto;
     }
 
-    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo,Trayecto trayecto, Set<Corredor> corredors) {
+    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo,Trayecto trayecto, Set<Corredor> corredors,String horario) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -59,8 +59,11 @@ public class Categoria  implements java.io.Serializable {
        this.tipo = tipo;
        this.trayecto=trayecto;
        this.corredors = corredors;
+       this.horario=horario;
     }
 
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idcategoria", unique=true, nullable=false)
     public Integer getIdcategoria() {
         return this.idcategoria;
     }
@@ -179,6 +182,7 @@ public class Categoria  implements java.io.Serializable {
     public void setTipo(Byte tipo) {
         this.tipo = tipo;
     }
+
  @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="trayecto_idtrayecto", nullable=false)
     public Trayecto getTrayecto() {
@@ -201,9 +205,14 @@ public class Categoria  implements java.io.Serializable {
         this.corredors = corredors;
     }
 
+    @Column(name="horario", length=20)
+    public String getHorario() {
+        return horario;
+    }
 
-
-
+    public void setHorario(String horario) {
+        this.horario = horario;
+    }
 }
 
 

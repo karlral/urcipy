@@ -15,5 +15,7 @@ public interface HistorialService {
 
     public Set<Historial> obtenerHistoriales(String ci);
 
+    public Set<Historial> obtenerHistorialAnual(Integer anho);
+
     public void cargarHistorial(Integer idevento);
 }
