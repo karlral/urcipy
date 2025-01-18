@@ -29,6 +29,7 @@ public class Club  implements java.io.Serializable {
 
      private Integer idclub;
      private Regional regional;
+     private Region region;
      private String nomclub;
      private String presidente;
      private String telpresi;
@@ -48,12 +49,14 @@ public class Club  implements java.io.Serializable {
     }
 
 	
-    public Club(Regional regional) {
+    public Club(Regional regional, Region region) {
         this.regional = regional;
+        this.region = region;
     }
-    public Club(Regional regional, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors, Set<Participante> participantes) {
+    public Club(Regional regional, Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors, Set<Participante> participantes) {
        this.regional = regional;
-       this.nomclub = nomclub;
+        this.region = region;
+        this.nomclub = nomclub;
        this.presidente = presidente;
        this.telpresi = telpresi;
        this.vicepresidente = vicepresidente;
@@ -90,7 +93,16 @@ public class Club  implements java.io.Serializable {
         this.regional = regional;
     }
 
-    
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="region_idregion", nullable=false)
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
     @Column(name="nomclub", length=45)
     public String getNomclub() {
         return this.nomclub;

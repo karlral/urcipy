@@ -32,6 +32,7 @@ public class Evento  implements java.io.Serializable {
 
      private Integer idevento;
      private Club club;
+     private Regional regional;
      private Date fecha;
      private String nomevento;
      private Integer activo;
@@ -72,13 +73,15 @@ public class Evento  implements java.io.Serializable {
     }
 
 	
-    public Evento(Club club) {
+    public Evento(Club club, Regional regional) {
         this.club = club;
+        this.regional = regional;
     }
 
-    public Evento(Integer idevento, Club club, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+    public Evento(Integer idevento, Club club, Regional regional, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
         this.idevento = idevento;
         this.club = club;
+        this.regional = regional;
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.activo = activo;
@@ -132,6 +135,16 @@ public class Evento  implements java.io.Serializable {
     
     public void setClub(Club club) {
         this.club = club;
+    }
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="regional_idregional", nullable=false)
+    public Regional getRegional() {
+        return this.regional;
+    }
+
+    public void setRegional(Regional regional) {
+        this.regional = regional;
     }
 
     @Temporal(TemporalType.DATE)

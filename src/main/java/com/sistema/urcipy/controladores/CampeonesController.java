@@ -47,7 +47,7 @@ public class CampeonesController {
     @GetMapping("/anho")
     public ResponseEntity<?>  listarCampeonesAnho(){
         Integer anho;
-        anho=entidadService.obtenerEntidad(1).getAno();
+        anho = entidadService.obtenerEntidad(1).getAno();
         return  ResponseEntity.ok(campeonesService.obtenerCampeonesByAnho(anho));
     }
 }

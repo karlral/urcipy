@@ -19,21 +19,21 @@ public class EventoServiceImpl implements EventoService{
     }
 
     @Override
-    public Set<Evento> obtenerEventoes() {
-        return new LinkedHashSet<>(eventoRepository.findAll());
+    public Set<Evento> obtenerEventoes(Integer idregional) {
+        return new LinkedHashSet<>(eventoRepository.findByRegional_Idregional(idregional));
     }
     @Override
-    public Set<Evento> obtenerEventosModo(Integer modo){
-        return new LinkedHashSet<>(eventoRepository.findByModoEquals(modo));
+    public Set<Evento> obtenerEventosModo(Integer modo,Integer idregional){
+        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndRegional_idregional(modo,idregional));
     }
     @Override
-    public Set<Evento> obtenerEventosCulminados(){
+    public Set<Evento> obtenerEventosCulminados(Integer idregional){
         Calendar fecha=Calendar.getInstance();
-        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndFechaLessThan(0,fecha.getTime()));
+        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndFechaLessThanAndRegional_idregional(0,fecha.getTime(),idregional));
     }
     @Override
-    public List<Evento> obtenerEventosActivos(){
-        return eventoRepository.findByActivoBetween(1,3);
+    public List<Evento> obtenerEventosActivos(Integer idregional){
+        return eventoRepository.findByActivoBetweenAndRegional_idregional(1,3,idregional);
     }
     @Override
     public Evento obtenerEventoActivo(Integer activo){

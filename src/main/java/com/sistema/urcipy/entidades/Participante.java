@@ -32,6 +32,7 @@ public class Participante  implements java.io.Serializable {
     private Regional regional;
     private Club club;
     private Categoria categoria;
+    private Region region;
      private Date fecha;
      private Integer pagado;
      private String nrogiro;
@@ -57,17 +58,19 @@ public class Participante  implements java.io.Serializable {
     }
 
 	
-    public Participante(Corredor corredor, Evento evento, Regional regional, Club club,Categoria categoria) {
+    public Participante(Corredor corredor, Evento evento, Regional regional, Club club, Categoria categoria, Region region) {
         this.corredor = corredor;
         this.evento = evento;
         this.regional=regional;
         this.club = club;
         this.categoria=categoria;
+        this.region = region;
     }
-    public Participante(Corredor corredor, Evento evento,  Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua,  Integer totalpuntos, Integer acobrar,Regional regional,Club club,Categoria categoria,String tiempos) {
+    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos) {
        this.corredor = corredor;
        this.evento = evento;
-       this.fecha = fecha;
+        this.region = region;
+        this.fecha = fecha;
        this.pagado = pagado;
        this.nrogiro = nrogiro;
        this.costo = costo;
@@ -132,6 +135,16 @@ public class Participante  implements java.io.Serializable {
 
     public void setRegional(Regional regional) {
         this.regional = regional;
+    }
+
+@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="region_idregion", nullable=false)
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
 @ManyToOne(fetch=FetchType.EAGER)

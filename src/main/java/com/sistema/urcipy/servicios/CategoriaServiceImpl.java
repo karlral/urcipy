@@ -39,4 +39,11 @@ public class CategoriaServiceImpl implements CategoriaService{
         categoria.setIdcategoria(idcategoria);
         categoriaRepository.delete(categoria);
     }
+
+    @Override
+    public Categoria buscarCategoria(Byte sexo, Byte edad,Byte tipo ) {
+        return categoriaRepository.findBySexoAndEdadinicioIsLessThanEqualAndEdadfinIsGreaterThanEqualAndTipoAndActivo(sexo,edad,edad,tipo,true);
+    }
+
+
 }

@@ -12,11 +12,11 @@ public interface EventoService {
 
     public Evento guardarEvento(Evento evento);
 
-    public Set<Evento> obtenerEventoes();
+    public Set<Evento> obtenerEventoes(Integer idregional);
 
-    public Set<Evento> obtenerEventosModo(Integer modo);
-    public Set<Evento> obtenerEventosCulminados();
-    public List<Evento> obtenerEventosActivos();
+    public Set<Evento> obtenerEventosModo(Integer modo, Integer idregional);
+    public Set<Evento> obtenerEventosCulminados(Integer idregional);
+    public List<Evento> obtenerEventosActivos(Integer idregional);
     public Evento obtenerEventoActivo(Integer activo);
 
     public Evento obtenerEvento(Integer idevento);

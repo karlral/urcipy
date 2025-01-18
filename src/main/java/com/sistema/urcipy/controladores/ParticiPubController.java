@@ -1,9 +1,6 @@
 package com.sistema.urcipy.controladores;
 
-import com.sistema.urcipy.entidades.Corredor;
-import com.sistema.urcipy.entidades.Evento;
-import com.sistema.urcipy.entidades.Participante;
-import com.sistema.urcipy.entidades.Regional;
+import com.sistema.urcipy.entidades.*;
 import com.sistema.urcipy.servicios.CorredorService;
 import com.sistema.urcipy.servicios.EntidadService;
 import com.sistema.urcipy.servicios.EventoService;
@@ -47,6 +44,10 @@ public class ParticiPubController {
             participante.setClub(corredor.getClub());
             participante.setCategoria(corredor.getCategoria());
 
+            Region region;
+            region = corredor.getClub().getRegion();
+            participante.setRegion(region);
+
             Date fecha = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(fecha);
@@ -55,8 +56,8 @@ public class ParticiPubController {
             Evento evento = eventoService.obtenerEvento(idevento);
             participante.setEvento(evento);
 
-            Regional regional = new Regional();
-            regional.setIdregional(1);
+            Regional regional;
+            regional = evento.getRegional();
             participante.setRegional(regional);
 
             participante.setCosto(evento.getMontopric());

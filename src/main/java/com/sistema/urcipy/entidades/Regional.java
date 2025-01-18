@@ -31,6 +31,7 @@ public class Regional  implements java.io.Serializable {
      private String telefono;
      private String direccion;
      private String email;
+    private Integer ano;
      private String presentacion;
      private String quien;
      private String clubes;
@@ -50,17 +51,20 @@ public class Regional  implements java.io.Serializable {
      private Set<Usuario> usuarios = new HashSet<>(0);
 
      private Set<Club> clubs = new HashSet<>(0);
+    private Set<Evento> eventos = new HashSet<>(0);
+
 
     public Regional() {
     }
 
-    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set clubs, Set participantes) {
+    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, Integer ano, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set clubs, Set eventos, Set participantes) {
        this.nomregional = nomregional;
        this.nomcorto = nomcorto;
        this.telefono = telefono;
        this.direccion = direccion;
        this.email = email;
-       this.presentacion = presentacion;
+        this.ano = ano;
+        this.presentacion = presentacion;
        this.quien = quien;
        this.clubes = clubes;
        this.icono = icono;
@@ -78,6 +82,7 @@ public class Regional  implements java.io.Serializable {
        this.usuarios = usuarios;
         this.participantes=participantes;
        this.clubs = clubs;
+       this.eventos =eventos;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -232,7 +237,15 @@ public class Regional  implements java.io.Serializable {
         this.regionalcol = regionalcol;
     }
 
-    
+    @Column(name="ano")
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
     @Column(name="avisoactivo")
     public Integer getAvisoactivo() {
         return this.avisoactivo;
@@ -318,10 +331,19 @@ public class Regional  implements java.io.Serializable {
         return this.clubs;
     }
     
-    public void setClubs(Set clubs) {
+    public void setClubs(Set<Club> clubs) {
         this.clubs = clubs;
     }
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+    @JsonIgnore
+    public Set<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(Set<Evento> eventos) {
+        this.eventos = eventos;
+    }
 
 }
 

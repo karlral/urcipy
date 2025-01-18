@@ -13,10 +13,11 @@ import java.util.List;
 @Repository
 public interface EventoRepository extends JpaRepository<Evento,Integer> {
 
-    List<Evento> findByModoEquals(Integer modo);
-    List<Evento> findByActivoBetween(Integer startActivo, Integer endActivo);
+    List<Evento> findByRegional_Idregional(Integer idregional);
+    List<Evento> findByModoEqualsAndRegional_idregional(Integer modo,Integer idregional);
+    List<Evento> findByActivoBetweenAndRegional_idregional(Integer startActivo, Integer endActivo, Integer idregional);
     Evento findByActivo(Integer activo);
 
-    List<Evento> findByModoEqualsAndFechaLessThan(Integer modo, Date fecha);
+    List<Evento> findByModoEqualsAndFechaLessThanAndRegional_idregional(Integer modo, Date fecha, Integer idregional);
 
 }

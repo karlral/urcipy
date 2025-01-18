@@ -1,13 +1,21 @@
 package com.sistema.urcipy.controladores;
 
+import com.sistema.urcipy.entidades.Categoria;
 import com.sistema.urcipy.entidades.Corredor;
+
+import com.sistema.urcipy.servicios.CategoriaService;
 import com.sistema.urcipy.servicios.CorredorService;
 import com.sistema.urcipy.servicios.EventoService;
 import com.sistema.urcipy.servicios.ParticipanteService;
-import com.sistema.urcipy.servicios.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/corredor")
@@ -21,6 +29,9 @@ public class CorredorController {
 
     @Autowired
     private EventoService eventoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
 
     @PostMapping("/")
@@ -98,4 +109,42 @@ public class CorredorController {
         participanteService.desactivarPuntaje(idcorredor);
 
     }
+    @PutMapping("/updatecategoria")
+    public ResponseEntity<?>  actualizarCategoriaCorredor(){
+        List<Corredor> corredores = new ArrayList<>(corredorService.obtenerCorredores());
+        List<Corredor> correProblems = new ArrayList<>();
+        Categoria categoria;
+        Byte sexo, edad,tipo;
+
+        Calendar calendar = Calendar.getInstance();
+
+        Integer ano = Calendar.getInstance().get(Calendar.YEAR);
+        Integer anonac=0;
+        Integer contador=0;
+        for (Corredor corredor:corredores) {
+            sexo = corredor.getSexo();
+
+            calendar.setTime(corredor.getFecnac());
+             anonac = calendar.get(Calendar.YEAR);
+             edad = (byte) (ano -anonac);
+
+            tipo = corredor.getTipocat();
+
+            categoria=categoriaService.buscarCategoria(sexo, edad, tipo);
+
+
+            if (categoria==null){
+                correProblems.add(corredor);
+            }else{
+                corredor.setCategoria(categoria);
+                corredorService.guardarCorredor(corredor);
+                contador=contador+1;
+            }
+
+
+        }
+
+        return ResponseEntity.ok(correProblems);
+    }
+
 }
