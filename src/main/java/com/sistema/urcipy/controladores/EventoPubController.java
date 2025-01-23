@@ -20,18 +20,18 @@ public class EventoPubController {
         return eventoService.obtenerEvento(idevento);
     }
 
-    @GetMapping("/modo/{modo}/{idregional}")
-    public ResponseEntity<?> listarEventosModo(@PathVariable("modo") Integer modo, @PathVariable("idregional") Integer idregional){
-        return ResponseEntity.ok(eventoService.obtenerEventosModo(modo,idregional));
+    @GetMapping("/modo/{modo}")
+    public ResponseEntity<?> listarEventosModo(@PathVariable("modo") Integer modo){
+        return ResponseEntity.ok(eventoService.obtenerEventosModo(modo));
     }
-    @GetMapping("/modo/culminados/{idregional}")
-    public ResponseEntity<?> listarEventosModo(@PathVariable("idregional" ) Integer idregional){
-        return ResponseEntity.ok(eventoService.obtenerEventosCulminados(idregional));
+    @GetMapping("/modo/culminados")
+    public ResponseEntity<?> listarEventosModo(){
+        return ResponseEntity.ok(eventoService.obtenerEventosCulminados());
     }
 
-    @GetMapping("/activos/{idregional}")
-    public List<Evento> listarEventosActivos(@PathVariable("idregional") Integer idregional){
-        return eventoService.obtenerEventosActivos(idregional);
+    @GetMapping("/activos")
+    public List<Evento> listarEventosActivos(){
+        return eventoService.obtenerEventosActivos();
     }
 
     @GetMapping("/activo/{activo}")
@@ -39,8 +39,8 @@ public class EventoPubController {
         return  eventoService.obtenerEventoActivo(activo);
     }
 
-    @GetMapping("/system/{idregional}")
-    public ResponseEntity<?> listarEventoes(@PathVariable("idregional") Integer idregional){
-        return ResponseEntity.ok(eventoService.obtenerEventoes(idregional));
+    @GetMapping("/")
+    public ResponseEntity<?> listarEventoes(){
+        return ResponseEntity.ok(eventoService.obtenerEventoes());
     }
     }

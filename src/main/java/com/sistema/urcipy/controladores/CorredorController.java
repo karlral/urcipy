@@ -67,11 +67,8 @@ public class CorredorController {
         if (corredor1==null){
             return  null;
         }else {
-            Evento evento =eventoService.obtenerEventoActivo(1);
-            Integer idevento=evento.getIdevento();
-            Integer idregional=evento.getRegional().getIdregional();
-            Integer idclub = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional).getIdclub();
-            participanteService.actualizarClubCat(idevento,corredor.getCi(),idclub,corredor.getCategoria().getIdcategoria());
+            Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+            participanteService.actualizarClubCat(idevento,corredor.getCi(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
             return corredor1;
         }
     }

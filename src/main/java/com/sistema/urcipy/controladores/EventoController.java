@@ -26,9 +26,9 @@ public class EventoController {
         return eventoService.obtenerEvento(idevento);
     }
 
-    @GetMapping("/system/{idregional}")
-    public ResponseEntity<?> listarEventoes(@PathVariable("idregional") Integer idregional){
-        return ResponseEntity.ok(eventoService.obtenerEventoes(idregional));
+    @GetMapping("/")
+    public ResponseEntity<?> listarEventoes(){
+        return ResponseEntity.ok(eventoService.obtenerEventoes());
     }
 
 

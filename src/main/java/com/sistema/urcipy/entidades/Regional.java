@@ -31,7 +31,7 @@ public class Regional  implements java.io.Serializable {
      private String telefono;
      private String direccion;
      private String email;
-    private Integer ano;
+     private Integer ano;
      private String presentacion;
      private String quien;
      private String clubes;

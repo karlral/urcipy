@@ -39,8 +39,12 @@ public class ParticiPubController {
 
             Participante participante = new Participante();
             participante.setCorredor(corredor);
-
+            participante.setClub(corredor.getClub());
             participante.setCategoria(corredor.getCategoria());
+
+            Region region;
+            region = corredor.getClub().getRegion();
+            participante.setRegion(region);
 
             Date fecha = new Date();
             Calendar calendar = Calendar.getInstance();
@@ -54,12 +58,8 @@ public class ParticiPubController {
             regional = evento.getRegional();
             participante.setRegional(regional);
 
-            Integer idregional= evento.getRegional().getIdregional();
-            Club club = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional);
-            participante.setClub(club);
-
-            participante.setRegion(club.getRegion());
             participante.setCosto(evento.getMontopric());
+
 
             participanteaux = participanteService.guardarParticipante(participante);
         }

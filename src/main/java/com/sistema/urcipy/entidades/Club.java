@@ -40,12 +40,9 @@ public class Club  implements java.io.Serializable {
      private String rutagrande;
      private Set<Evento> eventos = new HashSet<Evento>(0);
      private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
-
+    private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     private Set<Participante> participantes = new HashSet<>(0);
-    @OneToMany(fetch=FetchType.EAGER, mappedBy="corredor")
-    @JsonIgnore
-    private Set<CorredorClubRegional>  corredorClubRegionals = new HashSet<>();
 
     public Club() {
     }
@@ -54,7 +51,7 @@ public class Club  implements java.io.Serializable {
     public Club(Regional regional, Region region) {
         this.region = region;
     }
-    public Club( Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes,Set<CorredorClubRegional> corredorClubRegionals) {
+    public Club( Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes) {
 
         this.region = region;
         this.nomclub = nomclub;
@@ -70,7 +67,6 @@ public class Club  implements java.io.Serializable {
        this.campeoneses = campeoneses;
 
        this.participantes=participantes;
-       this.corredorClubRegionals=corredorClubRegionals;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -205,14 +201,14 @@ public class Club  implements java.io.Serializable {
         this.campeoneses = campeoneses;
     }
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-    @JsonIgnore
-    public Set<CorredorClubRegional> getCorredorClubRegionals() {
-        return corredorClubRegionals;
+@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+@JsonIgnore
+    public Set<Corredor> getCorredors() {
+        return this.corredors;
     }
-
-    public void setCorredorClubRegionals(Set<CorredorClubRegional> corredorClubRegionals) {
-        this.corredorClubRegionals = corredorClubRegionals;
+    
+    public void setCorredors(Set<Corredor> corredors) {
+        this.corredors = corredors;
     }
 
 
