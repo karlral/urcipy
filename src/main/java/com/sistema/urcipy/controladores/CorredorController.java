@@ -3,10 +3,8 @@ package com.sistema.urcipy.controladores;
 import com.sistema.urcipy.entidades.Categoria;
 import com.sistema.urcipy.entidades.Corredor;
 
-import com.sistema.urcipy.servicios.CategoriaService;
-import com.sistema.urcipy.servicios.CorredorService;
-import com.sistema.urcipy.servicios.EventoService;
-import com.sistema.urcipy.servicios.ParticipanteService;
+import com.sistema.urcipy.entidades.Evento;
+import com.sistema.urcipy.servicios.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,6 +29,9 @@ public class CorredorController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private CorredorClubRegionalServiceImpl corredorClubRegionalService;
 
 
     @PostMapping("/")
@@ -67,8 +67,11 @@ public class CorredorController {
         if (corredor1==null){
             return  null;
         }else {
-            Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
-            participanteService.actualizarClubCat(idevento,corredor.getCi(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
+            Evento evento =eventoService.obtenerEventoActivo(1);
+            Integer idevento=evento.getIdevento();
+            Integer idregional=evento.getRegional().getIdregional();
+            Integer idclub = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional).getIdclub();
+            participanteService.actualizarClubCat(idevento,corredor.getCi(),idclub,corredor.getCategoria().getIdcategoria());
             return corredor1;
         }
     }
@@ -77,18 +80,18 @@ public class CorredorController {
         corredorService.eliminarCorredor(idcorredor);
     }
 
-    @GetMapping("/men/{buscado}")
-    public ResponseEntity<?> obtenerCorredorPorCiNomApeClub(@PathVariable("buscado") String buscado){
+    @GetMapping("/men/{buscado}/{idregional}")
+    public ResponseEntity<?> obtenerCorredorPorCiNomApeClub(@PathVariable("buscado") String buscado,@PathVariable("idregional") Integer idregional){
         String variable;
         variable="%"+buscado+"%";
-        return ResponseEntity.ok(corredorService.obtenerCorredoresmenCiNomApeClub(variable));
+        return ResponseEntity.ok(corredorService.obtenerCorredoresmenCiNomApeClub(variable,idregional));
     }
 
-    @GetMapping("/bus/{buscado}")
-    public ResponseEntity<?> obtenerCorredorPorCiNomApeClubDatos(@PathVariable("buscado") String buscado){
+    @GetMapping("/bus/{buscado}/{idregional}")
+    public ResponseEntity<?> obtenerCorredorPorCiNomApeClubDatos(@PathVariable("buscado") String buscado,@PathVariable("idregional") Integer idregional){
         String variable;
         variable="%"+buscado+"%";
-        return ResponseEntity.ok(corredorService.obtenerCorredoresbusCiNomApeClubDato(variable));
+        return ResponseEntity.ok(corredorService.obtenerCorredoresbusCiNomApeClubDato(variable,idregional));
     }
 
     @PutMapping("/puntua")

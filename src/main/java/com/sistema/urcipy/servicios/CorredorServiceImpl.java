@@ -41,13 +41,13 @@ public class CorredorServiceImpl implements CorredorService{
         corredorRepository.delete(corredor);
     }
 
-    public Corredormen obtenerCorredormenCi(String ci) {
-        return corredorRepository.correByCi(ci);
+    public Corredormen obtenerCorredormenCi(String ci, Integer idregional) {
+        return corredorRepository.correByCi(ci,idregional);
     }
-    public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado){
-        return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClub(buscado));
+    public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado,Integer idregional){
+        return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClub(buscado,idregional));
     }
-    public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado){
-        return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClubDato(buscado));
+    public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado,Integer idregional){
+        return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClubDato(buscado,idregional));
     }
 }

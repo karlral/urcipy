@@ -28,7 +28,6 @@ public class Club  implements java.io.Serializable {
 
 
      private Integer idclub;
-     private Regional regional;
      private Region region;
      private String nomclub;
      private String presidente;
@@ -41,20 +40,22 @@ public class Club  implements java.io.Serializable {
      private String rutagrande;
      private Set<Evento> eventos = new HashSet<Evento>(0);
      private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
-     private Set<Corredor> corredors = new HashSet<Corredor>(0);
+
 
     private Set<Participante> participantes = new HashSet<>(0);
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="corredor")
+    @JsonIgnore
+    private Set<CorredorClubRegional>  corredorClubRegionals = new HashSet<>();
 
     public Club() {
     }
 
 	
     public Club(Regional regional, Region region) {
-        this.regional = regional;
         this.region = region;
     }
-    public Club(Regional regional, Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Corredor> corredors, Set<Participante> participantes) {
-       this.regional = regional;
+    public Club( Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes,Set<CorredorClubRegional> corredorClubRegionals) {
+
         this.region = region;
         this.nomclub = nomclub;
        this.presidente = presidente;
@@ -67,8 +68,9 @@ public class Club  implements java.io.Serializable {
        this.rutagrande = rutagrande;
        this.eventos = eventos;
        this.campeoneses = campeoneses;
-       this.corredors = corredors;
+
        this.participantes=participantes;
+       this.corredorClubRegionals=corredorClubRegionals;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -83,15 +85,6 @@ public class Club  implements java.io.Serializable {
         this.idclub = idclub;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="regional_idregional", nullable=false)
-    public Regional getRegional() {
-        return this.regional;
-    }
-    
-    public void setRegional(Regional regional) {
-        this.regional = regional;
-    }
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="region_idregion", nullable=false)
@@ -212,15 +205,17 @@ public class Club  implements java.io.Serializable {
         this.campeoneses = campeoneses;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-@JsonIgnore
-    public Set<Corredor> getCorredors() {
-        return this.corredors;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
+    public Set<CorredorClubRegional> getCorredorClubRegionals() {
+        return corredorClubRegionals;
     }
-    
-    public void setCorredors(Set<Corredor> corredors) {
-        this.corredors = corredors;
+
+    public void setCorredorClubRegionals(Set<CorredorClubRegional> corredorClubRegionals) {
+        this.corredorClubRegionals = corredorClubRegionals;
     }
+
+
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
     @JsonIgnore

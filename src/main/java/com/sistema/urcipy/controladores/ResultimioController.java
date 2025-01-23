@@ -2,10 +2,7 @@ package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.*;
 import com.sistema.urcipy.entidades.custom.Sendtimio;
-import com.sistema.urcipy.servicios.CorredorService;
-import com.sistema.urcipy.servicios.EventoService;
-import com.sistema.urcipy.servicios.ParticipanteService;
-import com.sistema.urcipy.servicios.ResultimioService;
+import com.sistema.urcipy.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +23,8 @@ public class ResultimioController {
     private ParticipanteService participanteService;
     @Autowired
     private CorredorService corredorService;
+    @Autowired
+    private CorredorClubRegionalService corredorClubRegionalService;
 
     @PostMapping("/")
     public ResponseEntity<Resultimio> guardarResultimio(@RequestBody Resultimio resultimio){
@@ -132,8 +131,7 @@ public class ResultimioController {
 
         Participante participante;
         Corredor corredor;
-        Regional regional = new Regional();
-        regional.setIdregional(1);
+        Regional regional = evento.getRegional();
 
         Date fecha = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -147,7 +145,13 @@ public class ResultimioController {
             }
             participante = new Participante();
             participante.setCorredor(corredor);
-            participante.setClub(corredor.getClub());
+
+            Integer idregional= evento.getRegional().getIdregional();
+            Club club = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional);
+            participante.setClub(club);
+
+            participante.setRegion(club.getRegion());
+
             participante.setCategoria(corredor.getCategoria());
             participante.setFecha(fecha);
             participante.setEvento(evento);
@@ -160,6 +164,7 @@ public class ResultimioController {
             participante.setTiempos(resultimio.getTiempos());
             participante.setDorsal(resultimio.getDorsal());
             participante.setPuntua(corredor.getPuntua());
+
 
             participanteService.guardarParticipante(participante);
 

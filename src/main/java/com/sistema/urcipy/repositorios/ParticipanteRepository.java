@@ -172,4 +172,5 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento, @Param("ci") String ci,
             @Param("idclub") Integer idclub, @Param("idcategoria") Integer idcategoria
     );
+
 }

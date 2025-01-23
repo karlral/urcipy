@@ -43,6 +43,7 @@ public class Regional  implements java.io.Serializable {
      private String regionalcol;
      private Integer avisoactivo;
      private String avisoruta;
+     private Integer costoranking;
      private Set<Concepto> conceptos = new HashSet<>(0);
      private Set<Campeones> campeoneses = new HashSet<>(0);
      private Set<Auspicio> auspicios = new HashSet<>(0);
@@ -50,14 +51,14 @@ public class Regional  implements java.io.Serializable {
     private Set<Participante> participantes = new HashSet<>(0);
      private Set<Usuario> usuarios = new HashSet<>(0);
 
-     private Set<Club> clubs = new HashSet<>(0);
+
     private Set<Evento> eventos = new HashSet<>(0);
 
 
     public Regional() {
     }
 
-    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, Integer ano, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set clubs, Set eventos, Set participantes) {
+    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, Integer ano, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Integer costoranking, Set conceptos, Set<Campeones> campeoneses, Set auspicios, Set promocions, Set usuarios, Set eventos, Set participantes) {
        this.nomregional = nomregional;
        this.nomcorto = nomcorto;
        this.telefono = telefono;
@@ -75,13 +76,14 @@ public class Regional  implements java.io.Serializable {
        this.regionalcol = regionalcol;
        this.avisoactivo = avisoactivo;
        this.avisoruta = avisoruta;
-       this.conceptos = conceptos;
+        this.costoranking = costoranking;
+        this.conceptos = conceptos;
        this.campeoneses = campeoneses;
        this.auspicios = auspicios;
        this.promocions = promocions;
        this.usuarios = usuarios;
         this.participantes=participantes;
-       this.clubs = clubs;
+
        this.eventos =eventos;
     }
    
@@ -260,12 +262,21 @@ public class Regional  implements java.io.Serializable {
     public String getAvisoruta() {
         return this.avisoruta;
     }
+
     
     public void setAvisoruta(String avisoruta) {
         this.avisoruta = avisoruta;
     }
+    @Column(name="costoranking")
+    public Integer getCostoranking() {
+        return costoranking;
+    }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+    public void setCostoranking(Integer costoranking) {
+        this.costoranking = costoranking;
+    }
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
 @JsonIgnore
     public Set<Concepto> getConceptos() {
         return this.conceptos;
@@ -325,15 +336,6 @@ public class Regional  implements java.io.Serializable {
         this.participantes = participantes;
     }
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
-@JsonIgnore
-    public Set<Club> getClubs() {
-        return this.clubs;
-    }
-    
-    public void setClubs(Set<Club> clubs) {
-        this.clubs = clubs;
-    }
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
     @JsonIgnore

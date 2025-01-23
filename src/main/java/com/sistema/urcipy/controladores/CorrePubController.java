@@ -15,9 +15,9 @@ public class CorrePubController {
 
 
 
-    @GetMapping("/{ci}")
-    public Corredormen obtenerCorredorPorId(@PathVariable("ci") String ci){
-        return corredorService.obtenerCorredormenCi(ci);
+    @GetMapping("/{ci}/{idregional}")
+    public Corredormen obtenerCorredorPorId(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
+        return corredorService.obtenerCorredormenCi(ci,idregional);
     }
 
 }

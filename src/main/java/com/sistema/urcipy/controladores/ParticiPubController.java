@@ -1,10 +1,7 @@
 package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.*;
-import com.sistema.urcipy.servicios.CorredorService;
-import com.sistema.urcipy.servicios.EntidadService;
-import com.sistema.urcipy.servicios.EventoService;
-import com.sistema.urcipy.servicios.ParticipanteService;
+import com.sistema.urcipy.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +23,14 @@ public class ParticiPubController {
 
     @Autowired
     private EntidadService entidadService;
+    @Autowired
+    private CorredorClubRegionalService corredorClubRegionalService;
 
     @GetMapping("/inscrip/{idevento}/{ci}")
     public ResponseEntity<?> inscribirPartiCi(@PathVariable("idevento") Integer idevento,@PathVariable("ci") String ci){
 
         Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
         if(participanteaux==null) {
-
 
             Corredor corredor = corredorService.obtenerCorredorCi(ci);
             if (corredor == null) {
@@ -41,12 +39,8 @@ public class ParticiPubController {
 
             Participante participante = new Participante();
             participante.setCorredor(corredor);
-            participante.setClub(corredor.getClub());
-            participante.setCategoria(corredor.getCategoria());
 
-            Region region;
-            region = corredor.getClub().getRegion();
-            participante.setRegion(region);
+            participante.setCategoria(corredor.getCategoria());
 
             Date fecha = new Date();
             Calendar calendar = Calendar.getInstance();
@@ -60,8 +54,12 @@ public class ParticiPubController {
             regional = evento.getRegional();
             participante.setRegional(regional);
 
-            participante.setCosto(evento.getMontopric());
+            Integer idregional= evento.getRegional().getIdregional();
+            Club club = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional);
+            participante.setClub(club);
 
+            participante.setRegion(club.getRegion());
+            participante.setCosto(evento.getMontopric());
 
             participanteaux = participanteService.guardarParticipante(participante);
         }

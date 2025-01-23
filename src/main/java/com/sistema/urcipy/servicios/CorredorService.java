@@ -20,8 +20,8 @@ public interface CorredorService {
 
     public void eliminarCorredor(Integer idcorredor);
 
-    public Corredormen obtenerCorredormenCi(String ci);
+    public Corredormen obtenerCorredormenCi(String ci, Integer idregional);
 
-    public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado);
-    public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado);
+    public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado, Integer idregional);
+    public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado, Integer idregional);
 }
