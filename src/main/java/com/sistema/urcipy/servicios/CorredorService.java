@@ -16,7 +16,7 @@ public interface CorredorService {
     public Set<Corredor> obtenerCorredores();
 
     public Corredor obtenerCorredor(Integer idcorredor);
-    public Corredor obtenerCorredorCi(String ci);
+    public Corredor obtenerCorredorCi(String ci,Integer idregional);
 
     public void eliminarCorredor(Integer idcorredor);
 
@@ -24,4 +24,5 @@ public interface CorredorService {
 
     public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado, Integer idregional);
     public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado, Integer idregional);
+    public void catAlianza(Integer idcorredor,Integer idcategoria,Integer idclub);
 }

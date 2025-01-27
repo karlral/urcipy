@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Table(name="categoriah"
     ,catalog="urcipy"
 )
-public class Categoriah  implements java.io.Serializable {
+public class Categoriah   {
 
 
      private Integer idcategoriah;

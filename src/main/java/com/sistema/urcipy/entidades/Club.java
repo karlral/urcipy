@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Table(name="club"
     ,catalog="urcipy"
 )
-public class Club  implements java.io.Serializable {
+public class Club   {
 
 
      private Integer idclub;

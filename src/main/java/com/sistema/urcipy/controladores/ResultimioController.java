@@ -23,8 +23,7 @@ public class ResultimioController {
     private ParticipanteService participanteService;
     @Autowired
     private CorredorService corredorService;
-    @Autowired
-    private CorredorClubRegionalService corredorClubRegionalService;
+
 
     @PostMapping("/")
     public ResponseEntity<Resultimio> guardarResultimio(@RequestBody Resultimio resultimio){
@@ -45,7 +44,7 @@ public class ResultimioController {
 
             resultimio.setEvento(evento);
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi());
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),evento.getRegional().getIdregional());
             if (corredor == null) {
                 return ResponseEntity.badRequest().body("Corredor no existe CI: "+resultimio.getCi()
                         +" Corredor: "+resultimio.getNomparticipante());
@@ -122,12 +121,11 @@ public class ResultimioController {
 
     @PostMapping("/inscripgroup")
     public ResponseEntity<?> inscripListaResultimio(@RequestBody List<Resultimio> resultimios){
+        Evento evento;
+        evento = eventoService.obtenerEventoActivo(1);
 
-        Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+        Integer idevento=evento.getIdevento();
         participanteService.eliminarParticipantesEvento(idevento);
-
-        Evento evento=new Evento();
-        evento.setIdevento(idevento);
 
         Participante participante;
         Corredor corredor;
@@ -139,18 +137,16 @@ public class ResultimioController {
 
         for (Resultimio resultimio:resultimios) {
 
-             corredor= corredorService.obtenerCorredorCi(resultimio.getCi());
+             corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),regional.getIdregional());
             if (corredor == null) {
                 return ResponseEntity.badRequest().body(resultimio);
             }
             participante = new Participante();
             participante.setCorredor(corredor);
 
-            Integer idregional= evento.getRegional().getIdregional();
-            Club club = corredorClubRegionalService.obtenerClub(corredor.getIdcorredor(),idregional);
-            participante.setClub(club);
+            participante.setClub(corredor.getClub());
 
-            participante.setRegion(club.getRegion());
+            participante.setRegion(corredor.getClub().getRegion());
 
             participante.setCategoria(corredor.getCategoria());
             participante.setFecha(fecha);
@@ -165,6 +161,8 @@ public class ResultimioController {
             participante.setDorsal(resultimio.getDorsal());
             participante.setPuntua(corredor.getPuntua());
 
+            participante.setRegional(corredor.getUsuario().getRegional());
+
 
             participanteService.guardarParticipante(participante);
 
@@ -175,12 +173,12 @@ public class ResultimioController {
 
     @PostMapping("/activarpuntos")
     public ResponseEntity<?> activarListaResultimio(@RequestBody List<Resultimio> resultimios){
-
+        Integer idregional =1;
         Corredor corredor;
         int cantidad=0;
         for (Resultimio resultimio:resultimios) {
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi());
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
             if (corredor == null) {
 
             }else{

@@ -27,11 +27,17 @@ import javax.persistence.TemporalType;
 @Table(name="evento"
     ,catalog="urcipy"
 )
-public class Evento  implements java.io.Serializable {
+public class Evento  {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idevento", unique=true, nullable=false)
      private Integer idevento;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="club_idclub", nullable=false)
      private Club club;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="regional_idregional", nullable=false)
+     private Regional regional;
      private Date fecha;
      private String nomevento;
      private Integer activo;
@@ -62,23 +68,35 @@ public class Evento  implements java.io.Serializable {
 
     private String fondocolor;
     private String fondo;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
      private Set<Fotos> fotoses = new HashSet<Fotos>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
      private Set<Participante> participantes = new HashSet<Participante>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
      private Set<Enlaces> enlaceses = new HashSet<Enlaces>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
      private Set<Resultimio> resultimios = new HashSet<Resultimio>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
      private Set<Sugerencia> sugerencias = new HashSet<Sugerencia>(0);
 
     public Evento() {
     }
 
 	
-    public Evento(Club club) {
+    public Evento(Club club, Regional regional) {
         this.club = club;
+        this.regional = regional;
     }
 
-    public Evento(Integer idevento, Club club, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
-        this.idevento = idevento;
+    public Evento( Club club, Regional regional, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+
         this.club = club;
+        this.regional = regional;
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.activo = activo;
@@ -112,10 +130,7 @@ public class Evento  implements java.io.Serializable {
         this.sugerencias = sugerencias;
     }
 
-    @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idevento", unique=true, nullable=false)
     public Integer getIdevento() {
         return this.idevento;
     }
@@ -124,8 +139,7 @@ public class Evento  implements java.io.Serializable {
         this.idevento = idevento;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="club_idclub", nullable=false)
+
     public Club getClub() {
         return this.club;
     }
@@ -393,8 +407,7 @@ public class Evento  implements java.io.Serializable {
         this.fondocolor = fondocolor;
     }
 
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-@JsonIgnore
+
     public Set<Fotos> getFotoses() {
         return this.fotoses;
     }
@@ -403,8 +416,7 @@ public class Evento  implements java.io.Serializable {
         this.fotoses = fotoses;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-@JsonIgnore
+
     public Set<Participante> getParticipantes() {
         return this.participantes;
     }
@@ -413,8 +425,7 @@ public class Evento  implements java.io.Serializable {
         this.participantes = participantes;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-@JsonIgnore
+
     public Set<Enlaces> getEnlaceses() {
         return this.enlaceses;
     }
@@ -423,8 +434,7 @@ public class Evento  implements java.io.Serializable {
         this.enlaceses = enlaceses;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-@JsonIgnore
+
     public Set<Resultimio> getResultimios() {
         return this.resultimios;
     }
@@ -433,8 +443,7 @@ public class Evento  implements java.io.Serializable {
         this.resultimios = resultimios;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
-@JsonIgnore
+
     public Set<Sugerencia> getSugerencias() {
         return this.sugerencias;
     }
@@ -444,8 +453,13 @@ public class Evento  implements java.io.Serializable {
     }
 
 
+    public Regional getRegional() {
+        return regional;
+    }
 
-
+    public void setRegional(Regional regional) {
+        this.regional = regional;
+    }
 }
 
 

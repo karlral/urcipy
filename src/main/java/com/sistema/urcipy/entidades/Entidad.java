@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name="entidad"
     ,catalog="urcipy"
 )
-public class Entidad  implements java.io.Serializable {
+public class Entidad  {
 
 
      private Integer identidad;

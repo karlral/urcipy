@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="rol"
     ,catalog="urcipy"
 )
-public class Rol implements Serializable {
+public class Rol implements Serializable{
 
 
      private int idrol;

@@ -23,20 +23,22 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Participante> findParticipantesporAnho(
             @Param("anho") Integer anho
     );
-    @Query(value = "SELECT c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor,p.puestocat, p.tiempo\n" +
+    @Query(value = "SELECT c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.puestocat, p.tiempo\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "where p.evento_idevento=:idevento\n" +
             " order by 1,3",nativeQuery = true)
     List<Resultado> buscarParticipantesByEventoIdeventoOrderByPuestocat(
             @Param("idevento") Integer idevento);
 
-    @Query(value = "SELECT p.idparticipante as id,p.fecha,co.ci, concat(co.nombre,' ',co.apellido) as  corredor, co.sexo,\n" +
-            "co.fecnac, co.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
+    @Query(value = "SELECT p.idparticipante as id,p.fecha,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor, co.sexo,\n" +
+            "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
             "cl.nomclub as club,c.nomcorto as categoria,t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join ciudad ci on ci.idciudad=co.ciudad_idciudad\n" +
@@ -46,23 +48,25 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Inscriptos> buscarParticipantesByEventoIdevento(
             @Param("idevento") Integer idevento);
 
-    @Query(value = "SELECT  p.idparticipante as id,co.ci, concat(co.nombre,' ',co.apellido) as  corredor,\n" +
-            " co.telefono,\n" +
+    @Query(value = "SELECT  p.idparticipante as id,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,\n" +
+            " pe.telefono,\n" +
             "cl.nomclub as club,c.nomcorto as categoria, p.acobrar,p.pagado,p.dorsal,p.nrogiro\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "inner join club cl on cl.idclub = p.club_idclub\n" +
             "where p.evento_idevento=:idevento",nativeQuery = true)
     List<Inscripagos> buscarpagParticipantesByEventoIdevento(
             @Param("idevento") Integer idevento);
 
-    Participante findParticipanteByEventoIdeventoAndCorredorCi(Integer idevento,String ci);
+    Participante findParticipanteByEventoIdeventoAndCorredorPersonaCi(Integer idevento,String ci);
 
     @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
-            "c.nomcorto as categoria,concat(co.nombre,' ',co.apellido) as  corredor,p.totalpuntos\n" +
+            "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
@@ -72,20 +76,22 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Inscripcion> buscarParticipantesByEventoActivo(
             @Param("activo") Integer activo);
 
-    @Query(value = "SELECT co.idcorredor,concat(co.nombre,' ',co.apellido) as corredor,c.nomcorto as categoria,sum(p.puntaje) as puntaje,p.orden \n" +
+    @Query(value = "SELECT co.idcorredor,concat(pe.nombre,' ',pe.apellido) as corredor,c.nomcorto as categoria,sum(p.puntaje) as puntaje,p.orden \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "where year(p.fecha)=:anho and completo=1 \n" +
-            "group by co.idcorredor,concat(co.nombre,' ',co.apellido),c.nomcorto,orden\n" +
+            "group by co.idcorredor,concat(pe.nombre,' ',pe.apellido),c.nomcorto,orden\n" +
             "order by 3,4 desc, 5",nativeQuery = true)
     List<Puncorredor> puntajeByParticiNative(
             @Param("anho") Integer anho);
 
-    @Query(value = "SELECT co.idcorredor,concat(co.nombre,' ',co.apellido) as corredor\n" +
+    @Query(value = "SELECT co.idcorredor,concat(pe.nombre,' ',pe.apellido) as corredor\n" +
             ",c.nomcorto as categoria,cl.ruta,cl.nomclub as club, e.nomevento as evento,p.puestocat,p.puntaje\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "inner join club cl on cl.idclub=p.club_idclub\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
@@ -102,9 +108,10 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Punclub> listaPuntajesInClubNative(
             @Param("anho") Integer anho,@Param("tipoone") Integer tipoone,@Param("tipotwo") Integer tipotwo);
 
-    @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(co.nombre,' ',co.apellido) as partici,p.puntaje\n" +
+    @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(pe.nombre,' ',pe.apellido) as partici,p.puntaje\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
             "inner join club cl on cl.idclub=e.club_idclub\n" +
@@ -131,10 +138,11 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento
     );
 
-    @Query(value = "SELECT p.idparticipante as id, p.puesto as nro, concat(co.nombre,' ',co.apellido) as  nomparticipante,p.puestocat as poscategoria,\n" +
-            "p.tiempos,p.dorsal,co.ci,p.km as distancia,c.nomcorto as categoria,cl.nomclub as club, p.puntua \n" +
+    @Query(value = "SELECT p.idparticipante as id, p.puesto as nro, concat(pe.nombre,' ',pe.apellido) as  nomparticipante,p.puestocat as poscategoria,\n" +
+            "p.tiempos,p.dorsal,pe.ci,p.km as distancia,c.nomcorto as categoria,cl.nomclub as club, p.puntua \n" +
             "            FROM participante p \n" +
             "            inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "            inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
             "            inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
             "            inner join evento e on e.idevento=p.evento_idevento\n" +
             "            inner join club cl on cl.idclub=p.club_idclub\n" +
@@ -166,8 +174,9 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
 
     @Modifying
     @Query(value = "update participante p inner join corredor c on p.corredor_idcorredor=c.idcorredor " +
+            "inner join persona pe on pe.idpersona=c.persona_idpersona " +
             "set p.club_idclub = :idclub, p.categoria_idcategoria=:idcategoria  \n" +
-            "where p.evento_idevento=:idevento and c.ci=:ci",nativeQuery = true)
+            "where p.evento_idevento=:idevento and pe.ci=:ci",nativeQuery = true)
     void updateParticipanteClubCat(
             @Param("idevento") Integer idevento, @Param("ci") String ci,
             @Param("idclub") Integer idclub, @Param("idcategoria") Integer idcategoria

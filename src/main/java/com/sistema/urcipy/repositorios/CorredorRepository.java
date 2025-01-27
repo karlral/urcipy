@@ -6,6 +6,7 @@ import com.sistema.urcipy.entidades.Corredor;
 import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,42 +16,53 @@ import java.util.List;
 
 @Repository
 public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
-    Corredor findByCiEquals(String ci);
-    List<Corredor> findByCiLikeOrNombreLikeOrApellidoLike(String ci, String nombre, String apellido);
+    Corredor findByPersonaCiAndRegionalIdregional
+            (String ci,Integer idregional);
 
-    @Query(value = "select co.idcorredor,co.nombre,co.apellido,cl.nomclub as club,co.fecnac,ca.nomcorto as categoria, \n" +
-            "cast(co.fecmodi as date) as fecmodi,concat(co.nombre,' ',co.apellido) as corredor, co.carnetfpc, co.foto, co.puntua \n" +
+    @Query(value = "select co.idcorredor,p.nombre,p.apellido,cl.nomclub as club,p.fecnac,ca.nomcorto as categoria, \n" +
+            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, p.foto, co.puntua \n" +
             "from corredor co \n" +
-            "inner join corredor_club_regional ccr on ccr.corredor_idcorredor=co.idcorredor \n" +
-            "inner join club cl on cl.idclub = ccr.club_idclub \n" +
+            "inner join persona p on p.idpersona=co.persona_idpersona \n" +
+            "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "where co.ci =:ci and ccr.regional_idregional=:idregional and (carnetfpc=1 or carnetfpc=2 or carnetfpc=3)",nativeQuery = true)
+            "where co.ci =:ci and co.regional_idregional=:idregional and (co.carnetfpc=1 or co.carnetfpc=2 or co.carnetfpc=3)",nativeQuery = true)
     Corredormen correByCi(
             @Param("ci") String ci,
             @Param("idregional") Integer idregional);
 
-    @Query(value = "select co.idcorredor,co.nombre,co.apellido,cl.nomclub as club,co.fecnac,ca.nomcorto as categoria, \n" +
-            "cast(co.fecmodi as date) as fecmodi,concat(co.nombre,' ',co.apellido) as corredor, co.carnetfpc , co.foto, co.puntua \n" +
+    @Query(value = "select co.idcorredor,p.nombre,p.apellido,cl.nomclub as club,p.fecnac,ca.nomcorto as categoria, \n" +
+            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, p.foto, co.puntua \n" +
             "from corredor co \n" +
-            "inner join corredor_club_regional ccr on ccr.corredor_idcorredor=co.idcorredor \n" +
-            "inner join club cl on cl.idclub = ccr.club_idclub \n" +
+            "inner join persona p on p.idpersona=co.persona_idpersona \n" +
+            "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "where (co.ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado) and ccr.regional_idregional=:idregional",nativeQuery = true)
+            "where (p.ci like :buscado or p.nombre like :buscado or p.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado) and co.regional_idregional=:idregional",nativeQuery = true)
     List<Corredormen> corredoresBusCiNomApeClub(
             @Param("buscado") String buscado,
             @Param("idregional") Integer idregional);
 
-    @Query(value = "select co.ci,concat(co.nombre,' ',co.apellido) as corredor,co.fecnac,co.sexo,co.telefono,ca.nomcorto as categoria,cl.nomclub as club, \n" +
-            "pa.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua \n" +
+    @Query(value = "select p.ci,concat(p.nombre,' ',p.apellido) as corredor,p.fecnac,p.sexo,p.telefono,ca.nomcorto as categoria,cl.nomclub as club, \n" +
+            "p.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua \n" +
             "from corredor co \n" +
-            "inner join corredor_club_regional ccr on ccr.corredor_idcorredor=co.idcorredor \n" +
-            "inner join club cl on cl.idclub = ccr.club_idclub \n" +
+            "inner join persona p on p.idpersona=co.persona_idpersona \n" +
+            "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "inner join ciudad ci on ci.idciudad=co.ciudad_idciudad\n" +
+            "inner join ciudad ci on ci.idciudad=p.ciudad_idciudad\n" +
             "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
-            "where (co.ci like :buscado or co.nombre like :buscado or co.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado) and ccr.regional_idregional=:idregional",nativeQuery = true)
+            "where (p.ci like :buscado or p.nombre like :buscado or p.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado) and co.regional_idregional=:idregional",nativeQuery = true)
     List<Corredorbus> corredoresBusCiNomApeClubDato(
             @Param("buscado") String buscado,
             @Param("idregional") Integer idregional);
+
+    @Modifying
+    @Query(value = "update corredor c  " +
+            "set  c.categoria_idcategoria=:idcategoria, c.club_idclub=:idclub  \n" +
+            "where c.idcorredor=:idcorredor and c.catalianza=1",nativeQuery = true)
+    void updateCorredorAlianza(
+            @Param("idcorredor") Integer idcorredor,
+            @Param("idcategoria") Integer idcategoria,
+            @Param("idclub") Integer idclub
+
+    );
 
 }

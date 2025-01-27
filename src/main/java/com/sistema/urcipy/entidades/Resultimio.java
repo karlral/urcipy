@@ -15,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="resultimio"
     ,catalog="urcipy"
 )
-public class Resultimio  implements java.io.Serializable {
+public class Resultimio  {
 
 
      private Integer idresultimio;
@@ -65,8 +65,6 @@ public class Resultimio  implements java.io.Serializable {
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
-
-    
     @Column(name="idresultimio", unique=true, nullable=false)
     public Integer getIdresultimio() {
         return this.idresultimio;

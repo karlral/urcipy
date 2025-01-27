@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name="enlaces"
     ,catalog="urcipy"
 )
-public class Enlaces  implements java.io.Serializable {
+public class Enlaces   {
 
 
      private Integer idenlaces;

@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="categoria"
     ,catalog="urcipy"
 )
-public class Categoria  implements java.io.Serializable {
+public class Categoria  {
 
 
      private Integer idcategoria;

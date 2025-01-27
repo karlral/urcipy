@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="trayecto"
     ,catalog="urcipy"
 )
-public class Trayecto implements Serializable {
+public class Trayecto  {
 
 
      private int idtrayecto;

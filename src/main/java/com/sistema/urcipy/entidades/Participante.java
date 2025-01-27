@@ -23,14 +23,30 @@ import javax.persistence.TemporalType;
 @Table(name="participante"
     ,catalog="urcipy"
 )
-public class Participante  implements java.io.Serializable {
+public class Participante  {
+
+    @Id @GeneratedValue(strategy=IDENTITY)
 
 
+    @Column(name="idparticipante", unique=true, nullable=false)
      private Integer idparticipante;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="corredor_idcorredor", nullable=false)
      private Corredor corredor;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="evento_idevento", nullable=false)
      private Evento evento;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="regional_idregional", nullable=false)
     private Regional regional;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="region_idregion", nullable=false)
+    private Region region;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="club_idclub", nullable=false)
     private Club club;
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="categoria_idcategoria", nullable=false)
     private Categoria categoria;
      private Date fecha;
      private Integer pagado;
@@ -57,17 +73,19 @@ public class Participante  implements java.io.Serializable {
     }
 
 	
-    public Participante(Corredor corredor, Evento evento, Regional regional, Club club,Categoria categoria) {
+    public Participante(Corredor corredor, Evento evento, Regional regional, Region region, Club club, Categoria categoria) {
         this.corredor = corredor;
         this.evento = evento;
         this.regional=regional;
+        this.region = region;
         this.club = club;
         this.categoria=categoria;
     }
-    public Participante(Corredor corredor, Evento evento,  Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua,  Integer totalpuntos, Integer acobrar,Regional regional,Club club,Categoria categoria,String tiempos) {
+    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos) {
        this.corredor = corredor;
        this.evento = evento;
-       this.fecha = fecha;
+        this.region = region;
+        this.fecha = fecha;
        this.pagado = pagado;
        this.nrogiro = nrogiro;
        this.costo = costo;
@@ -92,10 +110,7 @@ public class Participante  implements java.io.Serializable {
         this.tiempos=tiempos;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idparticipante", unique=true, nullable=false)
     public Integer getIdparticipante() {
         return this.idparticipante;
     }
@@ -104,8 +119,7 @@ public class Participante  implements java.io.Serializable {
         this.idparticipante = idparticipante;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="corredor_idcorredor", nullable=false)
+
     public Corredor getCorredor() {
         return this.corredor;
     }
@@ -114,8 +128,7 @@ public class Participante  implements java.io.Serializable {
         this.corredor = corredor;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="evento_idevento", nullable=false)
+
     public Evento getEvento() {
         return this.evento;
     }
@@ -124,8 +137,7 @@ public class Participante  implements java.io.Serializable {
         this.evento = evento;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="regional_idregional", nullable=false)
+
     public Regional getRegional() {
         return regional;
     }
@@ -134,8 +146,7 @@ public class Participante  implements java.io.Serializable {
         this.regional = regional;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="club_idclub", nullable=false)
+
     public Club getClub() {
         return club;
     }
@@ -143,8 +154,7 @@ public class Participante  implements java.io.Serializable {
     public void setClub(Club club) {
         this.club = club;
     }
-@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="categoria_idcategoria", nullable=false)
+
     public Categoria getCategoria() {
     return this.categoria;
 }
@@ -351,6 +361,14 @@ public class Participante  implements java.io.Serializable {
 
     public void setTiempos(String tiempos) {
         this.tiempos = tiempos;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }
 

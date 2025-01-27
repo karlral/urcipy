@@ -23,16 +23,15 @@ public class ParticiPubController {
 
     @Autowired
     private EntidadService entidadService;
-    @Autowired
-    private CorredorClubRegionalService corredorClubRegionalService;
+
 
     @GetMapping("/inscrip/{idevento}/{ci}")
     public ResponseEntity<?> inscribirPartiCi(@PathVariable("idevento") Integer idevento,@PathVariable("ci") String ci){
 
         Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
         if(participanteaux==null) {
-
-            Corredor corredor = corredorService.obtenerCorredorCi(ci);
+            Evento evento = eventoService.obtenerEvento(idevento);
+            Corredor corredor = corredorService.obtenerCorredorCi(ci,evento.getRegional().getIdregional());
             if (corredor == null) {
                 return ResponseEntity.badRequest().body("Corredor no existe");
             }
@@ -51,7 +50,7 @@ public class ParticiPubController {
             calendar.setTime(fecha);
             participante.setFecha(fecha);
 
-            Evento evento = eventoService.obtenerEvento(idevento);
+
             participante.setEvento(evento);
 
             Regional regional;

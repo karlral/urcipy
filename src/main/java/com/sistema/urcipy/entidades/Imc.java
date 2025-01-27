@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 @Table(name="imc"
     ,catalog="urcipy"
 )
-public class Imc  implements java.io.Serializable {
+public class Imc  {
 
 
      private Integer idimc;

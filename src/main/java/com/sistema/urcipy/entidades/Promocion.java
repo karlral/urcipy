@@ -19,10 +19,13 @@ import javax.persistence.Table;
 @Table(name="promocion"
     ,catalog="urcipy"
 )
-public class Promocion  implements java.io.Serializable {
+public class Promocion  {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idpromocion", unique=true, nullable=false)
      private Integer idpromocion;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="regional_idregional", nullable=false)
      private Regional regional;
      private String comentario;
      private String ruta;
@@ -42,10 +45,7 @@ public class Promocion  implements java.io.Serializable {
        this.titulo = titulo;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idpromocion", unique=true, nullable=false)
     public Integer getIdpromocion() {
         return this.idpromocion;
     }
@@ -54,8 +54,7 @@ public class Promocion  implements java.io.Serializable {
         this.idpromocion = idpromocion;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="regional_idregional", nullable=false)
+
     public Regional getRegional() {
         return this.regional;
     }

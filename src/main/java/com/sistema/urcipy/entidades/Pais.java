@@ -22,12 +22,15 @@ import javax.persistence.Table;
 @Table(name="pais"
     ,catalog="urcipy"
 )
-public class Pais  implements java.io.Serializable {
+public class Pais  {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idpais", unique=true, nullable=false)
      private Integer idpais;
      private String nompais;
      private String nacionalidad;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="pais")
+    @JsonIgnore
      private Set<Ciudad> ciudads = new HashSet<Ciudad>(0);
 
     public Pais() {
@@ -39,10 +42,7 @@ public class Pais  implements java.io.Serializable {
        this.ciudads = ciudads;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idpais", unique=true, nullable=false)
     public Integer getIdpais() {
         return this.idpais;
     }
@@ -71,8 +71,7 @@ public class Pais  implements java.io.Serializable {
         this.nacionalidad = nacionalidad;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="pais")
-@JsonIgnore
+
     public Set<Ciudad> getCiudads() {
         return this.ciudads;
     }

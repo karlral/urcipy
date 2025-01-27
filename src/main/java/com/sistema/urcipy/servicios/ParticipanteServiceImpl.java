@@ -65,7 +65,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.buscarpagParticipantesByEventoIdevento(idevento));
     }
     public Participante obtenerParticipantesByEventoCi(Integer idevento,String ci){
-        return participanteRepository.findParticipanteByEventoIdeventoAndCorredorCi(idevento,ci);
+        return participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(idevento,ci);
+
     }
     @Override
     public Participante obtenerParticipante(Integer idparticipante) {

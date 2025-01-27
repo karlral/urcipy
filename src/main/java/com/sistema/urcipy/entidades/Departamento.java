@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name="departamento"
     ,catalog="urcipy"
 )
-public class Departamento  implements java.io.Serializable {
+public class Departamento   {
 
 
      private int iddepartamento;
@@ -29,11 +29,9 @@ public class Departamento  implements java.io.Serializable {
     }
 
 	
-    public Departamento(int iddepartamento) {
-        this.iddepartamento = iddepartamento;
-    }
-    public Departamento(int iddepartamento, String nomdepartamento, Set<Movimiento> movimientos) {
-       this.iddepartamento = iddepartamento;
+
+    public Departamento( String nomdepartamento, Set<Movimiento> movimientos) {
+
        this.nomdepartamento = nomdepartamento;
        this.movimientos = movimientos;
     }

@@ -16,7 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="historial"
     ,catalog="urcipy"
 )
-public class Historial implements java.io.Serializable {
+public class Historial  {
 
 
 
@@ -33,8 +33,8 @@ public class Historial implements java.io.Serializable {
     public Historial() {
     }
 
-    public Historial(Integer idparticipante, Date fecha, String nomevento, String ci, String nomparticipante, String club, String categoria, Integer puestocat, BigDecimal promedio) {
-        this.idparticipante = idparticipante;
+    public Historial( Date fecha, String nomevento, String ci, String nomparticipante, String club, String categoria, Integer puestocat, BigDecimal promedio) {
+
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.ci = ci;

@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 @Table(name="auspicio"
     ,catalog="urcipy"
 )
-public class Auspicio  implements java.io.Serializable {
+public class Auspicio   {
 
 
      private int idauspicio;

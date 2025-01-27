@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/evento")
@@ -26,9 +25,9 @@ public class EventoController {
         return eventoService.obtenerEvento(idevento);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> listarEventoes(){
-        return ResponseEntity.ok(eventoService.obtenerEventoes());
+    @GetMapping("/{idregional}")
+    public ResponseEntity<?> listarEventoes(@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(eventoService.obtenerEventoes(idregional));
     }
 
 

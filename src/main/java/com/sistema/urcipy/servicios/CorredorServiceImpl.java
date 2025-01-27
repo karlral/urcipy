@@ -6,6 +6,7 @@ import com.sistema.urcipy.entidades.custom.Corredormen;
 import com.sistema.urcipy.repositorios.CorredorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -31,8 +32,8 @@ public class CorredorServiceImpl implements CorredorService{
         return corredorRepository.findById(idcorredor).get();
     }
     @Override
-    public Corredor obtenerCorredorCi(String ci) {
-        return corredorRepository.findByCiEquals(ci);
+    public Corredor obtenerCorredorCi(String ci,Integer idregional) {
+        return corredorRepository.findByPersonaCiAndRegionalIdregional(ci,idregional);
     }
     @Override
     public void eliminarCorredor(Integer idcorredor) {
@@ -49,5 +50,11 @@ public class CorredorServiceImpl implements CorredorService{
     }
     public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado,Integer idregional){
         return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClubDato(buscado,idregional));
+    }
+    @Override
+    @Transactional
+    public void catAlianza(Integer idcorredor,Integer idcategoria,Integer idclub) {
+
+        corredorRepository.updateCorredorAlianza(idcorredor,idcategoria,idclub);
     }
 }

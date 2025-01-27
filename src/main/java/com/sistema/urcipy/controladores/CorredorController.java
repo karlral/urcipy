@@ -4,15 +4,14 @@ import com.sistema.urcipy.entidades.Categoria;
 import com.sistema.urcipy.entidades.Corredor;
 
 import com.sistema.urcipy.entidades.Evento;
+import com.sistema.urcipy.entidades.Persona;
 import com.sistema.urcipy.servicios.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/corredor")
@@ -29,22 +28,25 @@ public class CorredorController {
 
     @Autowired
     private CategoriaService categoriaService;
-
     @Autowired
-    private CorredorClubRegionalServiceImpl corredorClubRegionalService;
-
+    private PersonaService personaService;
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredor(@RequestBody Corredor corredor){
         Corredor corredorGuardada;
-        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getCi());
-        if(corredorGuardada==null){
-
-            corredor.setNombre(corredor.getNombre().toUpperCase());
-            corredor.setApellido(corredor.getApellido().toUpperCase());
-            corredorGuardada = corredorService.guardarCorredor(corredor);
+        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),corredor.getRegional().getIdregional());
+        if(corredorGuardada==null) { // vamos a crear el corredor con la regional
+            Persona personaGuardada, personaAux;
+            personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
+            if (personaAux == null) { //no hay persona en la regional y se crean
+                personaAux = corredor.getPersona();
+            }
+            personaAux.setNombre(corredor.getPersona().getNombre().toUpperCase());
+            personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
+            personaGuardada = personaService.guardarPersona(personaAux);
+            corredor.setPersona(personaGuardada);
+            corredorGuardada = this.corredorService.guardarCorredor(corredor);
         }
-
         return ResponseEntity.ok(corredorGuardada);
     }
     @GetMapping("/{idcorredor}")
@@ -52,9 +54,9 @@ public class CorredorController {
         return corredorService.obtenerCorredor(idcorredor);
     }
 
-    @GetMapping("/ci/{ci}")
-    public Corredor obtenerCorredorPorCi(@PathVariable("ci") String ci){
-        return corredorService.obtenerCorredorCi(ci);
+    @GetMapping("/ci/{ci}/{idregional}")
+    public Corredor obtenerCorredorPorCi(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
+        return corredorService.obtenerCorredorCi(ci,idregional);
     }
 
     @GetMapping("/")
@@ -63,14 +65,21 @@ public class CorredorController {
     }
     @PutMapping("/")
     public Corredor actualizarCorredor(@RequestBody Corredor corredor){
+
+        corredor.getPersona().setNombre(corredor.getPersona().getNombre().toUpperCase());
+        corredor.getPersona().setApellido(corredor.getPersona().getApellido().toUpperCase());
+        Persona personaActual= personaService.guardarPersona(corredor.getPersona());
         Corredor corredor1=corredorService.guardarCorredor(corredor);
         if (corredor1==null){
             return  null;
         }else {
-            Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
-            participanteService.actualizarClubCat(idevento,corredor.getCi(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
-            return corredor1;
+            Evento evento=eventoService.obtenerEventoActivo(1);
+            participanteService.actualizarClubCat(evento.getIdevento(),corredor.getPersona().getCi(),evento.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
+
+            corredorService.catAlianza(corredor1.getIdcorredor(),corredor1.getCategoria().getIdcategoria(),corredor1.getClub().getIdclub());
         }
+
+        return corredor1;
     }
     @DeleteMapping("/{idcorredor}")
     public void eliminarCorredor(@PathVariable("idcorredor") Integer idcorredor){
@@ -122,9 +131,9 @@ public class CorredorController {
         Integer anonac=0;
         Integer contador=0;
         for (Corredor corredor:corredores) {
-            sexo = corredor.getSexo();
+            sexo = corredor.getPersona().getSexo();
 
-            calendar.setTime(corredor.getFecnac());
+            calendar.setTime(corredor.getPersona().getFecnac());
              anonac = calendar.get(Calendar.YEAR);
              edad = (byte) (ano -anonac);
 

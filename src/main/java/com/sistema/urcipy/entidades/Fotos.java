@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name="fotos"
     ,catalog="urcipy"
 )
-public class Fotos  implements java.io.Serializable {
+public class Fotos   {
 
 
      private Integer idfotos;
