@@ -42,7 +42,7 @@ public class Corredor   {
      private Integer montopuntua;
      private Byte carnetfpc;
     private String observacion;
-    private Byte catalianza;
+    private Boolean catalianza;
     @OneToMany(fetch=FetchType.LAZY, mappedBy="corredor")
     @JsonIgnore
      private Set<Imc> imcs = new HashSet<Imc>(0);
@@ -65,7 +65,7 @@ public class Corredor   {
     }
 
 
-    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Byte catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
@@ -259,11 +259,11 @@ public class Corredor   {
         this.regional = regional;
     }
 
-    public Byte getCatalianza() {
+    public Boolean getCatalianza() {
         return catalianza;
     }
 
-    public void setCatalianza(Byte catalianza) {
+    public void setCatalianza(Boolean catalianza) {
         this.catalianza = catalianza;
     }
 }

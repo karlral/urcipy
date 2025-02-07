@@ -18,6 +18,8 @@ public interface EventoService {
     public Set<Evento> obtenerEventosCulminados(Integer idregional);
     public List<Evento> obtenerEventosActivos(Integer idregional);
     public Evento obtenerEventoActivo(Integer activo);
+    public Evento obtenerEventoActivoRegional(Integer activo, Integer idregional);
+    public List<Evento> obtenerEventoActivosAlianza(Integer activo,Integer alianza);
 
     public Evento obtenerEvento(Integer idevento);
 

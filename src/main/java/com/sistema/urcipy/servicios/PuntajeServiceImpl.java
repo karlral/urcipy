@@ -20,13 +20,17 @@ public class PuntajeServiceImpl implements PuntajeService{
     }
 
     @Override
-    public Set<Puntaje> obtenerPuntajees() {
-        return new LinkedHashSet<>(puntajeRepository.findAll());
+    public Set<Puntaje> obtenerPuntajees(Integer idregional) {
+        return new LinkedHashSet<>(puntajeRepository.findByRegional_Idregional(idregional));
     }
 
     @Override
     public Puntaje obtenerPuntaje(Integer idpuntaje) {
         return puntajeRepository.findById(idpuntaje).get();
+    }
+    @Override
+    public Integer obtenerPunto(Integer posicion,Integer idregional ){
+        return puntajeRepository.findByPosicionAndRegional_Idregional(posicion,idregional).getPuntos();
     }
 
     @Override

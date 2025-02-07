@@ -1,10 +1,7 @@
 package com.sistema.urcipy.controladores;
 
-import com.sistema.urcipy.entidades.Categoria;
-import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.*;
 
-import com.sistema.urcipy.entidades.Evento;
-import com.sistema.urcipy.entidades.Persona;
 import com.sistema.urcipy.servicios.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +27,17 @@ public class CorredorController {
     private CategoriaService categoriaService;
     @Autowired
     private PersonaService personaService;
+    @Autowired
+    private RegionalService regionalService;
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredor(@RequestBody Corredor corredor){
         Corredor corredorGuardada;
-        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),corredor.getRegional().getIdregional());
+        List<Corredor> corredores = new ArrayList<>();
+        Regional regionalco=corredor.getRegional();
+        System.out.println("guardar dos veces y quedarse con esta regional");
+        System.out.println(regionalco.getIdregional());
+        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
         if(corredorGuardada==null) { // vamos a crear el corredor con la regional
             Persona personaGuardada, personaAux;
             personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
@@ -45,7 +48,17 @@ public class CorredorController {
             personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
             personaGuardada = personaService.guardarPersona(personaAux);
             corredor.setPersona(personaGuardada);
-            corredorGuardada = this.corredorService.guardarCorredor(corredor);
+
+            Set<Regional> regionalss=regionalService.obtenerRegionales();
+            List<Regional> regionales = new ArrayList<Regional>(regionalss);
+            regionales.forEach(regional -> {
+                corredor.setRegional(regional);
+                corredores.add(corredor);
+            });
+
+            this.corredorService.guardarCorredores(corredores);
+
+            corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
         }
         return ResponseEntity.ok(corredorGuardada);
     }
@@ -68,18 +81,24 @@ public class CorredorController {
 
         corredor.getPersona().setNombre(corredor.getPersona().getNombre().toUpperCase());
         corredor.getPersona().setApellido(corredor.getPersona().getApellido().toUpperCase());
+        //System.out.println("Paso -2");
         Persona personaActual= personaService.guardarPersona(corredor.getPersona());
+        //System.out.println("Paso -1");
         Corredor corredor1=corredorService.guardarCorredor(corredor);
+        //System.out.println("Paso 0");
         if (corredor1==null){
             return  null;
         }else {
-            Evento evento=eventoService.obtenerEventoActivo(1);
-            participanteService.actualizarClubCat(evento.getIdevento(),corredor.getPersona().getCi(),evento.getClub().getIdclub(),corredor.getCategoria().getIdcategoria());
-
-            corredorService.catAlianza(corredor1.getIdcorredor(),corredor1.getCategoria().getIdcategoria(),corredor1.getClub().getIdclub());
+           // System.out.println(corredor1);
+            Evento evento=eventoService.obtenerEventoActivoRegional(1,corredor1.getRegional().getIdregional());
+            participanteService.actualizarClubCat(evento.getIdevento(),corredor1.getIdcorredor());
+            //System.out.println("Paso 1");
+            corredorService.catAlianza(corredor1.getPersona().getIdpersona(),corredor1.getCategoria().getIdcategoria(),corredor1.getClub().getIdclub());
+            //System.out.println("Paso 2");
+            return corredor1;
         }
 
-        return corredor1;
+
     }
     @DeleteMapping("/{idcorredor}")
     public void eliminarCorredor(@PathVariable("idcorredor") Integer idcorredor){

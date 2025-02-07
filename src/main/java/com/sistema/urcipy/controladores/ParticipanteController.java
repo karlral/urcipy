@@ -38,11 +38,10 @@ public class ParticipanteController {
     public void eliminarParticipante(@PathVariable("idparticipante") Integer idparticipante){
         participanteService.eliminarParticipante(idparticipante);
     }
-    @GetMapping("/activo/{activo}")
-    public ResponseEntity<?> listarParticipantesEvento(@PathVariable("activo") Integer activo){
-        Integer idevento;
-        idevento=eventoService.obtenerEventoActivo(activo).getIdevento();
-        return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEvento(idevento));
+    @GetMapping("/activo/{activo}/{idregional}")
+    public ResponseEntity<?> listarParticipantesEvento(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+
+        return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEventoActivoReg(activo,idregional));
     }
     @GetMapping("/pago/{activo}")
     public ResponseEntity<?> listarPagParticipantesEvento(@PathVariable("activo") Integer activo){

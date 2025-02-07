@@ -27,7 +27,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         int rows=participanteRepository.setPuntajePosicion(resultimio.getTiempo(),resultimio.getPoscategoria(),
                 resultimio.getPoscategoria(),resultimio.getDorsal(),resultimio.getPuntaje(),
                 resultimio.getPuntajeaux(),resultimio.getCompleto(),resultimio.getEvento().getIdevento(),
-                resultimio.getCi());
+                resultimio.getCi(),resultimio.getPuntajeclub());
         return rows;
     }
     @Override
@@ -40,8 +40,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.findParticipantesporAnho(anho));
     }
     @Override
-    public Set<Inscripcion> obtenerParticipantesActivo(Integer activo) {
-        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivo(activo));
+    public Set<Inscripcion> obtenerParticipantesActivo(Integer activo,Integer idregional) {
+        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivo(activo,idregional));
     }
     @Override
     public Set<Sendtimio> busParticipantesActivo(Integer activo) {
@@ -57,8 +57,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoIdeventoOrderByPuestocat(idevento));
     }
     @Override
-    public Set<Inscriptos> obtenerLisParticipantesByEvento(Integer idevento){
-        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoIdevento(idevento));
+    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoReg(activo,idregional));
     }
     @Override
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento){
@@ -80,21 +80,31 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
 
     @Override
-    public Set<Puncorredor> obtenerParticiPuntaje(Integer anho) {
-        return new LinkedHashSet<>(participanteRepository.puntajeByParticiNative(anho));
+    public Set<Puncorredor> obtenerParticiPuntaje(Integer anho,Integer idregional) {
+        return new LinkedHashSet<>(participanteRepository.puntajeByParticiNative(anho,idregional));
     }
     @Override
-    public Set<Puntoscorredor> obtenerParticiByIdPuntajes(Integer anho, Integer idcorredor){
-        return new LinkedHashSet<>(participanteRepository.listaPuntajesByParticiNative(anho,idcorredor));
+    public Set<Puntoscorredor> obtenerParticiByIdPuntajes(Integer anho, Integer idcorredor,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesByParticiNative(anho,idcorredor,idregional));
     }
     @Override
-    public Set<Punclub> obtenerPuntajesInClub(Integer anho, Integer tipoone, Integer tipotwo){
-        return new LinkedHashSet<>(participanteRepository.listaPuntajesInClubNative(anho,tipoone,tipotwo));
+    public Set<Punclub> obtenerPuntajesInClub(Integer anho, Integer tipoone, Integer tipotwo,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesInClubNative(anho,tipoone,tipotwo,idregional));
     }
 
     @Override
-    public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub){
-        return new LinkedHashSet<>(participanteRepository.listaPuntajesByClubParticiNative(anho,tipoone,tipotwo,idclub));
+    public Set<Punclub> obtenerPuntajesXClubTwo(Integer anho, Integer tipoone, Integer tipotwo,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesXClubTwoNative(anho,tipoone,tipotwo,idregional));
+    }
+
+    @Override
+    public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesByClubParticiNative(anho,tipoone,tipotwo,idclub,idregional));
+    }
+
+    @Override
+    public Set<Punclubpartici> obtenerPuntajesByClubTwoPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesByClubTwoParticiNative(anho,tipoone,tipotwo,idclub,idregional));
     }
 
     @Override
@@ -116,7 +126,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
-    public void actualizarClubCat(Integer idevento,String ci, Integer idclub, Integer idcategoria){
-        participanteRepository.updateParticipanteClubCat(idevento,ci,idclub,idcategoria);
+    public void actualizarClubCat(Integer idevento,Integer idcorredor){
+        participanteRepository.updateParticipanteClubCat(idevento,idcorredor);
     }
 }

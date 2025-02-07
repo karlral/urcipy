@@ -20,12 +20,12 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             (String ci,Integer idregional);
 
     @Query(value = "select co.idcorredor,p.nombre,p.apellido,cl.nomclub as club,p.fecnac,ca.nomcorto as categoria, \n" +
-            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, p.foto, co.puntua \n" +
+            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, cl.ruta as foto, co.puntua \n" +
             "from corredor co \n" +
             "inner join persona p on p.idpersona=co.persona_idpersona \n" +
             "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "where co.ci =:ci and co.regional_idregional=:idregional and (co.carnetfpc=1 or co.carnetfpc=2 or co.carnetfpc=3)",nativeQuery = true)
+            "where p.ci =:ci and co.regional_idregional=:idregional and (co.carnetfpc=1 or co.carnetfpc=2 or co.carnetfpc=3)",nativeQuery = true)
     Corredormen correByCi(
             @Param("ci") String ci,
             @Param("idregional") Integer idregional);
@@ -55,11 +55,12 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idregional") Integer idregional);
 
     @Modifying
-    @Query(value = "update corredor c  " +
-            "set  c.categoria_idcategoria=:idcategoria, c.club_idclub=:idclub  \n" +
-            "where c.idcorredor=:idcorredor and c.catalianza=1",nativeQuery = true)
+    @Query(value = "update corredor co  " +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona \n" +
+            "set  co.categoria_idcategoria=:idcategoria, co.club_idclub=:idclub  \n" +
+            "where co.persona_idpersona=:idpersona and co.catalianza=1",nativeQuery = true)
     void updateCorredorAlianza(
-            @Param("idcorredor") Integer idcorredor,
+            @Param("idpersona") Integer idpersona,
             @Param("idcategoria") Integer idcategoria,
             @Param("idclub") Integer idclub
 

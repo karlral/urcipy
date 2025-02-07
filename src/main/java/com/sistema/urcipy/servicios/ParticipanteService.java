@@ -16,11 +16,11 @@ public interface ParticipanteService {
     public Set<Participante> obtenerParticipantees();
     public Set<Participante> obtenerParticipantesProceso(Integer anho);
 
-    public Set<Inscripcion> obtenerParticipantesActivo(Integer activo);
+    public Set<Inscripcion> obtenerParticipantesActivo(Integer activo,Integer idregional);
     public Set<Sendtimio> busParticipantesActivo(Integer activo);
     public void eliminarParticipantesEvento(Integer idevento);
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
-    public Set<Inscriptos> obtenerLisParticipantesByEvento(Integer idevento);
+    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer idevento,Integer idregional);
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento);
 
     public Participante obtenerParticipantesByEventoCi(Integer idevento,String ci);
@@ -28,14 +28,19 @@ public interface ParticipanteService {
 
     public void eliminarParticipante(Integer idparticipante);
 
-    public Set<Puncorredor> obtenerParticiPuntaje(Integer anho);
+    public Set<Puncorredor> obtenerParticiPuntaje(Integer anho,Integer idregional);
 
-    public Set<Puntoscorredor> obtenerParticiByIdPuntajes(Integer anho, Integer idcorredor);
-    public Set<Punclub> obtenerPuntajesInClub(Integer anho, Integer tipoone, Integer tipotwo);
-    public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub);
+    public Set<Puntoscorredor> obtenerParticiByIdPuntajes(Integer anho, Integer idcorredor,Integer idregional);
+
+    public Set<Punclub> obtenerPuntajesInClub(Integer anho, Integer tipoone, Integer tipotwo, Integer idregional);
+    public Set<Punclub> obtenerPuntajesXClubTwo(Integer anho, Integer tipoone, Integer tipotwo, Integer idregional);
+
+    public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional);
+    public Set<Punclubpartici> obtenerPuntajesByClubTwoPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional);
 
     public void activarPuntaje(Integer idcorredor);
     public void desactivarPuntaje(Integer idcorredor);
     public void actualizarPromedio(Integer idevento);
-    public void actualizarClubCat(Integer idevento,String ci, Integer idclub, Integer idcategoria);
+    public void actualizarClubCat(Integer idevento,Integer idcorredor);
+
 }

@@ -36,10 +36,17 @@ public class EventoServiceImpl implements EventoService{
         return eventoRepository.findByActivoBetweenAndRegional_idregional(1,3,idregional);
     }
     @Override
+    public List<Evento> obtenerEventoActivosAlianza(Integer activo,Integer alianza){
+        return eventoRepository.findByActivoAndAlianza(activo,alianza);
+    }
+
+    @Override
     public Evento obtenerEventoActivo(Integer activo){
         return eventoRepository.findByActivo(activo);
     }
-
+    public Evento obtenerEventoActivoRegional(Integer activo,Integer idregional){
+        return eventoRepository.findByActivoAndRegional_idregional(activo,idregional);
+    }
     @Override
     public Evento obtenerEvento(Integer idevento) {
         return eventoRepository.findById(idevento).get();

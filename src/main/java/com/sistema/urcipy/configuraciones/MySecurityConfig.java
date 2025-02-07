@@ -70,9 +70,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/generate-token","/usuarios/"
                         ,"/media/**","/media/*/**"
-                        ,"/eventopub/*","/regionalpub/*","/eventopub/*/*"
-                        ,"/participub/*","/participub/*/*","/participub/*/*/*"
-                        ,"/campeonespub/*","/correpub/*"
+                        ,"/eventopub/*","/regionalpub/*","/eventopub/*/*","/eventopub/*/*/*","/eventopub/modo/*/*"
+                        ,"/participub/*","/participub/*/*","/participub/*/*/*","/participub/*/*/*/*"
+                        ,"/campeonespub/*","/correpub/*/*"
                         ,"/categoriapub/*","/historialpub/*").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()

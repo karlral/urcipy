@@ -26,9 +26,9 @@ public class PuntajeController {
         return puntajeService.obtenerPuntaje(idpuntaje);
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> listarPuntajees(){
-        return ResponseEntity.ok(puntajeService.obtenerPuntajees());
+    @GetMapping("/system/{idregional}")
+    public ResponseEntity<?> listarPuntajees(@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(puntajeService.obtenerPuntajees(idregional));
     }
     @PutMapping("/")
     public Puntaje actualizarPuntaje(@RequestBody Puntaje puntaje){

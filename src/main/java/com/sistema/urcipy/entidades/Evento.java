@@ -40,7 +40,8 @@ public class Evento  {
      private Regional regional;
      private Date fecha;
      private String nomevento;
-     private Integer activo;
+     private Integer activo; // si esta activo para inscripcion
+    private Integer alianza;// si tiene inscripciones en ambos sitios
      private String direccion;
      private Integer orden;
 
@@ -93,13 +94,14 @@ public class Evento  {
         this.regional = regional;
     }
 
-    public Evento( Club club, Regional regional, Date fecha, String nomevento, Integer activo, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+    public Evento(Club club, Regional regional, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
 
         this.club = club;
         this.regional = regional;
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.activo = activo;
+        this.alianza = alianza;
         this.direccion = direccion;
         this.orden = orden;
         this.tipoevento = tipoevento;
@@ -176,6 +178,15 @@ public class Evento  {
     
     public void setActivo(Integer activo) {
         this.activo = activo;
+    }
+
+    @Column(name="alianza")
+    public Integer getAlianza() {
+        return alianza;
+    }
+
+    public void setAlianza(Integer alianza) {
+        this.alianza = alianza;
     }
 
     

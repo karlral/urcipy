@@ -23,7 +23,8 @@ public class ResultimioController {
     private ParticipanteService participanteService;
     @Autowired
     private CorredorService corredorService;
-
+    @Autowired
+    private PuntajeService puntajeService;
 
     @PostMapping("/")
     public ResponseEntity<Resultimio> guardarResultimio(@RequestBody Resultimio resultimio){
@@ -34,24 +35,26 @@ public class ResultimioController {
     public ResponseEntity<?> guardarListaResultimio(@RequestBody List<Resultimio> resultimios){
 
         Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+        Evento evento=eventoService.obtenerEvento(idevento);
+        Integer idregional=evento.getRegional().getIdregional();
+
         resultimioService.eliminarSendtimioEvento(idevento);
         Corredor corredor;
-
-        Evento evento=new Evento();
-        evento.setIdevento(idevento);
         int hora, min, seg, puntaje;
         for (Resultimio resultimio:resultimios) {
 
             resultimio.setEvento(evento);
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),evento.getRegional().getIdregional());
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
             if (corredor == null) {
                 return ResponseEntity.badRequest().body("Corredor no existe CI: "+resultimio.getCi()
                         +" Corredor: "+resultimio.getNomparticipante());
             }
-            resultimio.setPuntua(corredor.getPuntua());
+
 
             System.out.println("Encontro: "+resultimio.getNomparticipante()+resultimio.getPoscategoria()+resultimio.getTiempos());
+            resultimio.setPuntua(corredor.getPuntua());
+
             hora=Integer.parseInt(resultimio.getTiempos().substring(0, 2));
             min=Integer.parseInt(resultimio.getTiempos().substring(3, 5));
             seg=Integer.parseInt(resultimio.getTiempos().substring(6, 8));
@@ -65,8 +68,13 @@ public class ResultimioController {
             System.out.println("Paso 3");
 
             /**/
+            if(resultimio.getPoscategoria()<=10){
+                puntaje = puntajeService.obtenerPunto(resultimio.getPoscategoria(),idregional);
+            }else{
+                puntaje = 2;
+            }
 
-            switch (resultimio.getPoscategoria()){
+            /*switch (resultimio.getPoscategoria()){
                 case 1:
                     puntaje=19;
                     break;
@@ -93,7 +101,7 @@ public class ResultimioController {
                     break;
                 default:
                     puntaje=2;
-            }
+            }*/
 
 
             /* FALTA LOS QUE PUNTUAN SI..*/
@@ -106,6 +114,7 @@ public class ResultimioController {
             Byte uno =1;
             resultimio.setProceso(uno);
             resultimio.setCompleto(1);
+            resultimio.setPuntajeclub(2);
 
             Resultimio resultimioGuardada = resultimioService.guardarResultimio(resultimio);
 
@@ -130,14 +139,14 @@ public class ResultimioController {
         Participante participante;
         Corredor corredor;
         Regional regional = evento.getRegional();
-
+        Integer idregional = regional.getIdregional();
         Date fecha = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fecha);
 
         for (Resultimio resultimio:resultimios) {
 
-             corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),regional.getIdregional());
+             corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
             if (corredor == null) {
                 return ResponseEntity.badRequest().body(resultimio);
             }
@@ -161,7 +170,7 @@ public class ResultimioController {
             participante.setDorsal(resultimio.getDorsal());
             participante.setPuntua(corredor.getPuntua());
 
-            participante.setRegional(corredor.getUsuario().getRegional());
+            //participante.setRegional(corredor.getUsuario().getRegional());
 
 
             participanteService.guardarParticipante(participante);

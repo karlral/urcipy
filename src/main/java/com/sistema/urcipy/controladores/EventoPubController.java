@@ -34,9 +34,10 @@ public class EventoPubController {
         return eventoService.obtenerEventosActivos(idregional);
     }
 
-    @GetMapping("/activo/{activo}")
-    public Evento listarEventoActivo(@PathVariable("activo") Integer activo){
-        return  eventoService.obtenerEventoActivo(activo);
+    @GetMapping("/activo/{activo}/{idregional}")
+    public Evento listarEventoActivo(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+        return  eventoService.obtenerEventoActivoRegional(activo,idregional);
+
     }
 
     @GetMapping("/system/{idregional}")

@@ -36,6 +36,7 @@ public class Resultimio  {
     private String tiempos;
     private Integer puntua;
     private Integer puntajeaux;
+    private Integer puntajeclub;
 
     public Resultimio() {
     }
@@ -44,7 +45,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso,Integer id,Integer puntaje,Integer completo,String tiempos,Integer puntua,Integer puntajeaux) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -62,6 +63,7 @@ public class Resultimio  {
        this.tiempos = tiempos;
        this.puntua=puntua;
        this.puntajeaux=puntajeaux;
+        this.puntajeclub = puntajeclub;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -235,6 +237,17 @@ public class Resultimio  {
     public void setPuntajeaux(Integer puntajeaux) {
         this.puntajeaux = puntajeaux;
     }
+    @Column(name = "puntajeclub")
+    public Integer getPuntajeclub() {
+        return puntajeclub;
+    }
+
+    public void setPuntajeclub(Integer puntajeclub) {
+        this.puntajeclub = puntajeclub;
+    }
+
+
+
 
     @Override
     public String toString() {

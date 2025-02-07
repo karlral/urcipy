@@ -1,14 +1,14 @@
 package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.*;
+import com.sistema.urcipy.entidades.custom.Punclub;
+import com.sistema.urcipy.entidades.custom.Punclubpartici;
 import com.sistema.urcipy.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/participub")
@@ -23,6 +23,8 @@ public class ParticiPubController {
 
     @Autowired
     private EntidadService entidadService;
+    @Autowired
+    private RegionalService regionalService;
 
 
     @GetMapping("/inscrip/{idevento}/{ci}")
@@ -30,39 +32,33 @@ public class ParticiPubController {
 
         Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
         if(participanteaux==null) {
-            Evento evento = eventoService.obtenerEvento(idevento);
-            Corredor corredor = corredorService.obtenerCorredorCi(ci,evento.getRegional().getIdregional());
-            if (corredor == null) {
-                return ResponseEntity.badRequest().body("Corredor no existe");
+System.out.println(idevento);
+            Evento eventoold = eventoService.obtenerEvento(idevento);
+            System.out.println(idevento);
+            Integer alianza=eventoold.getAlianza();
+            System.out.println(alianza);
+            if(alianza==1){
+                // guardamos las inscripciones de cada Regional con su club y con su categoria
+                List<Evento> eventos=eventoService.obtenerEventoActivosAlianza(1,alianza);
+                for(Evento evento:eventos){
+                    System.out.println(evento);
+                    Corredor corredor = corredorService.obtenerCorredorCi(ci,evento.getRegional().getIdregional());
+                    if (corredor == null) {
+                        return ResponseEntity.badRequest().body("Corredor no existe");
+                    }else{
+                        guardarparticipante(corredor,evento);
+                    }
+                }
+                participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
+            }else {
+                Corredor corredor = corredorService.obtenerCorredorCi(ci,eventoold.getRegional().getIdregional());
+                if (corredor == null) {
+                    return ResponseEntity.badRequest().body("Corredor no existe");
+                }else{
+                    participanteaux =guardarparticipante(corredor,eventoold);
+                }
             }
-
-            Participante participante = new Participante();
-            participante.setCorredor(corredor);
-            participante.setClub(corredor.getClub());
-            participante.setCategoria(corredor.getCategoria());
-
-            Region region;
-            region = corredor.getClub().getRegion();
-            participante.setRegion(region);
-
-            Date fecha = new Date();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fecha);
-            participante.setFecha(fecha);
-
-
-            participante.setEvento(evento);
-
-            Regional regional;
-            regional = evento.getRegional();
-            participante.setRegional(regional);
-
-            participante.setCosto(evento.getMontopric());
-
-
-            participanteaux = participanteService.guardarParticipante(participante);
         }
-
         return ResponseEntity.ok(participanteaux);
     }
 
@@ -74,10 +70,11 @@ public class ParticiPubController {
         return ResponseEntity.ok(participanteService.obtenerParticipantesProceso(anho));
     }
 
-    @GetMapping("/activo/{activo}")
+    @GetMapping("/activo/{activo}/{idregional}")
     @ResponseBody
-    public ResponseEntity<?>  listarParticipantesActivos(@PathVariable("activo") Integer activo){
-        return ResponseEntity.ok(participanteService.obtenerParticipantesActivo(activo));
+    public ResponseEntity<?>  listarParticipantesActivos(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(participanteService
+                .obtenerParticipantesActivo(activo,idregional));
     }
     @GetMapping("/evento/{idevento}")
     @ResponseBody
@@ -91,25 +88,29 @@ public class ParticiPubController {
         return participanteService.obtenerParticipante(idparticipante);
     }
 
-    @GetMapping("/puntaje")
+    @GetMapping("/puntajes/{idregional}")
     @ResponseBody
-    public ResponseEntity<?>  listarCorredorPuntaje(){
+    public ResponseEntity<?>  listarCorredorPuntaje(@PathVariable("idregional") Integer idregional){
         Integer anho;
-        anho=entidadService.obtenerEntidad(1).getAno();
-        return ResponseEntity.ok(participanteService.obtenerParticiPuntaje(anho));
+        Regional regional = regionalService.obtenerRegional(idregional);
+        anho=regional.getAno();
+        return ResponseEntity.ok(participanteService.obtenerParticiPuntaje(anho,idregional));
     }
-    @GetMapping("/puntaje/{idcorredor}")
+    @GetMapping("/puntaje/{idcorredor}/{idregional}")
     @ResponseBody
-    public ResponseEntity<?>  listarPuntajesByCorredor(@PathVariable("idcorredor") Integer idcorredor){
+    public ResponseEntity<?>  listarPuntajesByCorredor(@PathVariable("idcorredor") Integer idcorredor,@PathVariable("idregional") Integer idregional){
         Integer anho;
-        anho=entidadService.obtenerEntidad(1).getAno();
-        return ResponseEntity.ok(participanteService.obtenerParticiByIdPuntajes(anho,idcorredor));
+        Regional regional = regionalService.obtenerRegional(idregional);
+        anho=regional.getAno();
+        return ResponseEntity.ok(participanteService.obtenerParticiByIdPuntajes(anho,idcorredor,idregional));
     }
-    @GetMapping("/punclub/{tipo}")
+    @GetMapping("/punclub/{tipo}/{idregional}")
     @ResponseBody
-    public ResponseEntity<?>  listarPuntajesInClub(@PathVariable("tipo") String tipo){
+    public ResponseEntity<?>  listarPuntajesInClub(@PathVariable("tipo") String tipo,@PathVariable("idregional") Integer idregional){
         Integer anho,tipoone,tipotwo;
-        anho=entidadService.obtenerEntidad(1).getAno();
+        Regional regional = regionalService.obtenerRegional(idregional);
+        Set<Punclub> punclubs=new LinkedHashSet<>();
+        anho=regional.getAno();
 
         if (tipo.equals("principal")){
             tipoone=1;
@@ -119,13 +120,23 @@ public class ParticiPubController {
             tipotwo=4;
         }
 
-        return ResponseEntity.ok(participanteService.obtenerPuntajesInClub(anho,tipoone,tipotwo));
+        if (idregional==1){
+           punclubs= participanteService.obtenerPuntajesInClub(anho,tipoone,tipotwo,idregional);
+        }else{
+            if (idregional==2) {
+                punclubs = participanteService.obtenerPuntajesXClubTwo(anho,tipoone,tipotwo,idregional);
+            }
+        }
+        return ResponseEntity.ok(punclubs);
     }
-    @GetMapping("/punclub/{tipo}/{idclub}")
+
+    @GetMapping("/punclubreg/{tipo}/{idclub}/{idregional}")
     @ResponseBody
-    public ResponseEntity<?>  listarPuntajesByClubPartici(@PathVariable("tipo") String tipo,@PathVariable("idclub") Integer idclub){
+    public ResponseEntity<?>  listarPuntajesByClubPartici(@PathVariable("tipo") String tipo,@PathVariable("idclub") Integer idclub,@PathVariable("idregional") Integer idregional){
         Integer anho,tipoone,tipotwo;
-        anho=entidadService.obtenerEntidad(1).getAno();
+        Regional regional = regionalService.obtenerRegional(idregional);
+        anho=regional.getAno();
+        Set<Punclubpartici> punclubparticis=new LinkedHashSet<>();
 
         if (tipo.equals("principal")){
             tipoone=1;
@@ -134,6 +145,46 @@ public class ParticiPubController {
             tipoone=3;
             tipotwo=4;
         }
-        return ResponseEntity.ok(participanteService.obtenerPuntajesByClubPartici(anho,tipoone,tipotwo,idclub));
+
+        if (idregional==1){
+            punclubparticis= participanteService.obtenerPuntajesByClubPartici(anho,tipoone,tipotwo,idclub,idregional);
+        }else{
+            if (idregional==2) {
+                punclubparticis = participanteService.obtenerPuntajesByClubTwoPartici(anho,tipoone,tipotwo,idclub,idregional);
+            }
+        }
+
+        return ResponseEntity.ok(punclubparticis);
+    }
+
+    private Participante guardarparticipante(Corredor corredor,Evento evento){
+        Participante participante,participanteauxiliar;
+
+        participante= new Participante();
+        participante.setCorredor(corredor);
+        participante.setClub(corredor.getClub());
+        participante.setCategoria(corredor.getCategoria());
+
+        Region region;
+        region = corredor.getClub().getRegion();
+        participante.setRegion(region);
+
+        Date fecha = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        participante.setFecha(fecha);
+
+
+        participante.setEvento(evento);
+
+        Regional regional;
+        regional = evento.getRegional();
+        participante.setRegional(regional);
+
+        participante.setCosto(evento.getMontopric());
+
+
+        participanteauxiliar = participanteService.guardarParticipante(participante);
+        return  participanteauxiliar;
     }
 }

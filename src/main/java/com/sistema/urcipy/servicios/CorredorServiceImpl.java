@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -20,6 +21,11 @@ public class CorredorServiceImpl implements CorredorService{
     @Override
     public Corredor guardarCorredor(Corredor corredor){
         return corredorRepository.save(corredor);
+    }
+    @Override
+    public void guardarCorredores(List<Corredor> corredores){
+        //corredores.forEach(corredor -> corredorRepository.save(corredor));
+        corredorRepository.saveAll(corredores);
     }
 
     @Override
@@ -53,8 +59,8 @@ public class CorredorServiceImpl implements CorredorService{
     }
     @Override
     @Transactional
-    public void catAlianza(Integer idcorredor,Integer idcategoria,Integer idclub) {
+    public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub) {
 
-        corredorRepository.updateCorredorAlianza(idcorredor,idcategoria,idclub);
+        corredorRepository.updateCorredorAlianza(idpersona,idcategoria,idclub);
     }
 }
