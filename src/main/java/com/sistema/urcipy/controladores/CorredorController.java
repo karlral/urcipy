@@ -33,7 +33,9 @@ public class CorredorController {
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredor(@RequestBody Corredor corredor){
         Corredor corredorGuardada;
+
         List<Corredor> corredores = new ArrayList<>();
+
         Regional regionalco=corredor.getRegional();
         System.out.println("guardar dos veces y quedarse con esta regional");
         System.out.println(regionalco.getIdregional());
@@ -46,14 +48,35 @@ public class CorredorController {
             }
             personaAux.setNombre(corredor.getPersona().getNombre().toUpperCase());
             personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
-            personaGuardada = personaService.guardarPersona(personaAux);
-            corredor.setPersona(personaGuardada);
+            personaGuardada = personaService.guardarPersonaFlush(personaAux);
 
             Set<Regional> regionalss=regionalService.obtenerRegionales();
             List<Regional> regionales = new ArrayList<Regional>(regionalss);
-            regionales.forEach(regional -> {
-                corredor.setRegional(regional);
-                corredores.add(corredor);
+            Corredor corredorVar=corredor;
+            for (Regional regional : regionales) {
+                corredorVar=new Corredor();
+                corredorVar.setPersona(personaGuardada);
+                corredorVar.setRegional(regional);
+
+                corredorVar.setPuntua(corredor.getPuntua());
+                corredorVar.setCarnet(corredor.getCarnet());
+                corredorVar.setCategoria(corredor.getCategoria());
+                corredorVar.setClub(corredor.getClub());
+                corredorVar.setCarnetatras(corredor.getCarnetatras());
+                corredorVar.setCatalianza(corredor.getCatalianza());
+                corredorVar.setFecmodi(corredor.getFecmodi());
+                corredorVar.setLicencia(corredor.getLicencia());
+                corredorVar.setModificar(corredor.getModificar());
+                corredorVar.setMontopuntua(corredor.getMontopuntua());
+                corredorVar.setTipocat(corredor.getTipocat());
+                corredorVar.setUsuario(corredor.getUsuario());
+                corredorVar.setVerificar(corredor.getVerificar());
+                corredores.add(corredorVar);
+
+                System.out.println("->"+corredorVar.getRegional().getIdregional() + " " + corredorVar.getRegional().getNomregional());
+            }
+            corredores.forEach(corredor1 -> {
+                System.out.println(corredor1.getRegional().getIdregional()+" "+corredor1.getRegional().getNomregional());
             });
 
             this.corredorService.guardarCorredores(corredores);

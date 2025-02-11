@@ -52,6 +52,9 @@ public class Corredor   {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="corredor")
     @JsonIgnore
      private Set<Miembros> miembroses = new HashSet<Miembros>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="corredor")
+    @JsonIgnore
+    private Set<Movimiento> movimientos = new HashSet<Movimiento>(0);
 
     public Corredor() {
     }
@@ -65,7 +68,7 @@ public class Corredor   {
     }
 
 
-    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses, Set<Movimiento> movimientos) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
@@ -86,6 +89,7 @@ public class Corredor   {
         this.imcs = imcs;
         this.participantes = participantes;
         this.miembroses = miembroses;
+        this.movimientos=movimientos;
     }
 
     public Integer getIdcorredor() {
@@ -265,6 +269,14 @@ public class Corredor   {
 
     public void setCatalianza(Boolean catalianza) {
         this.catalianza = catalianza;
+    }
+
+    public Set<Movimiento> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(Set<Movimiento> movimientos) {
+        this.movimientos = movimientos;
     }
 }
 

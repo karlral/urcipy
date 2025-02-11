@@ -18,6 +18,10 @@ public class PersonaServiceImpl implements PersonaService{
     public Persona guardarPersona(Persona persona){
         return personaRepository.save(persona);
     }
+    @Override
+    public Persona guardarPersonaFlush(Persona persona){
+        return personaRepository.saveAndFlush(persona);
+    }
 
     @Override
     public Set<Persona> obtenerPersonaes() {

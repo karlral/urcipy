@@ -25,7 +25,7 @@ public class CorredorServiceImpl implements CorredorService{
     @Override
     public void guardarCorredores(List<Corredor> corredores){
         //corredores.forEach(corredor -> corredorRepository.save(corredor));
-        corredorRepository.saveAll(corredores);
+        corredorRepository.saveAllAndFlush(corredores);
     }
 
     @Override

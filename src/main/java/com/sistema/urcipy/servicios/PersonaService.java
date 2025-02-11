@@ -10,7 +10,7 @@ import java.util.Set;
 public interface PersonaService {
 
     public Persona guardarPersona(Persona persona);
-
+    public Persona guardarPersonaFlush(Persona persona);
     public Set<Persona> obtenerPersonaes();
 
     public Persona obtenerPersona(Integer idpersona);
