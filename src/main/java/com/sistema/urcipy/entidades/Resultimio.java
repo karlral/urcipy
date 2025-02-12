@@ -37,6 +37,7 @@ public class Resultimio  {
     private Integer puntua;
     private Integer puntajeaux;
     private Integer puntajeclub;
+    private Integer idevento;
 
     public Resultimio() {
     }
@@ -45,7 +46,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -64,6 +65,7 @@ public class Resultimio  {
        this.puntua=puntua;
        this.puntajeaux=puntajeaux;
         this.puntajeclub = puntajeclub;
+        this.idevento = idevento;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -259,6 +261,14 @@ public class Resultimio  {
                 ", poscategoria=" + poscategoria +
                 ", tiempo=" + tiempo +
                 '}';
+    }
+
+    public Integer getIdevento() {
+        return idevento;
+    }
+
+    public void setIdevento(Integer idevento) {
+        this.idevento = idevento;
     }
 }
 

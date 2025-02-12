@@ -48,9 +48,18 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.busTimioParticipantesByEventoActivo(activo));
     }
     @Override
+    public Set<Sendtimio> busParticipantesByEvento(Integer idevento){
+        return new LinkedHashSet<>(participanteRepository.busTimioParticipantesByEvento(idevento));
+    }
+    @Override
     @Transactional
     public void eliminarParticipantesEvento(Integer idevento) {
         participanteRepository.deletePartEvento(idevento);
+    }
+    @Override
+    @Transactional
+    public void eliminarParticipantesEventoNotCompleto(Integer idevento) {
+        participanteRepository.deletePartEventoNotCompleto(idevento);
     }
     @Override
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento){

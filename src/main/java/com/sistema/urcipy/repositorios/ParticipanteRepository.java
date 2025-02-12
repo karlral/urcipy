@@ -180,6 +180,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento
     );
 
+    @Modifying
+    @Query(value = "DELETE FROM participante \n" +
+            "where evento_idevento=:idevento and completo=0",nativeQuery = true)
+    void deletePartEventoNotCompleto(
+            @Param("idevento") Integer idevento
+    );
+
+
     @Query(value = "SELECT p.idparticipante as id, p.puesto as nro, concat(pe.nombre,' ',pe.apellido) as  nomparticipante,p.puestocat as poscategoria,\n" +
             "p.tiempos,p.dorsal,pe.ci,p.km as distancia,c.nomcorto as categoria,cl.nomclub as club, p.puntua \n" +
             "            FROM participante p \n" +
@@ -192,6 +200,17 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     List<Sendtimio> busTimioParticipantesByEventoActivo(
             @Param("activo") Integer activo);
 
+    @Query(value = "SELECT p.idparticipante as id, p.puesto as nro, concat(pe.nombre,' ',pe.apellido) as  nomparticipante,p.puestocat as poscategoria,\n" +
+            "p.tiempos,p.dorsal,pe.ci,p.km as distancia,c.nomcorto as categoria,cl.nomclub as club, p.puntua \n" +
+            "            FROM participante p \n" +
+            "            inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "            inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "            inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "            inner join evento e on e.idevento=p.evento_idevento\n" +
+            "            inner join club cl on cl.idclub=p.club_idclub\n" +
+            "            where e.idevento=:idevento  ",nativeQuery = true)
+    List<Sendtimio> busTimioParticipantesByEvento(
+            @Param("idevento") Integer idevento);
 
     @Modifying
     @Query(value = "UPDATE participante p SET p.puntaje=p.puntajeaux \n" +

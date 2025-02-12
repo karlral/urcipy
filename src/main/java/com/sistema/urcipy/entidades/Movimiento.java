@@ -17,9 +17,6 @@ public class Movimiento  {
     @JoinColumn(name="concepto_idconcepto", nullable=false)
     private Concepto concepto;
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="departamento_iddepartamento", nullable=false)
-     private Departamento departamento;
-    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="corredor_idcorredor", nullable=false)
     private Corredor corredor;
     @ManyToOne(fetch=FetchType.LAZY)
@@ -33,17 +30,17 @@ public class Movimiento  {
     }
 
 	
-    public Movimiento(Concepto concepto, Departamento departamento, Corredor corredor, Usuario usuario) {
+    public Movimiento(Concepto concepto,  Corredor corredor, Usuario usuario) {
 
         this.concepto = concepto;
-        this.departamento = departamento;
+
         this.corredor = corredor;
         this.usuario = usuario;
     }
-    public Movimiento(Concepto concepto, Departamento departamento, Corredor corredor, Usuario usuario, Date fecha, Integer entrada, Integer salida) {
+    public Movimiento(Concepto concepto,  Corredor corredor, Usuario usuario, Date fecha, Integer entrada, Integer salida) {
 
        this.concepto = concepto;
-       this.departamento = departamento;
+
         this.corredor = corredor;
         this.usuario = usuario;
        this.fecha = fecha;
@@ -68,14 +65,6 @@ public class Movimiento  {
         this.concepto = concepto;
     }
 
-
-    public Departamento getDepartamento() {
-        return this.departamento;
-    }
-    
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
 
 
     public Usuario getUsuario() {
