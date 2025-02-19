@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="usuario"
     ,catalog="urcipy"
 )
-public class Usuario  implements Serializable, UserDetails {
+public class Usuario  implements  UserDetails {
 
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idusuario", unique=true, nullable=false)

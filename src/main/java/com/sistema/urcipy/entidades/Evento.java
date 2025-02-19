@@ -32,10 +32,10 @@ public class Evento  {
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idevento", unique=true, nullable=false)
      private Integer idevento;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="club_idclub", nullable=false)
      private Club club;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regional_idregional", nullable=false)
      private Regional regional;
      private Date fecha;

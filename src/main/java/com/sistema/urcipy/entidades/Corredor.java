@@ -16,19 +16,19 @@ public class Corredor   {
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idcorredor", unique=true, nullable=false)
      private Integer idcorredor;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="persona_idpersona", nullable=false)
     private Persona persona;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="club_idclub", nullable=false)
     private Club club;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="categoria_idcategoria", nullable=false)
      private Categoria categoria;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="usuario_idusuario", nullable=false)
      private Usuario usuario;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regional_idregional", nullable=false)
     private Regional regional;
      private Byte verificar;

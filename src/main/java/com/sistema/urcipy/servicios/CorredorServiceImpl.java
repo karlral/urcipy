@@ -35,7 +35,7 @@ public class CorredorServiceImpl implements CorredorService{
 
     @Override
     public Corredor obtenerCorredor(Integer idcorredor) {
-        return corredorRepository.findById(idcorredor).get();
+        return corredorRepository.findByIdcorredor(idcorredor);
     }
     @Override
     public Corredor obtenerCorredorCi(String ci,Integer idregional) {

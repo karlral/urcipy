@@ -49,7 +49,7 @@ public class EventoServiceImpl implements EventoService{
     }
     @Override
     public Evento obtenerEvento(Integer idevento) {
-        return eventoRepository.findById(idevento).get();
+        return eventoRepository.findByIdevento(idevento);
     }
 
     @Override

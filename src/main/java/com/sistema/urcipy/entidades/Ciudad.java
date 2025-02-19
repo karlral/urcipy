@@ -26,7 +26,7 @@ public class Ciudad  {
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idciudad", unique=true, nullable=false)
      private Integer idciudad;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="pais_idpais", nullable=false)
      private Pais pais;
      private String nomciudad;

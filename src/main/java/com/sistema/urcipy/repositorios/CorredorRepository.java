@@ -5,6 +5,7 @@ package com.sistema.urcipy.repositorios;
 import com.sistema.urcipy.entidades.Corredor;
 import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,11 @@ import java.util.List;
 
 @Repository
 public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
+    @EntityGraph(attributePaths = {"club"})
+     Corredor findByIdcorredor(Integer idcorredor);
+
+
+    @EntityGraph(attributePaths = {"club"})
     Corredor findByPersonaCiAndRegionalIdregional
             (String ci,Integer idregional);
 

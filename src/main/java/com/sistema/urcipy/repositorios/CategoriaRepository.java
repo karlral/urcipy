@@ -2,6 +2,8 @@ package com.sistema.urcipy.repositorios;
 
 
 import com.sistema.urcipy.entidades.Categoria;
+import com.sistema.urcipy.entidades.Corredor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,8 @@ import java.util.List;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
 
+    @EntityGraph(attributePaths = {"trayecto"})
+    Categoria findByIdcategoria(Integer idcategoria);
     /*List<Categoria> findByRegional_Idregional(Integer idregional);*/
 
     List<Categoria> findByActivoIsTrue();

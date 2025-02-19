@@ -3,6 +3,8 @@ package com.sistema.urcipy.entidades;
 import java.util.Date;
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 
 @Entity
 @Table(name="movimiento"
@@ -10,7 +12,7 @@ import javax.persistence.*;
 )
 public class Movimiento  {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idmovimiento", unique=true, nullable=false)
      private int idmovimiento;
     @ManyToOne(fetch=FetchType.LAZY)
@@ -29,25 +31,21 @@ public class Movimiento  {
     public Movimiento() {
     }
 
-	
-    public Movimiento(Concepto concepto,  Corredor corredor, Usuario usuario) {
+    public Movimiento(Concepto concepto, Corredor corredor, Usuario usuario) {
+        this.concepto = concepto;
+        this.corredor = corredor;
+        this.usuario = usuario;
+    }
+
+    public Movimiento(Concepto concepto, Corredor corredor, Usuario usuario, Date fecha, Integer entrada, Integer salida) {
 
         this.concepto = concepto;
-
         this.corredor = corredor;
         this.usuario = usuario;
+        this.fecha = fecha;
+        this.entrada = entrada;
+        this.salida = salida;
     }
-    public Movimiento(Concepto concepto,  Corredor corredor, Usuario usuario, Date fecha, Integer entrada, Integer salida) {
-
-       this.concepto = concepto;
-
-        this.corredor = corredor;
-        this.usuario = usuario;
-       this.fecha = fecha;
-       this.entrada = entrada;
-       this.salida = salida;
-    }
-   
 
     public int getIdmovimiento() {
         return this.idmovimiento;
@@ -111,6 +109,19 @@ public class Movimiento  {
 
     public void setCorredor(Corredor corredor) {
         this.corredor = corredor;
+    }
+
+    @Override
+    public String toString() {
+        return "Movimiento{" +
+                "idmovimiento=" + idmovimiento +
+                ", concepto=" + concepto.getIdconcepto() +
+                ", corredor=" + corredor.getIdcorredor() +
+                ", usuario=" + usuario.getIdusuario() +
+                ", fecha=" + fecha +
+                ", entrada=" + entrada +
+                ", salida=" + salida +
+                '}';
     }
 }
 

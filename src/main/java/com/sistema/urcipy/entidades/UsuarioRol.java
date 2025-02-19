@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name="usuario_rol"
     ,catalog="urcipy"
 )
-public class UsuarioRol  implements java.io.Serializable {
+public class UsuarioRol   {
 
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="idusuario_rol", unique=true, nullable=false)

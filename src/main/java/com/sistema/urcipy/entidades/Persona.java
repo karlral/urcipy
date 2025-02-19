@@ -47,7 +47,7 @@ public class Persona {
     private String citp;
     @Column(name="nacionalidad", length=45)
     private String nacionalidad;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="ciudad_idciudad", nullable=false)
     private Ciudad ciudad;
 

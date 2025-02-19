@@ -2,6 +2,8 @@ package com.sistema.urcipy.entidades;
 // Generated 09/02/2023 11:28:52 PM by Hibernate Tools 4.3.1
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -24,8 +26,8 @@ public class Concepto   {
      private String nomconcepto;
      private Byte tipo;
     @OneToMany(fetch=FetchType.LAZY, mappedBy="concepto")
-     private Set<Movimiento> movimientos = new HashSet<Movimiento>(0);
-
+    @JsonIgnore
+    private Set<Movimiento> movimientos = new HashSet<Movimiento>(0);
     public Concepto() {
     }
 

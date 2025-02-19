@@ -26,8 +26,11 @@ import javax.persistence.Table;
 )
 public class Club   {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idclub", unique=true, nullable=false)
      private Integer idclub;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="region_idregion", nullable=false)
      private Region region;
      private String nomclub;
      private String presidente;
@@ -38,10 +41,17 @@ public class Club   {
      private String email;
      private String ruta;
      private String rutagrande;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
      private Set<Evento> eventos = new HashSet<Evento>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
      private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
     private Set<Corredor> corredors = new HashSet<Corredor>(0);
-
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
+    @JsonIgnore
     private Set<Participante> participantes = new HashSet<>(0);
 
     public Club() {
@@ -69,10 +79,7 @@ public class Club   {
        this.participantes=participantes;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idclub", unique=true, nullable=false)
     public Integer getIdclub() {
         return this.idclub;
     }
@@ -82,8 +89,7 @@ public class Club   {
     }
 
 
-    @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="region_idregion", nullable=false)
+
     public Region getRegion() {
         return region;
     }
@@ -181,8 +187,6 @@ public class Club   {
         this.rutagrande = rutagrande;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-@JsonIgnore
     public Set<Evento> getEventos() {
         return this.eventos;
     }
@@ -191,8 +195,6 @@ public class Club   {
         this.eventos = eventos;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-@JsonIgnore
     public Set<Campeones> getCampeoneses() {
         return this.campeoneses;
     }
@@ -201,8 +203,6 @@ public class Club   {
         this.campeoneses = campeoneses;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-@JsonIgnore
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }
@@ -212,9 +212,6 @@ public class Club   {
     }
 
 
-
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
-    @JsonIgnore
     public Set<Participante> getParticipantes() {
         return this.participantes;
     }

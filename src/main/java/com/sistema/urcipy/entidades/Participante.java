@@ -25,22 +25,22 @@ public class Participante  {
 
     @Column(name="idparticipante", unique=true, nullable=false)
      private Integer idparticipante;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="corredor_idcorredor", nullable=false)
      private Corredor corredor;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="evento_idevento", nullable=false)
      private Evento evento;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regional_idregional", nullable=false)
     private Regional regional;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="region_idregion", nullable=false)
     private Region region;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="club_idclub", nullable=false)
     private Club club;
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="categoria_idcategoria", nullable=false)
     private Categoria categoria;
      private Date fecha;

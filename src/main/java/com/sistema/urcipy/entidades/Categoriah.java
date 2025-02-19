@@ -24,11 +24,14 @@ import javax.persistence.Table;
 )
 public class Categoriah   {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idcategoriah", unique=true, nullable=false)
      private Integer idcategoriah;
      private String nomcategoria;
      private String nomcorto;
      private Integer ano;
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoriah")
+    @JsonIgnore
      private Set<Campeones> campeoneses = new HashSet<Campeones>(0);
 
     public Categoriah() {
@@ -41,10 +44,7 @@ public class Categoriah   {
        this.campeoneses = campeoneses;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
 
-    
-    @Column(name="idcategoriah", unique=true, nullable=false)
     public Integer getIdcategoriah() {
         return this.idcategoriah;
     }
@@ -83,8 +83,7 @@ public class Categoriah   {
         this.ano = ano;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="categoriah")
-@JsonIgnore
+
     public Set<Campeones> getCampeoneses() {
         return this.campeoneses;
     }

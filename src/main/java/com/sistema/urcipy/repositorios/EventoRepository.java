@@ -2,7 +2,9 @@ package com.sistema.urcipy.repositorios;
 
 
 
+import com.sistema.urcipy.entidades.Corredor;
 import com.sistema.urcipy.entidades.Evento;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,10 @@ import java.util.List;
 @Repository
 public interface EventoRepository extends JpaRepository<Evento,Integer> {
 
+    @EntityGraph(attributePaths = {"club"})
+    Evento findByIdevento(Integer idevento);
+
+    @EntityGraph(attributePaths = {"club"})
     List<Evento> findByRegional_Idregional(Integer idregional);
 
     List<Evento> findByModoEqualsAndRegional_idregional(Integer modo,Integer idregional);

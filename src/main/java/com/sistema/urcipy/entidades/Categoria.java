@@ -19,9 +19,11 @@ import static javax.persistence.GenerationType.IDENTITY;
 )
 public class Categoria  {
 
-
+    @Id @GeneratedValue(strategy=IDENTITY)
+    @Column(name="idcategoria", unique=true, nullable=false)
      private Integer idcategoria;
-     private String nomcategoria;
+    @Column(name="nomcategoria", length=60)
+    private String nomcategoria;
      private Boolean activo;
      private String nomcorto;
      private Byte orden;
@@ -34,9 +36,11 @@ public class Categoria  {
      private Byte tipo;
     private String horario;
 
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="trayecto_idtrayecto", nullable=false)
      private Trayecto trayecto;
-
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
+    @JsonIgnore
      private Set<Corredor> corredors = new HashSet<Corredor>(0);
 
     public Categoria() {
@@ -62,8 +66,7 @@ public class Categoria  {
        this.horario=horario;
     }
 
-    @Id @GeneratedValue(strategy=IDENTITY)
-    @Column(name="idcategoria", unique=true, nullable=false)
+
     public Integer getIdcategoria() {
         return this.idcategoria;
     }
@@ -72,8 +75,6 @@ public class Categoria  {
         this.idcategoria = idcategoria;
     }
 
-
-    @Column(name="nomcategoria", length=60)
     public String getNomcategoria() {
         return this.nomcategoria;
     }
@@ -81,9 +82,6 @@ public class Categoria  {
     public void setNomcategoria(String nomcategoria) {
         this.nomcategoria = nomcategoria;
     }
-
-
-
 
     @Column(name="activo")
     public Boolean getActivo() {
@@ -183,8 +181,7 @@ public class Categoria  {
         this.tipo = tipo;
     }
 
- @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="trayecto_idtrayecto", nullable=false)
+
     public Trayecto getTrayecto() {
         return this.trayecto;
     }
@@ -194,9 +191,6 @@ public class Categoria  {
     }
 
 
-
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
-    @JsonIgnore
     public Set<Corredor> getCorredors() {
         return this.corredors;
     }
