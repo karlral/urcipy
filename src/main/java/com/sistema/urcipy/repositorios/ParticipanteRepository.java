@@ -74,9 +74,24 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
             "inner join club cl on cl.idclub=p.club_idclub\n" +
-            "where e.activo=:activo and p.regional_idregional=:idregional \n" +
+            "where e.activo=:activo and p.regional_idregional=:idregional and t.idtrayecto <> 4 \n" +
             " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
     List<Inscripcion> buscarParticipantesByEventoActivo(
+            @Param("activo") Integer activo,
+            @Param("idregional")  Integer idregional);
+
+    @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
+            "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos\n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "inner join club cl on cl.idclub=p.club_idclub\n" +
+            "where e.activo=:activo and p.regional_idregional=:idregional and t.idtrayecto = 4 \n" +
+            " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
+    List<Inscripcion> buscarParticipantesByEventoActivoNino(
             @Param("activo") Integer activo,
             @Param("idregional")  Integer idregional);
 

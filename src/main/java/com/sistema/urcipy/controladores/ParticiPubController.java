@@ -76,6 +76,14 @@ System.out.println(idevento);
         return ResponseEntity.ok(participanteService
                 .obtenerParticipantesActivo(activo,idregional));
     }
+
+    @GetMapping("/activonino/{activo}/{idregional}")
+    @ResponseBody
+    public ResponseEntity<?>  listarParticipantesActivosNino(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(participanteService
+                .obtenerParticipantesActivoNino(activo,idregional));
+    }
+
     @GetMapping("/evento/{idevento}")
     @ResponseBody
     public ResponseEntity<?>  listarParticipantesByEvento(@PathVariable("idevento") Integer idevento){

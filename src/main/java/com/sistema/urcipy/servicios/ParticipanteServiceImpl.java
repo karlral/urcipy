@@ -44,6 +44,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivo(activo,idregional));
     }
     @Override
+    public Set<Inscripcion> obtenerParticipantesActivoNino(Integer activo,Integer idregional) {
+        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoNino(activo,idregional));
+    }
+    @Override
     public Set<Sendtimio> busParticipantesActivo(Integer activo) {
         return new LinkedHashSet<>(participanteRepository.busTimioParticipantesByEventoActivo(activo));
     }

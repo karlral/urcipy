@@ -17,6 +17,7 @@ public interface ParticipanteService {
     public Set<Participante> obtenerParticipantesProceso(Integer anho);
 
     public Set<Inscripcion> obtenerParticipantesActivo(Integer activo,Integer idregional);
+    public Set<Inscripcion> obtenerParticipantesActivoNino(Integer activo,Integer idregional);
     public Set<Sendtimio> busParticipantesActivo(Integer activo);
     public Set<Sendtimio> busParticipantesByEvento(Integer idevento);
     public void eliminarParticipantesEvento(Integer idevento);

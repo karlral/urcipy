@@ -20,6 +20,9 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
     List<Categoria> findByActivoIsTrue();
 
     List<Categoria> findByActivoIsTrueOrderByTandaAscOrdenAsc();
+
+    List<Categoria> findByActivoIsTrueAndTrayecto_IdtrayectoOrderByTandaAscOrdenAsc(Integer idtrayecto);
+
     /*@Query(value = "SELECT * \n"+
             "FROM categoria  \n" +
             "where regional_idregional=:idregional and activo \n" +

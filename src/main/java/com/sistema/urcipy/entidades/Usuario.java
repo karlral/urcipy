@@ -43,8 +43,7 @@ public class Usuario  implements  UserDetails {
     @JsonIgnore
      private Set<UsuarioRol> usuarioRols = new HashSet<>();
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="regional_idregional", nullable=false)
-    @JsonIgnore
+    @JoinColumn(name="regional_idregional", nullable=false) //@JsonIgnore
     private Regional regional;
 
     public Usuario() {

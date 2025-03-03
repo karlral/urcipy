@@ -25,4 +25,9 @@ public class CategoriaPubController {
         return ResponseEntity.ok(categoriaService.obtenerCategoriasActivos());
     }
 
+    @GetMapping("/nino")
+    public ResponseEntity<?> listarCategoriasNino(){
+        return ResponseEntity.ok(categoriaService.obtenerCategoriasActivosNino());
+    }
+
 }
