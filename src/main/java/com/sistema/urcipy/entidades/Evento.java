@@ -38,6 +38,9 @@ public class Evento  {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regional_idregional", nullable=false)
      private Regional regional;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="modalidad_idmodalidad", nullable=false)
+    private Modalidad modalidad;
      private Date fecha;
      private String nomevento;
      private Integer activo; // si esta activo para inscripcion
@@ -89,15 +92,17 @@ public class Evento  {
     }
 
 	
-    public Evento(Club club, Regional regional) {
+    public Evento(Club club, Regional regional, Modalidad modalidad) {
         this.club = club;
         this.regional = regional;
+        this.modalidad = modalidad;
     }
 
-    public Evento(Club club, Regional regional, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
 
         this.club = club;
         this.regional = regional;
+        this.modalidad = modalidad;
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.activo = activo;
@@ -470,6 +475,14 @@ public class Evento  {
 
     public void setRegional(Regional regional) {
         this.regional = regional;
+    }
+
+    public Modalidad getModalidad() {
+        return modalidad;
+    }
+
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
     }
 }
 

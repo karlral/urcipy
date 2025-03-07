@@ -23,6 +23,10 @@ public class ClubServiceImpl implements ClubService{
     public Set<Club> obtenerClubes() {
         return new LinkedHashSet<>(clubRepository.findAll());
     }
+    @Override
+    public Set<Club> obtenerClubesRun() {
+        return new LinkedHashSet<>(clubRepository.findByModalidad_Idmodalidad(2));
+    }
 
     @Override
     public Club obtenerClub(Integer idclub) {

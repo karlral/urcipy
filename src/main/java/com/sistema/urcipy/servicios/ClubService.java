@@ -12,6 +12,7 @@ public interface ClubService {
     public Club guardarClub(Club club);
 
     public Set<Club> obtenerClubes();
+    public Set<Club> obtenerClubesRun();
 
     public Club obtenerClub(Integer idclub);
 

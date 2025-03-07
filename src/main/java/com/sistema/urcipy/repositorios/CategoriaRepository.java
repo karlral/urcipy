@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
 
-    @EntityGraph(attributePaths = {"trayecto"})
+   // @EntityGraph(attributePaths = {"trayecto","modalidad"})
     Categoria findByIdcategoria(Integer idcategoria);
     /*List<Categoria> findByRegional_Idregional(Integer idregional);*/
 

@@ -54,6 +54,9 @@ public class CorredorController {
             List<Regional> regionales = new ArrayList<Regional>(regionalss);
             Corredor corredorVar=corredor;
             for (Regional regional : regionales) {
+                if(regional.getIdregional()==4){//runnig- guardamos de otra forma
+                    break;
+                }
                 corredorVar=new Corredor();
                 corredorVar.setPersona(personaGuardada);
                 corredorVar.setRegional(regional);

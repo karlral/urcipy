@@ -2,6 +2,7 @@ package com.sistema.urcipy.entidades;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 @Table(name="ciudad"
     ,catalog="urcipy"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciudad  {
 
     @Id @GeneratedValue(strategy=IDENTITY)

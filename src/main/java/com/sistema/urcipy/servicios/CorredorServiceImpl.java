@@ -47,13 +47,19 @@ public class CorredorServiceImpl implements CorredorService{
         corredor.setIdcorredor(idcorredor);
         corredorRepository.delete(corredor);
     }
-
+    @Override
     public Corredormen obtenerCorredormenCi(String ci, Integer idregional) {
         return corredorRepository.correByCi(ci,idregional);
     }
+    @Override
+    public Corredorbus obtenerCorredorbusCi(String ci, Integer idregional) {
+        return corredorRepository.corredoresBusCi(ci,idregional);
+    }
+    @Override
     public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado,Integer idregional){
         return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClub(buscado,idregional));
     }
+    @Override
     public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado,Integer idregional){
         return new LinkedHashSet<>(corredorRepository.corredoresBusCiNomApeClubDato(buscado,idregional));
     }
@@ -62,5 +68,10 @@ public class CorredorServiceImpl implements CorredorService{
     public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub) {
 
         corredorRepository.updateCorredorAlianza(idpersona,idcategoria,idclub);
+    }
+    @Override
+    @Transactional
+    public void updateCatCorre(Integer idcorredor,Integer idcategoria){
+        corredorRepository.updateCorredorCat(idcorredor,idcategoria);
     }
 }

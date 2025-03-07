@@ -47,9 +47,11 @@ public class Persona {
     private String citp;
     @Column(name="nacionalidad", length=45)
     private String nacionalidad;
+    private Integer tamano;
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="ciudad_idciudad", nullable=false)
     private Ciudad ciudad;
+
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="persona")
     @JsonIgnore
@@ -59,7 +61,7 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String ci, Byte sexo, Date fecnac, String telefono, String direccion, String email, String foto, String cidelante, String gruposanguineo, String tutorp, String citp,String nacionalidad, Ciudad ciudad, Set<Corredor> corredors) {
+    public Persona(String nombre, String apellido, String ci, Byte sexo, Date fecnac, String telefono, String direccion, String email, String foto, String cidelante, String gruposanguineo, String tutorp, String citp, String nacionalidad, Integer tamano, Ciudad ciudad, Set<Corredor> corredors) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.ci = ci;
@@ -74,6 +76,7 @@ public class Persona {
         this.tutorp = tutorp;
         this.citp = citp;
         this.nacionalidad=nacionalidad;
+        this.tamano = tamano;
         this.ciudad = ciudad;
         this.corredors = corredors;
     }
@@ -234,6 +237,14 @@ public class Persona {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Integer getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(Integer tamano) {
+        this.tamano = tamano;
     }
 }
 

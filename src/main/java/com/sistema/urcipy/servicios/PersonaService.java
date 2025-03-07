@@ -19,4 +19,6 @@ public interface PersonaService {
 
     public void eliminarPersona(Integer idpersona);
 
+    public void updateTamano(Integer idpersona,Integer tamano);
+
 }

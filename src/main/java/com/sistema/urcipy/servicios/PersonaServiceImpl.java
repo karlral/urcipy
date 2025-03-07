@@ -4,6 +4,7 @@ import com.sistema.urcipy.entidades.Persona;
 import com.sistema.urcipy.repositorios.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -42,5 +43,11 @@ public class PersonaServiceImpl implements PersonaService{
         Persona persona= new Persona();
         persona.setIdpersona(idpersona);
         personaRepository.delete(persona);
+    }
+
+    @Override
+    @Transactional
+    public void updateTamano(Integer idpersona,Integer tamano){
+        personaRepository.updatePersonaTamano(idpersona,tamano);
     }
 }

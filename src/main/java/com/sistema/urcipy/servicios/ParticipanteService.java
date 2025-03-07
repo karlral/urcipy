@@ -23,7 +23,7 @@ public interface ParticipanteService {
     public void eliminarParticipantesEvento(Integer idevento);
     public void eliminarParticipantesEventoNotCompleto(Integer idevento);
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
-    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer idevento,Integer idregional);
+    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional);
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento);
 
     public Participante obtenerParticipantesByEventoCi(Integer idevento,String ci);
@@ -45,5 +45,6 @@ public interface ParticipanteService {
     public void desactivarPuntaje(Integer idcorredor);
     public void actualizarPromedio(Integer idevento);
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
+    public void actualizarPartiTamano(Integer idcorredor,Integer tamano);
 
 }

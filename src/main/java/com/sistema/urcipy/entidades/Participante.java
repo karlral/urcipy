@@ -64,6 +64,7 @@ public class Participante  {
      private Integer acobrar;
      private String tiempos;
      private Integer puntajeclub;
+     private Integer tamano;
 
     public Participante() {
     }
@@ -77,7 +78,7 @@ public class Participante  {
         this.club = club;
         this.categoria=categoria;
     }
-    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos, Integer puntajeclub) {
+    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos, Integer puntajeclub, Integer tamano) {
        this.corredor = corredor;
        this.evento = evento;
         this.region = region;
@@ -106,6 +107,7 @@ public class Participante  {
         this.tiempos=tiempos;
         this.puntajeclub = puntajeclub;
 
+        this.tamano = tamano;
     }
    
 
@@ -375,6 +377,14 @@ public class Participante  {
 
     public void setPuntajeclub(Integer puntajeclub) {
         this.puntajeclub = puntajeclub;
+    }
+
+    public Integer getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(Integer tamano) {
+        this.tamano = tamano;
     }
 }
 

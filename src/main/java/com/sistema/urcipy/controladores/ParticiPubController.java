@@ -32,30 +32,36 @@ public class ParticiPubController {
 
         Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
         if(participanteaux==null) {
-System.out.println(idevento);
+            //System.out.println(idevento);
             Evento eventoold = eventoService.obtenerEvento(idevento);
-            System.out.println(idevento);
+            //System.out.println(idevento);
             Integer alianza=eventoold.getAlianza();
-            System.out.println(alianza);
+            //System.out.println(alianza);
             if(alianza==1){
                 // guardamos las inscripciones de cada Regional con su club y con su categoria
                 List<Evento> eventos=eventoService.obtenerEventoActivosAlianza(1,alianza);
                 for(Evento evento:eventos){
-                    System.out.println(evento);
+              //      System.out.println(evento);
                     Corredor corredor = corredorService.obtenerCorredorCi(ci,evento.getRegional().getIdregional());
                     if (corredor == null) {
                         return ResponseEntity.badRequest().body("Corredor no existe");
                     }else{
-                        guardarparticipante(corredor,evento);
+                        guardarparticipante(corredor,evento,evento.getRegional());
                     }
                 }
                 participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
             }else {
-                Corredor corredor = corredorService.obtenerCorredorCi(ci,eventoold.getRegional().getIdregional());
+                Corredor corredor;
+                if(eventoold.getModalidad().getIdmodalidad()==2){ //Running
+                    corredor = corredorService.obtenerCorredorCi(ci,4); // Running
+                }else{
+                    corredor = corredorService.obtenerCorredorCi(ci,eventoold.getRegional().getIdregional());
+                }
+
                 if (corredor == null) {
                     return ResponseEntity.badRequest().body("Corredor no existe");
                 }else{
-                    participanteaux =guardarparticipante(corredor,eventoold);
+                    participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional());
                 }
             }
         }
@@ -165,11 +171,13 @@ System.out.println(idevento);
         return ResponseEntity.ok(punclubparticis);
     }
 
-    private Participante guardarparticipante(Corredor corredor,Evento evento){
+    private Participante guardarparticipante(Corredor corredor,Evento evento,Regional regional){
         Participante participante,participanteauxiliar;
 
         participante= new Participante();
         participante.setCorredor(corredor);
+        participante.setTamano(corredor.getPersona().getTamano());
+
         participante.setClub(corredor.getClub());
         participante.setCategoria(corredor.getCategoria());
 
@@ -182,11 +190,8 @@ System.out.println(idevento);
         calendar.setTime(fecha);
         participante.setFecha(fecha);
 
-
         participante.setEvento(evento);
 
-        Regional regional;
-        regional = evento.getRegional();
         participante.setRegional(regional);
 
         participante.setCosto(evento.getMontopric());

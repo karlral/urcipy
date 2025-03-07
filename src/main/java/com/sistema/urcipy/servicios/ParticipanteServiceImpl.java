@@ -142,4 +142,9 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     public void actualizarClubCat(Integer idevento,Integer idcorredor){
         participanteRepository.updateParticipanteClubCat(idevento,idcorredor);
     }
+    @Override
+    @Transactional
+    public void actualizarPartiTamano(Integer idcorredor,Integer tamano){
+        participanteRepository.updateParticipanteTamano(idcorredor,tamano);
+    }
 }

@@ -257,4 +257,16 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento,  @Param("idcorredor") Integer idcorredor
     );
 
+    @Modifying
+    @Query(value = "update participante p " +
+            "inner join evento e on e.idevento =p.evento_idevento "+
+            "inner join modalidad m on m.idmodalidad =e.modalidad_idmodalidad "+
+            "set  tamano=:tamano  \n" +
+            "where corredor_idcorredor=:idcorredor and m.idmodalidad=2",nativeQuery = true)
+    void updateParticipanteTamano(
+            @Param("idcorredor") Integer idcorredor,
+            @Param("tamano") Integer tamano
+
+    );
+
 }

@@ -3,6 +3,7 @@ package com.sistema.urcipy.entidades;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,7 @@ import javax.persistence.Table;
 @Table(name="club"
     ,catalog="urcipy"
 )
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Club   {
 
     @Id @GeneratedValue(strategy=IDENTITY)
@@ -32,6 +34,9 @@ public class Club   {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="region_idregion", nullable=false)
      private Region region;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="modalidad_idmodalidad", nullable=false)
+    private Modalidad modalidad;
      private String nomclub;
      private String presidente;
      private String telpresi;
@@ -58,12 +63,14 @@ public class Club   {
     }
 
 	
-    public Club(Regional regional, Region region) {
+    public Club(Regional regional, Region region, Modalidad modalidad) {
         this.region = region;
+        this.modalidad = modalidad;
     }
-    public Club( Region region, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes) {
+    public Club(Region region, Modalidad modalidad, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes) {
 
         this.region = region;
+        this.modalidad = modalidad;
         this.nomclub = nomclub;
        this.presidente = presidente;
        this.telpresi = telpresi;
@@ -221,7 +228,13 @@ public class Club   {
     }
 
 
+    public Modalidad getModalidad() {
+        return modalidad;
+    }
 
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
+    }
 }
 
 
