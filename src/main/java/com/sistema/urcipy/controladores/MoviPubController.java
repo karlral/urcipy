@@ -12,6 +12,12 @@ public class MoviPubController {
     @Autowired
     private MovimientoService movimientoService;
 
+    @GetMapping("/{ci}/{idregional}")
+    public ResponseEntity<?> busMovimientoesrank(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
+
+        return ResponseEntity.ok(movimientoService.obtenerCiMovimientosRanking(ci,idregional));
+    }
+
     @GetMapping("/ranking/{idregional}")
     public ResponseEntity<?> listarMovimientoesrank(@PathVariable("idregional") Integer idregional){
 

@@ -350,7 +350,7 @@ public class ResultimioController {
             }
 
 
-            System.out.println("Encontro: "+resultimio.getNomparticipante()+resultimio.getPoscategoria()+resultimio.getTiempos());
+            System.out.println("Encontro: "+resultimio.getNomparticipante()+resultimio.getPoscategoria()+resultimio.getTiempos()+resultimio.getClub());
             resultimio.setPuntua(corredor.getPuntua());
 
             hora=Integer.parseInt(resultimio.getTiempos().substring(0, 2));

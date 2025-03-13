@@ -14,6 +14,7 @@ public interface MovimientoService {
     public Movimiento guardarMovimiento(Movimiento movimiento);
 
     public Set<Movimiento> obtenerMovimientoes(Integer idregional);
+    public Corredorank obtenerCiMovimientosRanking(String ci,Integer idregional);
     public List<Corredorank> obtenerMovimientosRanking(Integer idregional);
 
     public Movimiento obtenerMovimiento(Integer idmovimiento);

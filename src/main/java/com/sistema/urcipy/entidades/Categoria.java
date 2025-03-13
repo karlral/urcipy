@@ -20,17 +20,30 @@ public class Categoria  {
      private Integer idcategoria;
     @Column(name="nomcategoria", length=60)
     private String nomcategoria;
+    @Column(name="activo")
      private Boolean activo;
+    @Column(name="nomcorto", length=60)
      private String nomcorto;
+    @Column(name="orden")
      private Byte orden;
+    @Column(name="tanda")
      private Byte tanda;
+    @Column(name="ascenso")
      private Boolean ascenso;
+    @Column(name="activonacional")
      private Byte activonacional;
+    @Column(name="edadinicio")
      private Byte edadinicio;
+    @Column(name="edadfin")
      private Byte edadfin;
+    @Column(name="sexo")
      private Byte sexo;
+    @Column(name="tipo")
      private Byte tipo;
+    @Column(name="horario", length=20)
     private String horario;
+    @Column(name="codigo", length=30)
+    private String codigo;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="trayecto_idtrayecto", nullable=false)
@@ -49,7 +62,7 @@ public class Categoria  {
         this.modalidad = modalidad;
     }
 
-    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad) {
+    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, String codigo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -61,7 +74,8 @@ public class Categoria  {
        this.edadfin = edadfin;
        this.sexo = sexo;
        this.tipo = tipo;
-       this.trayecto=trayecto;
+        this.codigo = codigo;
+        this.trayecto=trayecto;
        this.corredors = corredors;
        this.horario=horario;
         this.modalidad = modalidad;
@@ -84,7 +98,6 @@ public class Categoria  {
         this.nomcategoria = nomcategoria;
     }
 
-    @Column(name="activo")
     public Boolean getActivo() {
         return activo;
     }
@@ -93,7 +106,6 @@ public class Categoria  {
         this.activo = activo;
     }
 
-    @Column(name="nomcorto", length=60)
     public String getNomcorto() {
         return this.nomcorto;
     }
@@ -102,8 +114,6 @@ public class Categoria  {
         this.nomcorto = nomcorto;
     }
 
-
-    @Column(name="orden")
     public Byte getOrden() {
         return this.orden;
     }
@@ -112,8 +122,6 @@ public class Categoria  {
         this.orden = orden;
     }
 
-
-    @Column(name="tanda")
     public Byte getTanda() {
         return this.tanda;
     }
@@ -122,8 +130,6 @@ public class Categoria  {
         this.tanda = tanda;
     }
 
-
-    @Column(name="ascenso")
     public Boolean getAscenso() {
         return this.ascenso;
     }
@@ -132,8 +138,6 @@ public class Categoria  {
         this.ascenso = ascenso;
     }
 
-    
-    @Column(name="activonacional")
     public Byte getActivonacional() {
         return this.activonacional;
     }
@@ -142,8 +146,6 @@ public class Categoria  {
         this.activonacional = activonacional;
     }
 
-    
-    @Column(name="edadinicio")
     public Byte getEdadinicio() {
         return this.edadinicio;
     }
@@ -152,8 +154,6 @@ public class Categoria  {
         this.edadinicio = edadinicio;
     }
 
-    
-    @Column(name="edadfin")
     public Byte getEdadfin() {
         return this.edadfin;
     }
@@ -162,8 +162,6 @@ public class Categoria  {
         this.edadfin = edadfin;
     }
 
-    
-    @Column(name="sexo")
     public Byte getSexo() {
         return this.sexo;
     }
@@ -172,8 +170,6 @@ public class Categoria  {
         this.sexo = sexo;
     }
 
-    
-    @Column(name="tipo")
     public Byte getTipo() {
         return this.tipo;
     }
@@ -200,7 +196,7 @@ public class Categoria  {
         this.corredors = corredors;
     }
 
-    @Column(name="horario", length=20)
+
     public String getHorario() {
         return horario;
     }
@@ -215,6 +211,15 @@ public class Categoria  {
 
     public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
+    }
+
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }
 

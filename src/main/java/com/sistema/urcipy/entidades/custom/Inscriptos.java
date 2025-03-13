@@ -16,6 +16,7 @@ public interface Inscriptos
     String getPais();
     String getClub();
     String getCategoria();
+    String getCodigo();
     Integer getKm();
     Integer getAcobrar();
     Integer getPagado();

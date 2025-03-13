@@ -26,6 +26,11 @@ public class MovimientoServiceImpl implements MovimientoService{
         return new LinkedHashSet<>(movimientoRepository.findByConcepto_Regional_Idregional(idregional));
     }
     @Override
+    public Corredorank obtenerCiMovimientosRanking(String ci,Integer idregional){
+        return movimientoRepository.moviRankByCiAndIdregional(ci.trim(),idregional);
+    }
+
+    @Override
     public List<Corredorank> obtenerMovimientosRanking(Integer idregional) {
         return movimientoRepository.moviRankByIdregional(idregional);
     }

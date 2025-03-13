@@ -17,11 +17,11 @@ import java.util.List;
 
 @Repository
 public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
-    @EntityGraph(attributePaths = {"club"})
+    //@EntityGraph(attributePaths = {"club"})
      Corredor findByIdcorredor(Integer idcorredor);
 
 
-    @EntityGraph(attributePaths = {"club"})
+    //@EntityGraph(attributePaths = {"club"})
     Corredor findByPersonaCiAndRegionalIdregional
             (String ci,Integer idregional);
 
