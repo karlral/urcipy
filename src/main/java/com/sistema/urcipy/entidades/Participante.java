@@ -63,6 +63,7 @@ public class Participante  {
      private Integer totalpuntos;
      private Integer acobrar;
      private String tiempos;
+    @Column(name="puntajeclub")
      private Integer puntajeclub;
      private Integer tamano;
 
@@ -370,7 +371,7 @@ public class Participante  {
     public void setRegion(Region region) {
         this.region = region;
     }
-    @Column(name="puntajeclub")
+
     public Integer getPuntajeclub() {
         return puntajeclub;
     }

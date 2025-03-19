@@ -6,6 +6,7 @@ import com.sistema.urcipy.entidades.Participante;
 import com.sistema.urcipy.entidades.Resultimio;
 import com.sistema.urcipy.entidades.custom.*;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -24,6 +25,7 @@ public interface ParticipanteService {
     public void eliminarParticipantesEventoNotCompleto(Integer idevento);
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
     public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional);
+    public List<Participante> obtenerLisParticipantesByEvento(Integer idevento);
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento);
 
     public Participante obtenerParticipantesByEventoCi(Integer idevento,String ci);
@@ -46,5 +48,6 @@ public interface ParticipanteService {
     public void actualizarPromedio(Integer idevento);
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
     public void actualizarPartiTamano(Integer idcorredor,Integer tamano);
+    public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
 
 }

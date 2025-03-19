@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -72,6 +73,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Override
     public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional){
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoReg(activo,idregional));
+    }
+    @Override
+    public List<Participante> obtenerLisParticipantesByEvento(Integer idevento){
+        return participanteRepository.findParticipantesByEventoIdeventoOrderByCategoria_Nomcorto(idevento);
     }
     @Override
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento){
@@ -146,5 +151,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Transactional
     public void actualizarPartiTamano(Integer idcorredor,Integer tamano){
         participanteRepository.updateParticipanteTamano(idcorredor,tamano);
+    }
+    @Override
+    @Transactional
+    public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal){
+        participanteRepository.actuaDorsalId(idparticipante,iddorsal);
     }
 }

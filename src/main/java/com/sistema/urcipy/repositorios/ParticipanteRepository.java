@@ -35,7 +35,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
 
     @Query(value = "SELECT p.idparticipante as id,p.fecha,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,pe.sexo,\n" +
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
-            "cl.nomclub as club,c.nomcorto as categoria,c.codigo,t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro\n" +
+            "cl.nomclub as club,c.nomcorto as categoria,c.codigo,t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -45,11 +45,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
             "inner join club cl on cl.idclub = p.club_idclub\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "left outer join dorsal d on d.iddorsal=p.dorsal\n" +
             "where e.activo=:activo and p.regional_idregional=:idregional order by p.fecha",nativeQuery = true)
     List<Inscriptos> buscarParticipantesByEventoActivoReg(
             @Param("activo") Integer activo,
             @Param("idregional")  Integer idregional
             );
+    List<Participante> findParticipantesByEventoIdeventoOrderByCategoria_Nomcorto
+            (Integer idevento);
 
     @Query(value = "SELECT  p.idparticipante as id,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,\n" +
             " pe.telefono,\n" +
@@ -269,6 +272,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idcorredor") Integer idcorredor,
             @Param("tamano") Integer tamano
 
+    );
+
+    @Modifying
+    @Query(value = "UPDATE participante p SET p.dorsal=:iddorsal \n" +
+            "where p.idparticipante = :idparticipante ",nativeQuery = true)
+    void actuaDorsalId(
+            @Param("idparticipante") Integer idparticipante,
+            @Param("iddorsal") Integer iddorsal
     );
 
 }

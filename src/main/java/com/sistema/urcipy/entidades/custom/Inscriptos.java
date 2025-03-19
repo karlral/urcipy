@@ -22,5 +22,6 @@ public interface Inscriptos
     Integer getPagado();
     Integer getDorsal();
     String getNrogiro();
+    String getChip();
 
 }
