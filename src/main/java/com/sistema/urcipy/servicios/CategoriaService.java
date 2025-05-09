@@ -17,6 +17,6 @@ public interface CategoriaService {
     public Set<Categoria> obtenerCategoriasActivos();
     public Set<Categoria> obtenerCategoriasActivosNino();
     public void eliminarCategoria(Integer idcategoria);
-    Categoria buscarCategoria(Byte sexo,Byte edad, Byte tipo);
+    Categoria buscarCategoria(Byte sexo,Byte edad, Byte tipo,Integer idmodalidad);
 
 }

@@ -31,7 +31,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             "inner join persona p on p.idpersona=co.persona_idpersona \n" +
             "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
-            "where p.ci =:ci and co.regional_idregional=:idregional and (co.carnetfpc=1 or co.carnetfpc=2 or co.carnetfpc=3)",nativeQuery = true)
+            "where p.ci =:ci and co.regional_idregional=:idregional and co.puntua=1",nativeQuery = true) //(co.carnetfpc=1 or co.carnetfpc=2 or co.carnetfpc=3)
     Corredormen correByCi(
             @Param("ci") String ci,
             @Param("idregional") Integer idregional);

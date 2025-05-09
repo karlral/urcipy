@@ -19,6 +19,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
 
     List<Categoria> findByActivoIsTrue();
 
+    List<Categoria> findByOrderByModalidad_IdmodalidadAscTandaAscOrdenAsc();
+
     List<Categoria> findByActivoIsTrueOrderByTandaAscOrdenAsc();
 
     List<Categoria> findByActivoIsTrueAndTrayecto_IdtrayectoOrderByTandaAscOrdenAsc(Integer idtrayecto);
@@ -29,7 +31,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
             "order by tanda,orden",nativeQuery = true)
     List<Categoria> findActivos(
             @Param("idregional") Integer idregional);*/
-    Categoria findBySexoAndEdadinicioIsLessThanEqualAndEdadfinIsGreaterThanEqualAndTipoAndActivo(
-            Byte sexo,Byte edadinicio,Byte edadfin,Byte tipo,Boolean activo
+    Categoria findBySexoAndEdadinicioIsLessThanEqualAndEdadfinIsGreaterThanEqualAndTipoAndActivoAndModalidad_idmodalidad(
+            Byte sexo,Byte edadinicio,Byte edadfin,Byte tipo,Boolean activo,Integer idmodalidad
     );
 }

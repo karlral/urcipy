@@ -246,6 +246,30 @@ public class Persona {
     public void setTamano(Integer tamano) {
         this.tamano = tamano;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", ci='" + ci + '\'' +
+                ", sexo=" + sexo +
+                ", fecnac=" + fecnac +
+                ", telefono='" + telefono + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", email='" + email + '\'' +
+                ", foto='" + foto + '\'' +
+                ", cidelante='" + cidelante + '\'' +
+                ", gruposanguineo='" + gruposanguineo + '\'' +
+                ", tutorp='" + tutorp + '\'' +
+                ", citp='" + citp + '\'' +
+                ", nacionalidad='" + nacionalidad + '\'' +
+                ", tamano=" + tamano +
+                ", ciudad=" + ciudad.getNomciudad() +
+                ", corredors=" + corredors +
+                ", idpersona=" + idpersona +
+                '}';
+    }
 }
 
 

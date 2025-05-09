@@ -184,7 +184,7 @@ public class CorredorController {
 
             tipo = corredor.getTipocat();
 
-            categoria=categoriaService.buscarCategoria(sexo, edad, tipo);
+            categoria=categoriaService.buscarCategoria(sexo, edad, tipo,1);
 
 
             if (categoria==null){

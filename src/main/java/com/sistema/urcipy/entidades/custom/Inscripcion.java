@@ -17,7 +17,10 @@ public interface Inscripcion {
 
     String getCategoria();
 
+    String getCatalternativo();
+
     String getCorredor();
 
     Integer getTotalpuntos();
+    Integer getDorsal();
 }

@@ -44,6 +44,8 @@ public class Categoria  {
     private String horario;
     @Column(name="codigo", length=30)
     private String codigo;
+    @Column(name="nomalternativo", length=60)
+    private String nomalternativo;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="trayecto_idtrayecto", nullable=false)
@@ -62,7 +64,7 @@ public class Categoria  {
         this.modalidad = modalidad;
     }
 
-    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, String codigo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad) {
+    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, String codigo, String nomalternativo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -75,6 +77,7 @@ public class Categoria  {
        this.sexo = sexo;
        this.tipo = tipo;
         this.codigo = codigo;
+        this.nomalternativo = nomalternativo;
         this.trayecto=trayecto;
        this.corredors = corredors;
        this.horario=horario;
@@ -220,6 +223,14 @@ public class Categoria  {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getNomalternativo() {
+        return nomalternativo;
+    }
+
+    public void setNomalternativo(String nomalternativo) {
+        this.nomalternativo = nomalternativo;
     }
 }
 

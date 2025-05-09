@@ -23,5 +23,9 @@ public interface Inscriptos
     Integer getDorsal();
     String getNrogiro();
     String getChip();
+    Integer getTanda();
+    Integer getOrden();
+    String getHorario();
+    Integer getTamano();
 
 }

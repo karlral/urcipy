@@ -35,7 +35,9 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
 
     @Query(value = "SELECT p.idparticipante as id,p.fecha,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,pe.sexo,\n" +
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
-            "cl.nomclub as club,c.nomcorto as categoria,c.codigo,t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip\n" +
+            "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
+            "t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip,\n" +
+            "c.tanda,c.orden,c.horario,p.tamano \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -69,7 +71,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     Participante findParticipanteByEventoIdeventoAndCorredorPersonaCi(Integer idevento,String ci);
 
     @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
-            "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos\n" +
+            "c.nomcorto as categoria,c.nomalternativo as catalternativo,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos,p.dorsal \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -84,7 +86,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idregional")  Integer idregional);
 
     @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
-            "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos\n" +
+            "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos,p.dorsal \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +

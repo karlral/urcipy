@@ -21,7 +21,7 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     @Override
     public Set<Categoria> obtenerCategoriaes() {
-        return new LinkedHashSet<>(categoriaRepository.findAll());
+        return new LinkedHashSet<>(categoriaRepository.findByOrderByModalidad_IdmodalidadAscTandaAscOrdenAsc());
     }
     @Override
     public Set<Categoria> obtenerCategoriasActivos() {
@@ -46,8 +46,8 @@ public class CategoriaServiceImpl implements CategoriaService{
     }
 
     @Override
-    public Categoria buscarCategoria(Byte sexo, Byte edad,Byte tipo ) {
-        return categoriaRepository.findBySexoAndEdadinicioIsLessThanEqualAndEdadfinIsGreaterThanEqualAndTipoAndActivo(sexo,edad,edad,tipo,true);
+    public Categoria buscarCategoria(Byte sexo, Byte edad,Byte tipo,Integer idmodalidad ) {
+        return categoriaRepository.findBySexoAndEdadinicioIsLessThanEqualAndEdadfinIsGreaterThanEqualAndTipoAndActivoAndModalidad_idmodalidad(sexo,edad,edad,tipo,true,idmodalidad);
     }
 
 

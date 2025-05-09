@@ -77,7 +77,7 @@ public class ParticipanteController {
         List<Participante> participantes=participanteService.obtenerLisParticipantesByEvento(idevento);
         Integer i=0, j=0,iddorsal;
         for (Participante participante : participantes){
-            if(participante.getCategoria().getTipo()==1 || participante.getCategoria().getTipo()==2){
+            if(participante.getCategoria().getTrayecto().getIdtrayecto()==1 ){
                 iddorsal=dorsalesNaranja.get(i).getIddorsal();
                 i=i+1;
             }else{

@@ -1,16 +1,14 @@
 package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.*;
+import com.sistema.urcipy.entidades.custom.Corregroup;
 import com.sistema.urcipy.entidades.custom.Sendtimio;
 import com.sistema.urcipy.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/resultimio")
@@ -26,6 +24,12 @@ public class ResultimioController {
     private CorredorService corredorService;
     @Autowired
     private PuntajeService puntajeService;
+    @Autowired
+    private PersonaService personaService;
+    @Autowired
+    private RegionalService regionalService;
+    @Autowired
+    private CategoriaService categoriaService;
 
     @PostMapping("/")
     public ResponseEntity<Resultimio> guardarResultimio(@RequestBody Resultimio resultimio){
@@ -131,54 +135,35 @@ public class ResultimioController {
 
     @PostMapping("/inscripgroup")
     public ResponseEntity<?> inscripListaResultimio(@RequestBody List<Resultimio> resultimios){
-        Evento evento;
-        evento = eventoService.obtenerEventoActivo(1);
+        String resultado;
+        Integer idevento = resultimios.get(0).getIdevento();
 
-        Integer idevento=evento.getIdevento();
-        participanteService.eliminarParticipantesEvento(idevento);
+        resultado=this.inscribirtodos(resultimios,idevento);
+        if (resultado.equals("ok")){
 
-        Participante participante;
-        Corredor corredor;
-        Regional regional = evento.getRegional();
-        Integer idregional = regional.getIdregional();
-        Date fecha = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fecha);
-
-        for (Resultimio resultimio:resultimios) {
-
-             corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
-            if (corredor == null) {
-                return ResponseEntity.badRequest().body(resultimio);
-            }
-            participante = new Participante();
-            participante.setCorredor(corredor);
-
-            participante.setClub(corredor.getClub());
-
-            participante.setRegion(corredor.getClub().getRegion());
-
-            participante.setCategoria(corredor.getCategoria());
-            participante.setFecha(fecha);
-            participante.setEvento(evento);
-            participante.setRegional(regional);
-            participante.setCosto(evento.getMontopric());
-
-            participante.setKm(resultimio.getDistancia());
-            participante.setPuesto(resultimio.getPoscategoria());
-            participante.setPuestocat(resultimio.getPoscategoria());
-            participante.setTiempos(resultimio.getTiempos());
-            participante.setDorsal(resultimio.getDorsal());
-            participante.setPuntua(corredor.getPuntua());
-
-            //participante.setRegional(corredor.getUsuario().getRegional());
-
-
-            participanteService.guardarParticipante(participante);
-
+        }else{
+            return ResponseEntity.badRequest().body(resultado);
         }
 
-        return ResponseEntity.ok(participanteService.busParticipantesActivo(1));
+        Set<Sendtimio> sendtimios=participanteService.busParticipantesByEvento(idevento);
+        //corredorespuntos
+        return ResponseEntity.ok(sendtimios);
+    }
+    @PostMapping("/inscripcorregroup")
+    public ResponseEntity<?> inscripListaCorregroup(@RequestBody List<Corregroup> corregroups){
+        String resultado;
+        Integer idevento = corregroups.get(0).getIdevento();
+
+        resultado=this.inscribirTodosCorre(corregroups,idevento);
+        if (resultado.equals("ok")){
+
+        }else{
+            return ResponseEntity.badRequest().body(resultado);
+        }
+
+        Set<Sendtimio> sendtimios=participanteService.busParticipantesByEvento(idevento);
+        //corredorespuntos
+        return ResponseEntity.ok(sendtimios);
     }
     @PostMapping("/activotwo")
     public ResponseEntity<?> guardarListaResulado(@RequestBody List<Resultimio> resultimios){
@@ -270,62 +255,34 @@ public class ResultimioController {
 
             participante = participanteService.obtenerParticipantesByEventoCi(idevento, resultimio.getCi());
             if (participante == null) {
-
-
-                corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
-                if (corredor == null) {
-                    return "Falta: " + resultimio.getCi();
-                }
                 participante = new Participante();
-                participante.setCorredor(corredor);
-
-                participante.setClub(corredor.getClub());
-
-                participante.setRegion(corredor.getClub().getRegion());
-
-                participante.setCategoria(corredor.getCategoria());
-                participante.setFecha(fecha);
-                participante.setEvento(evento);
-                participante.setRegional(regional);
-                participante.setCosto(evento.getMontopric());
-
-                participante.setKm(resultimio.getDistancia());
-                participante.setPuesto(resultimio.getPoscategoria());
-                participante.setPuestocat(resultimio.getPoscategoria());
-                participante.setTiempos(resultimio.getTiempos());
-                participante.setDorsal(resultimio.getDorsal());
-                participante.setPuntua(corredor.getPuntua());
-                participante.setCompleto(0);
-
-                participanteService.guardarParticipante(participante);
-            }else{
-                corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
-                if (corredor == null) {
-                    return "Falta: " + resultimio.getCi();
-                }
-
-                participante.setCorredor(corredor);
-
-                participante.setClub(corredor.getClub());
-
-                participante.setRegion(corredor.getClub().getRegion());
-
-                participante.setCategoria(corredor.getCategoria());
-                participante.setFecha(fecha);
-                participante.setEvento(evento);
-                participante.setRegional(regional);
-                participante.setCosto(evento.getMontopric());
-
-                participante.setKm(resultimio.getDistancia());
-                participante.setPuesto(resultimio.getPoscategoria());
-                participante.setPuestocat(resultimio.getPoscategoria());
-                participante.setTiempos(resultimio.getTiempos());
-                participante.setDorsal(resultimio.getDorsal());
-                participante.setPuntua(corredor.getPuntua());
-                participante.setCompleto(0);
-
-                participanteService.guardarParticipante(participante);
             }
+            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
+            if (corredor == null) {
+                return "Falta: " + resultimio.getCi();
+            }
+
+            participante.setCorredor(corredor);
+
+            participante.setClub(corredor.getClub());
+
+            participante.setRegion(corredor.getClub().getRegion());
+
+            participante.setCategoria(corredor.getCategoria());
+            participante.setFecha(fecha);
+            participante.setEvento(evento);
+            participante.setRegional(regional);
+            participante.setCosto(evento.getMontopric());
+
+            participante.setKm(resultimio.getDistancia());
+            participante.setPuesto(resultimio.getPoscategoria());
+            participante.setPuestocat(resultimio.getPoscategoria());
+            participante.setTiempos(resultimio.getTiempos());
+            participante.setDorsal(resultimio.getDorsal());
+            participante.setPuntua(corredor.getPuntua());
+            participante.setCompleto(0);
+
+            participanteService.guardarParticipante(participante);
         }
         return "ok";
     }
@@ -396,4 +353,170 @@ public class ResultimioController {
 
         return "ok";
     }
+
+    private String inscribirTodosCorre(List<Corregroup> corregroups,Integer idevento){
+        Evento evento;
+        evento = eventoService.obtenerEvento(idevento);
+
+
+        Participante participante;
+        Corredor corredor;
+        Regional regional = evento.getRegional();
+        Integer idregional = regional.getIdregional();
+        Date fecha = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+
+        resultimioService.eliminarSendtimioEvento(idevento);
+
+        for (Corregroup corregroup:corregroups) {
+
+            participante = participanteService.obtenerParticipantesByEventoCi(idevento, corregroup.getCi());
+            if (participante == null) {
+                participante = new Participante();
+            }
+            corredor = corredorService.obtenerCorredorCi(corregroup.getCi(), idregional);
+            if (corredor == null) {
+                Persona persona = new Persona();
+                persona.setCi(corregroup.getCi());
+                persona.setNombre(corregroup.getNombre());
+                persona.setApellido(corregroup.getApellido());
+                persona.setEmail(corregroup.getEmail());
+                persona.setTelefono(corregroup.getTelefono());
+                Byte sexo =1;
+                if (corregroup.getSexo().equals("F")){
+                    sexo=0;
+                }
+                persona.setSexo(sexo);
+                persona.setFecnac(corregroup.getFecnac());
+
+                Ciudad ciudad= new Ciudad();
+                ciudad.setIdciudad(1);
+                persona.setCiudad(ciudad);
+
+                corredor = new Corredor();
+
+                corredor.setPersona(persona);
+
+                corredor.setRegional(regional);
+
+                Club club = new Club();
+                club.setIdclub(1);
+                corredor.setClub(club);
+
+                Byte tipo = 0;
+                if(corregroup.getCategoria().contains("OPEN") || corregroup.getCategoria().contains("PROMOCIONAL")){
+                    tipo=3;
+                    if(corregroup.getCategoria().contains("OPEN PRO")){
+                        tipo=1;
+                    }
+                }else if(corregroup.getCategoria().contains("100k")){
+                    tipo=4;
+                }else if(corregroup.getCategoria().contains("ELITE")){
+                    tipo=2;
+                }else {
+                    tipo=1;
+                }
+                Integer ano = Calendar.getInstance().get(Calendar.YEAR);
+                calendar.setTime(corredor.getPersona().getFecnac());
+                Integer anonac = calendar.get(Calendar.YEAR);
+                Byte edad = (byte) (ano -anonac);
+                System.out.println(persona.toString()+" Edad:"+edad+" Tipo:"+tipo);
+
+                Categoria categoria=categoriaService.buscarCategoria(sexo, edad, tipo,1);
+                corredor.setCategoria(categoria);
+                corredor.setPuntua(0);
+
+                Usuario usuario = new Usuario();
+                usuario.setIdusuario(1);
+                corredor.setUsuario(usuario);
+
+                corredor = this.guardarCorredor(corredor);
+
+               // return "Falta: " + corregroup.getCi();
+            }
+
+            participante.setCorredor(corredor);
+
+            participante.setClub(corredor.getClub());
+
+            Region region = new Region();
+            region.setIdregion(1);
+            participante.setRegion(region);
+
+            participante.setCategoria(corredor.getCategoria());
+            participante.setFecha(fecha);
+            participante.setEvento(evento);
+            participante.setRegional(regional);
+            participante.setCosto(evento.getMontopric());
+            participante.setPuntua(corredor.getPuntua());
+
+            participante.setKm(corregroup.getDistancia());
+            participante.setPuntua(corredor.getPuntua());
+            participante.setCompleto(0);
+
+            participanteService.guardarParticipante(participante);
+        }
+        return "ok";
+    }
+
+
+    private Corredor guardarCorredor(Corredor corredor) {
+        Corredor corredorGuardada;
+
+        List<Corredor> corredores = new ArrayList<>();
+
+        Regional regionalco=corredor.getRegional();
+        System.out.println("guardar dos veces y quedarse con esta regional");
+        System.out.println(regionalco.getIdregional());
+        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
+        if(corredorGuardada==null) { // vamos a crear el corredor con la regional
+            Persona personaGuardada, personaAux;
+            personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
+            if (personaAux == null) { //no hay persona en la regional y se crean
+                personaAux = corredor.getPersona();
+            }
+            personaAux.setNombre(corredor.getPersona().getNombre().toUpperCase());
+            personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
+            personaGuardada = personaService.guardarPersonaFlush(personaAux);
+
+            Set<Regional> regionalss=regionalService.obtenerRegionales();
+            List<Regional> regionales = new ArrayList<Regional>(regionalss);
+            Corredor corredorVar=corredor;
+            for (Regional regional : regionales) {
+                if(regional.getIdregional()==4){//runnig- guardamos de otra forma
+                    break;
+                }
+                corredorVar=new Corredor();
+                corredorVar.setPersona(personaGuardada);
+                corredorVar.setRegional(regional);
+
+                corredorVar.setPuntua(corredor.getPuntua());
+                corredorVar.setCarnet(corredor.getCarnet());
+                corredorVar.setCategoria(corredor.getCategoria());
+                corredorVar.setClub(corredor.getClub());
+                corredorVar.setCarnetatras(corredor.getCarnetatras());
+                corredorVar.setCatalianza(corredor.getCatalianza());
+                corredorVar.setFecmodi(corredor.getFecmodi());
+                corredorVar.setLicencia(corredor.getLicencia());
+                corredorVar.setModificar(corredor.getModificar());
+                corredorVar.setMontopuntua(corredor.getMontopuntua());
+                corredorVar.setTipocat(corredor.getTipocat());
+                corredorVar.setUsuario(corredor.getUsuario());
+                corredorVar.setVerificar(corredor.getVerificar());
+                corredores.add(corredorVar);
+
+                System.out.println("->"+corredorVar.getRegional().getIdregional() + " " + corredorVar.getRegional().getNomregional());
+            }
+            corredores.forEach(corredor1 -> {
+                System.out.println(corredor1.getRegional().getIdregional()+" "+corredor1.getRegional().getNomregional());
+            });
+
+            this.corredorService.guardarCorredores(corredores);
+
+            corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
+        }
+        return corredorGuardada;
+    }
+
 }

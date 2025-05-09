@@ -70,14 +70,14 @@ public class FileSystemStorageService implements StorageService{
 
     @Override
     public String store(MultipartFile file) {
-        //System.out.println("funcion interno 1");
+        System.out.println("funcion interno 1");
         try {
 
             if (file.isEmpty()) {
                 throw new RuntimeException("Fallo al guardar archivo vacio");
             }
             String filename = file.getOriginalFilename();
-          //  System.out.println("funcion interno 1"+filename);
+            System.out.println("funcion interno 1"+filename);
             Path destinationFile = rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
