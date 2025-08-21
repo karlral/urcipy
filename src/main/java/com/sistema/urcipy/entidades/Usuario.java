@@ -33,6 +33,7 @@ public class Usuario  implements  UserDetails {
      private String username;
      private String password;
      private Boolean enabled;
+     private Integer idevento;
     @OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
     @JsonIgnore
      private Set<Movimiento> movimientos = new HashSet<>(0);
@@ -49,7 +50,7 @@ public class Usuario  implements  UserDetails {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String telefono, String perfil, String email, String username, String password, Boolean enabled, Set<Movimiento> movimientos, Set<Corredor> corredors, Set<UsuarioRol> usuarioRols, Regional regional) {
+    public Usuario(String nombre, String apellido, String telefono, String perfil, String email, String username, String password, Boolean enabled, Integer idevento, Set<Movimiento> movimientos, Set<Corredor> corredors, Set<UsuarioRol> usuarioRols, Regional regional) {
        this.nombre = nombre;
        this.apellido = apellido;
        this.telefono = telefono;
@@ -58,7 +59,8 @@ public class Usuario  implements  UserDetails {
        this.username = username;
        this.password = password;
        this.enabled = enabled;
-       this.movimientos = movimientos;
+        this.idevento = idevento;
+        this.movimientos = movimientos;
        this.corredors = corredors;
        this.usuarioRols = usuarioRols;
        this.regional=regional;
@@ -227,6 +229,14 @@ public class Usuario  implements  UserDetails {
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 '}';
+    }
+
+    public Integer getIdevento() {
+        return idevento;
+    }
+
+    public void setIdevento(Integer idevento) {
+        this.idevento = idevento;
     }
 }
 

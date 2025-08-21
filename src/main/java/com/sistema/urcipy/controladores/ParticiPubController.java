@@ -54,6 +54,8 @@ public class ParticiPubController {
                 Corredor corredor;
                 if(eventoold.getModalidad().getIdmodalidad()==2){ //Running
                     corredor = corredorService.obtenerCorredorCi(ci,4); // Running
+                    corredor.setClub(eventoold.getClub());
+
                 }else{
                     corredor = corredorService.obtenerCorredorCi(ci,eventoold.getRegional().getIdregional());
                 }
@@ -81,6 +83,12 @@ public class ParticiPubController {
     public ResponseEntity<?>  listarParticipantesActivos(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
         return ResponseEntity.ok(participanteService
                 .obtenerParticipantesActivo(activo,idregional));
+    }
+    @GetMapping("/activopagos/{activo}/{idregional}")
+    @ResponseBody
+    public ResponseEntity<?>  listarParticipantesActivosPagos(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(participanteService
+                .obtenerParticipantesActivoPagos(activo,idregional));
     }
 
     @GetMapping("/activonino/{activo}/{idregional}")

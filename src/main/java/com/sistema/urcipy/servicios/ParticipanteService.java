@@ -18,6 +18,7 @@ public interface ParticipanteService {
     public Set<Participante> obtenerParticipantesProceso(Integer anho);
 
     public Set<Inscripcion> obtenerParticipantesActivo(Integer activo,Integer idregional);
+    public Set<Inscripcion> obtenerParticipantesActivoPagos(Integer activo,Integer idregional);
     public Set<Inscripcion> obtenerParticipantesActivoNino(Integer activo,Integer idregional);
     public Set<Sendtimio> busParticipantesActivo(Integer activo);
     public Set<Sendtimio> busParticipantesByEvento(Integer idevento);
@@ -49,5 +50,6 @@ public interface ParticipanteService {
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
     public void actualizarPartiTamano(Integer idcorredor,Integer tamano);
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar);
 
 }

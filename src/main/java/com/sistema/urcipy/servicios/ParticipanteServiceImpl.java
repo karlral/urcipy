@@ -45,6 +45,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivo(activo,idregional));
     }
     @Override
+    public Set<Inscripcion> obtenerParticipantesActivoPagos(Integer activo,Integer idregional) {
+        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoPagos(activo,idregional));
+    }
+    @Override
     public Set<Inscripcion> obtenerParticipantesActivoNino(Integer activo,Integer idregional) {
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoNino(activo,idregional));
     }
@@ -156,5 +160,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Transactional
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal){
         participanteRepository.actuaDorsalId(idparticipante,iddorsal);
+    }
+    @Override
+    @Transactional
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar){
+        participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar);
     }
 }

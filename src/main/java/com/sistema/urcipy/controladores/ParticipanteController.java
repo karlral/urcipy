@@ -63,6 +63,10 @@ public class ParticipanteController {
     public void actuaParticiDorsal(@RequestBody Resultimio resultimio){
         participanteService.actuaPartiDorsal(resultimio.getId(),resultimio.getDorsal());
     }
+    @PutMapping("/pagos")
+    public void actuaParticiPagos(@RequestBody Resultimio resultimio){
+        participanteService.actuaPartiPagos(resultimio.getId(),resultimio.getNrogiro(),resultimio.getPagado(),resultimio.getAcobrar());
+    }
     @GetMapping("/asigdorsal/{activo}/{idregional}")
     public ResponseEntity<?> asignarTodosParticipantesEvento(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
         Integer idevento;

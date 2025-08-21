@@ -38,6 +38,10 @@ public class Resultimio  {
     private Integer puntajeaux;
     private Integer puntajeclub;
     private Integer idevento;
+    private String nrogiro;
+    private Integer pagado;
+    private Integer acobrar;
+
 
     public Resultimio() {
     }
@@ -46,7 +50,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -66,6 +70,9 @@ public class Resultimio  {
        this.puntajeaux=puntajeaux;
         this.puntajeclub = puntajeclub;
         this.idevento = idevento;
+        this.nrogiro = nrogiro;
+        this.pagado = pagado;
+        this.acobrar = acobrar;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -269,6 +276,30 @@ public class Resultimio  {
 
     public void setIdevento(Integer idevento) {
         this.idevento = idevento;
+    }
+
+    public String getNrogiro() {
+        return nrogiro;
+    }
+
+    public void setNrogiro(String nrogiro) {
+        this.nrogiro = nrogiro;
+    }
+
+    public Integer getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(Integer pagado) {
+        this.pagado = pagado;
+    }
+
+    public Integer getAcobrar() {
+        return acobrar;
+    }
+
+    public void setAcobrar(Integer acobrar) {
+        this.acobrar = acobrar;
     }
 }
 

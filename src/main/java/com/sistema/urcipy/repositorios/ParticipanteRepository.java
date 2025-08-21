@@ -86,6 +86,21 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idregional")  Integer idregional);
 
     @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
+            "c.nomcorto as categoria,c.nomalternativo as catalternativo,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos,p.dorsal \n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "inner join club cl on cl.idclub=p.club_idclub\n" +
+            "where e.activo=:activo and p.regional_idregional=:idregional and t.idtrayecto <> 4 and p.pagado =1 \n" +
+            " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
+    List<Inscripcion> buscarParticipantesByEventoActivoPagos(
+            @Param("activo") Integer activo,
+            @Param("idregional")  Integer idregional);
+
+    @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
             "c.nomcorto as categoria,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos,p.dorsal \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
@@ -282,6 +297,16 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     void actuaDorsalId(
             @Param("idparticipante") Integer idparticipante,
             @Param("iddorsal") Integer iddorsal
+    );
+
+    @Modifying
+    @Query(value = "UPDATE participante p SET p.nrogiro=:nrogiro, p.pagado=:pagado,p.acobrar=:acobrar \n" +
+            "where p.idparticipante = :idparticipante ",nativeQuery = true)
+    void actuaPagosId(
+            @Param("idparticipante") Integer idparticipante,
+            @Param("nrogiro") String nrogiro,
+            @Param("pagado") Integer pagado,
+            @Param("acobrar") Integer acobrar
     );
 
 }

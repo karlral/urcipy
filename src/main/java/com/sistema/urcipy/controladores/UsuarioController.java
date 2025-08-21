@@ -28,9 +28,6 @@ public class UsuarioController {
      //   usuario.setPassword("12345");
         usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
 
-        Regional regional= new Regional();
-        regional.setIdregional(1);
-        usuario.setRegional(regional);
 
         Set<UsuarioRol> roles = new HashSet<>();
         Rol rol = new Rol();
