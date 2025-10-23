@@ -153,8 +153,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
-    public void actualizarPartiTamano(Integer idcorredor,Integer tamano){
-        participanteRepository.updateParticipanteTamano(idcorredor,tamano);
+    public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo){
+        participanteRepository.updateParticipanteTamCat(idcorredor,tamano,idcategoria,activo);
     }
     @Override
     @Transactional
@@ -163,7 +163,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
-    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar){
-        participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar);
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar,Integer kit){
+        participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar,kit);
     }
 }

@@ -66,6 +66,7 @@ public class Participante  {
     @Column(name="puntajeclub")
      private Integer puntajeclub;
      private Integer tamano;
+    private Integer kit;
 
     public Participante() {
     }
@@ -79,7 +80,7 @@ public class Participante  {
         this.club = club;
         this.categoria=categoria;
     }
-    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos, Integer puntajeclub, Integer tamano) {
+    public Participante(Corredor corredor, Evento evento, Region region, Date fecha, Integer pagado, String nrogiro, Integer costo, Integer dorsal, Integer puesto, Integer puestocat, Integer puntaje, Date tiempo, Integer participo, Integer completo, Integer descalif, BigDecimal promedio, Integer km, Integer orden, Integer puntajeaux, Integer puntua, Integer totalpuntos, Integer acobrar, Regional regional, Club club, Categoria categoria, String tiempos, Integer puntajeclub, Integer tamano, Integer kit) {
        this.corredor = corredor;
        this.evento = evento;
         this.region = region;
@@ -109,6 +110,7 @@ public class Participante  {
         this.puntajeclub = puntajeclub;
 
         this.tamano = tamano;
+        this.kit = kit;
     }
    
 
@@ -386,6 +388,46 @@ public class Participante  {
 
     public void setTamano(Integer tamano) {
         this.tamano = tamano;
+    }
+
+    public Integer getKit() {
+        return kit;
+    }
+
+    public void setKit(Integer kit) {
+        this.kit = kit;
+    }
+
+    @Override
+    public String toString() {
+        return "Participante{" +
+                "idparticipante=" + idparticipante +
+                ", corredor=" + corredor.getPersona().getNombre() +
+                ", evento=" + evento.getIdevento() +
+                ", categoria=" + categoria.getNomcategoria() +
+                ", fecha=" + fecha +
+                ", pagado=" + pagado +
+                ", nrogiro='" + nrogiro + '\'' +
+                ", costo=" + costo +
+                ", dorsal=" + dorsal +
+                ", puesto=" + puesto +
+                ", puestocat=" + puestocat +
+                ", puntaje=" + puntaje +
+                ", tiempo=" + tiempo +
+                ", participo=" + participo +
+                ", completo=" + completo +
+                ", descalif=" + descalif +
+                ", promedio=" + promedio +
+                ", km=" + km +
+                ", orden=" + orden +
+                ", puntajeaux=" + puntajeaux +
+                ", puntua=" + puntua +
+                ", totalpuntos=" + totalpuntos +
+                ", acobrar=" + acobrar +
+                ", tiempos='" + tiempos + '\'' +
+                ", puntajeclub=" + puntajeclub +
+                ", tamano=" + tamano +
+                '}';
     }
 }
 

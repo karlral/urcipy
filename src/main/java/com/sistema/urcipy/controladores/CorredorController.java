@@ -201,4 +201,65 @@ public class CorredorController {
         return ResponseEntity.ok(correProblems);
     }
 
+    @PutMapping("/updatecategoriarun/{idevento}")
+    public ResponseEntity<?>  actualizarCategoriaCorredorrun(@PathVariable("idevento") Integer idevento){
+        List<Participante> participantes = new ArrayList<>(participanteService.obtenerLisParticipantesByEvento(idevento));
+
+        List<Corredor> correProblems = new ArrayList<>();
+        Categoria categoria;
+        Byte sexo, edad,tipo;
+
+        Calendar calendar = Calendar.getInstance();
+
+        Integer ano = Calendar.getInstance().get(Calendar.YEAR);
+        Integer anonac=0;
+        Integer contador=0;
+        for (Participante participante:participantes) {
+            System.out.println("contador ini: "+contador+"participante: "+participante.getCorredor().getIdcorredor());
+            Corredor corredor= corredorService.obtenerCorredor(participante.getCorredor().getIdcorredor());
+
+            sexo = corredor.getPersona().getSexo();
+            System.out.println("sex: "+sexo+" corredor: "+corredor.getPersona().getNombre()+corredor.getPersona().getApellido());
+
+            System.out.println("fecha: "+corredor.getPersona().getFecnac().toString());
+            calendar.setTime(corredor.getPersona().getFecnac());
+
+            anonac = calendar.get(Calendar.YEAR);
+            edad = (byte) (ano -anonac);
+
+            tipo = corredor.getTipocat();
+            System.out.println("participante");
+            System.out.println(participante.toString());
+            System.out.println("sex: "+sexo+" edad: "+edad+" tipo: "+tipo);
+            categoria=categoriaService.buscarCategoria(sexo, edad, tipo,2);
+
+
+            if (categoria==null){
+                System.out.println("problemas en encontrar categoria: ");
+                correProblems.add(corredor);
+            }else{
+                corredor.setCategoria(categoria);
+                System.out.println("guarda corre: ");
+                corredorService.guardarCorredor(corredor);
+
+
+                participante.setCategoria(categoria);
+                System.out.println("guarda parti: ");
+                participanteService.guardarParticipante(participante);
+
+                contador=contador+1;
+
+                System.out.println("contador fin: "+contador);
+            }
+
+
+        }
+        if(correProblems.size()>0){
+            return ResponseEntity.ok(correProblems);
+        }else{
+            return ResponseEntity.ok(contador);
+        }
+
+    }
+
 }

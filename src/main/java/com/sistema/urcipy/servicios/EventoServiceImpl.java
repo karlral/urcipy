@@ -20,24 +20,24 @@ public class EventoServiceImpl implements EventoService{
 
     @Override
     public Set<Evento> obtenerEventoes(Integer idregional) {
-        return new LinkedHashSet<>(eventoRepository.findByRegional_Idregional(idregional));
+        return new LinkedHashSet<>(eventoRepository.findByRegional_IdregionalOrderByFecha(idregional));
     }
     @Override
     public Set<Evento> obtenerEventosModo(Integer modo,Integer idregional){
-        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndRegional_idregional(modo,idregional));
+        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndRegional_idregionalOrderByFecha(modo,idregional));
     }
     @Override
     public Set<Evento> obtenerEventosCulminados(Integer idregional){
         Calendar fecha=Calendar.getInstance();
-        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndFechaLessThanAndRegional_idregional(0,fecha.getTime(),idregional));
+        return new LinkedHashSet<>(eventoRepository.findByModoEqualsAndFechaLessThanAndRegional_idregionalOrderByFecha(0,fecha.getTime(),idregional));
     }
     @Override
     public List<Evento> obtenerEventosActivos(Integer idregional){
-        return eventoRepository.findByActivoBetweenAndRegional_idregional(1,3,idregional);
+        return eventoRepository.findByActivoBetweenAndRegional_idregionalOrderByFecha(1,10,idregional);
     }
     @Override
     public List<Evento> obtenerEventoActivosAlianza(Integer activo,Integer alianza){
-        return eventoRepository.findByActivoAndAlianza(activo,alianza);
+        return eventoRepository.findByActivoAndAlianzaOrderByFecha(activo,alianza);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class EventoServiceImpl implements EventoService{
         return eventoRepository.findByActivo(activo);
     }
     public Evento obtenerEventoActivoRegional(Integer activo,Integer idregional){
-        return eventoRepository.findByActivoAndRegional_idregional(activo,idregional);
+        return eventoRepository.findByActivoAndRegional_idregionalOrderByFecha(activo,idregional);
     }
     @Override
     public Evento obtenerEvento(Integer idevento) {

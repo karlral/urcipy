@@ -48,8 +48,8 @@ public interface ParticipanteService {
     public void desactivarPuntaje(Integer idcorredor);
     public void actualizarPromedio(Integer idevento);
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
-    public void actualizarPartiTamano(Integer idcorredor,Integer tamano);
+    public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo);
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
-    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar);
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar, Integer kit);
 
 }

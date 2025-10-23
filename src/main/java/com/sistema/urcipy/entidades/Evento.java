@@ -72,6 +72,16 @@ public class Evento  {
 
     private String fondocolor;
     private String fondo;
+
+    private String ubicacion;
+    private String ubidorsal;
+    private String gpxprincipal;
+    private String gpxpromocional;
+    private String dosier;
+    private String hoteles;
+    private String facebook;
+    private String instagram;
+
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
     @JsonIgnore
      private Set<Fotos> fotoses = new HashSet<Fotos>(0);
@@ -98,7 +108,7 @@ public class Evento  {
         this.modalidad = modalidad;
     }
 
-    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
 
         this.club = club;
         this.regional = regional;
@@ -130,6 +140,14 @@ public class Evento  {
         this.montomens = montomens;
         this.fondocolor = fondocolor;
         this.fondo = fondo;
+        this.ubicacion = ubicacion;
+        this.ubidorsal = ubidorsal;
+        this.gpxprincipal = gpxprincipal;
+        this.gpxpromocional = gpxpromocional;
+        this.dosier = dosier;
+        this.hoteles = hoteles;
+        this.facebook = facebook;
+        this.instagram = instagram;
         this.fotoses = fotoses;
         this.participantes = participantes;
         this.enlaceses = enlaceses;
@@ -417,6 +435,75 @@ public class Evento  {
     @Column(name="fondocolor", length=45)
     public String getFondocolor() {
         return fondocolor;
+    }
+
+    @Column(name="ubicacion", length=150)
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    @Column(name="ubidorsal", length=150)
+    public String getUbidorsal() {
+        return ubidorsal;
+    }
+
+    public void setUbidorsal(String ubidorsal) {
+        this.ubidorsal = ubidorsal;
+    }
+
+    @Column(name="gpxprincipal", length=150)
+    public String getGpxprincipal() {
+        return gpxprincipal;
+    }
+
+    public void setGpxprincipal(String gpxprincipal) {
+        this.gpxprincipal = gpxprincipal;
+    }
+    @Column(name="gpxpromocional", length=150)
+    public String getGpxpromocional() {
+        return gpxpromocional;
+    }
+
+    public void setGpxpromocional(String gpxpromocional) {
+        this.gpxpromocional = gpxpromocional;
+    }
+    @Column(name="dosier", length=150)
+    public String getDosier() {
+        return dosier;
+    }
+
+    public void setDosier(String dosier) {
+        this.dosier = dosier;
+    }
+
+    @Column(name="facebook", length=150)
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    @Column(name="instagram", length=150)
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+    @Column(name="hoteles", length=150)
+    public String getHoteles() {
+        return hoteles;
+    }
+
+    public void setHoteles(String hoteles) {
+        this.hoteles = hoteles;
     }
 
     public void setFondocolor(String fondocolor) {

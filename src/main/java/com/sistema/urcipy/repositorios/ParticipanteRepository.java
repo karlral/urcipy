@@ -37,7 +37,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
             "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
             "t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip,\n" +
-            "c.tanda,c.orden,c.horario,p.tamano \n" +
+            "c.tanda,c.orden,c.horario,p.tamano,p.kit \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -79,12 +79,12 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
             "inner join club cl on cl.idclub=p.club_idclub\n" +
-            "where e.activo=:activo and p.regional_idregional=:idregional and t.idtrayecto <> 4 \n" +
+            "where e.activo=:activo and p.regional_idregional=:idregional \n" +
             " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
     List<Inscripcion> buscarParticipantesByEventoActivo(
             @Param("activo") Integer activo,
             @Param("idregional")  Integer idregional);
-
+//and t.idtrayecto <> 4 se le quito arriba y abajo
     @Query(value = "SELECT c.tanda,c.orden,c.horario,t.km,cl.ruta,cl.nomclub as club," +
             "c.nomcorto as categoria,c.nomalternativo as catalternativo,concat(pe.nombre,' ',pe.apellido) as  corredor,p.totalpuntos,p.dorsal \n" +
             "FROM participante p \n" +
@@ -94,7 +94,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
             "inner join club cl on cl.idclub=p.club_idclub\n" +
-            "where e.activo=:activo and p.regional_idregional=:idregional and t.idtrayecto <> 4 and p.pagado =1 \n" +
+            "where e.activo=:activo and p.regional_idregional=:idregional and p.pagado =1 \n" +
             " order by c.tanda,c.orden,p.totalpuntos desc ",nativeQuery = true)
     List<Inscripcion> buscarParticipantesByEventoActivoPagos(
             @Param("activo") Integer activo,
@@ -283,11 +283,13 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     @Query(value = "update participante p " +
             "inner join evento e on e.idevento =p.evento_idevento "+
             "inner join modalidad m on m.idmodalidad =e.modalidad_idmodalidad "+
-            "set  tamano=:tamano  \n" +
-            "where corredor_idcorredor=:idcorredor and m.idmodalidad=2",nativeQuery = true)
-    void updateParticipanteTamano(
+            "set  p.tamano=:tamano ,p.categoria_idcategoria=:idcategoria \n" +
+            "where p.corredor_idcorredor=:idcorredor and m.idmodalidad=2 and e.activo=:activo",nativeQuery = true)
+    void updateParticipanteTamCat(
             @Param("idcorredor") Integer idcorredor,
-            @Param("tamano") Integer tamano
+            @Param("tamano") Integer tamano,
+            @Param("idcategoria") Integer idcategoria,
+            @Param("activo") Integer activo
 
     );
 
@@ -300,13 +302,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     );
 
     @Modifying
-    @Query(value = "UPDATE participante p SET p.nrogiro=:nrogiro, p.pagado=:pagado,p.acobrar=:acobrar \n" +
+    @Query(value = "UPDATE participante p SET p.nrogiro=:nrogiro, p.pagado=:pagado,p.acobrar=:acobrar,p.kit=:kit \n" +
             "where p.idparticipante = :idparticipante ",nativeQuery = true)
     void actuaPagosId(
             @Param("idparticipante") Integer idparticipante,
             @Param("nrogiro") String nrogiro,
             @Param("pagado") Integer pagado,
-            @Param("acobrar") Integer acobrar
+            @Param("acobrar") Integer acobrar,
+            @Param("kit") Integer kit
     );
 
 }

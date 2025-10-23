@@ -27,5 +27,5 @@ public interface Inscriptos
     Integer getOrden();
     String getHorario();
     Integer getTamano();
-
+    Integer getKit();
 }

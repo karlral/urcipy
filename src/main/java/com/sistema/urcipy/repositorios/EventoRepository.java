@@ -19,18 +19,18 @@ public interface EventoRepository extends JpaRepository<Evento,Integer> {
     Evento findByIdevento(Integer idevento);
 
     @EntityGraph(attributePaths = {"club"})
-    List<Evento> findByRegional_Idregional(Integer idregional);
+    List<Evento> findByRegional_IdregionalOrderByFecha(Integer idregional);
 
-    List<Evento> findByModoEqualsAndRegional_idregional(Integer modo,Integer idregional);
-    List<Evento> findByActivoBetweenAndRegional_idregional(Integer startActivo, Integer endActivo, Integer idregional);
+    List<Evento> findByModoEqualsAndRegional_idregionalOrderByFecha(Integer modo,Integer idregional);
+    List<Evento> findByActivoBetweenAndRegional_idregionalOrderByFecha(Integer startActivo, Integer endActivo, Integer idregional);
 
     Evento findByActivo(Integer activo);
 
-    Evento findByActivoAndRegional_idregional(Integer activo,Integer idregional);
+    Evento findByActivoAndRegional_idregionalOrderByFecha(Integer activo,Integer idregional);
 
-    List<Evento> findByActivoAndAlianza
+    List<Evento> findByActivoAndAlianzaOrderByFecha
             (Integer activo,Integer alianza);
 
-    List<Evento> findByModoEqualsAndFechaLessThanAndRegional_idregional(Integer modo, Date fecha, Integer idregional);
+    List<Evento> findByModoEqualsAndFechaLessThanAndRegional_idregionalOrderByFecha(Integer modo, Date fecha, Integer idregional);
 
 }

@@ -41,7 +41,7 @@ public class Resultimio  {
     private String nrogiro;
     private Integer pagado;
     private Integer acobrar;
-
+    private Integer kit;
 
     public Resultimio() {
     }
@@ -50,7 +50,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar, Integer kit) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -73,6 +73,7 @@ public class Resultimio  {
         this.nrogiro = nrogiro;
         this.pagado = pagado;
         this.acobrar = acobrar;
+        this.kit = kit;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -300,6 +301,14 @@ public class Resultimio  {
 
     public void setAcobrar(Integer acobrar) {
         this.acobrar = acobrar;
+    }
+
+    public Integer getKit() {
+        return kit;
+    }
+
+    public void setKit(Integer kit) {
+        this.kit = kit;
     }
 }
 

@@ -97,7 +97,8 @@ public class CorrePubController {
             personaService.updateTamano(corredor.getPersona().getIdpersona(),corredor.getPersona().getTamano());
         }
 
-        participanteService.actualizarPartiTamano(corredor.getIdcorredor(),corredor.getPersona().getTamano());
+        Integer activo =1;
+        participanteService.actualizarPartiTamCat(corredor.getIdcorredor(),corredor.getPersona().getTamano(),corredor.getCategoria().getIdcategoria(),activo);
 
     }
 }
