@@ -19,4 +19,5 @@ public interface Corredorbus {
     Integer getCarnetfpc();
     Integer getPuntua();
     Integer getTamano();
+    Byte getVerificar();
 }

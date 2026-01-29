@@ -36,6 +36,11 @@ public class CorrePubController {
 
         return ResponseEntity.ok(corredorService.obtenerCorredorbusCi(ci,idregional));
     }
+    @GetMapping("/buscar/{ci}/{idregional}")
+    public ResponseEntity<?> obtenerCorredorPorCiFull(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional){
+
+        return ResponseEntity.ok(corredorService.obtenerCorredorCi(ci,idregional));
+    }
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredorRun(@RequestBody Corredor corredor){

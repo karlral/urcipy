@@ -45,6 +45,25 @@ public class MediaController {
         map.put("url", url);
         return map;
     }
+
+    @PostMapping("/upload/carnet/{folder}")
+    public Map<String,String> uploadFileCarnet(@RequestParam("file") MultipartFile multipartFile,@PathVariable String folder){
+        System.out.println("funciona1");
+        String path = storageService.storeLocation(multipartFile,folder);
+        System.out.println("funciona1 path"+path);
+        String host =request.getRequestURL().toString().replace(request.getRequestURI(),"");
+        System.out.println("funciona1 host"+host);
+        String url= ServletUriComponentsBuilder
+                .fromHttpUrl(host)
+                .path("/media/carnet/"+folder+"/")
+                .path(path)
+                .toUriString();
+        System.out.println("funciona1 url"+url);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("url", url);
+        return map;
+    }
+
     @GetMapping("{fielname:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String fielname) throws IOException {
         Resource file = storageService.loadAsResource(fielname);

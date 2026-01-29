@@ -250,14 +250,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("idevento") Integer idevento);
 
     @Modifying
-    @Query(value = "UPDATE participante p SET p.puntaje=p.puntajeaux \n" +
+    @Query(value = "UPDATE participante p SET p.puntaje=p.puntajeaux, p.puntua = 1 \n" +
             "where p.corredor_idcorredor = :idcorredor  and year(p.fecha)=year(current_date)",nativeQuery = true)
     void activarPuntajeId(
             @Param("idcorredor") Integer idcorredor
     );
 
     @Modifying
-    @Query(value = "UPDATE participante p SET p.puntaje=0 \n" +
+    @Query(value = "UPDATE participante p SET p.puntaje=0, p.puntua=0 \n" +
             "where p.corredor_idcorredor = :idcorredor  and year(p.fecha)=year(current_date)",nativeQuery = true)
     void desactivarPuntajeId(
             @Param("idcorredor") Integer idcorredor
@@ -302,14 +302,16 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     );
 
     @Modifying
-    @Query(value = "UPDATE participante p SET p.nrogiro=:nrogiro, p.pagado=:pagado,p.acobrar=:acobrar,p.kit=:kit \n" +
+    @Query(value = "UPDATE participante p SET p.nrogiro=:nrogiro, p.pagado=:pagado,p.acobrar=:acobrar,p.kit=:kit,p.tamano=:tamano \n" +
             "where p.idparticipante = :idparticipante ",nativeQuery = true)
     void actuaPagosId(
             @Param("idparticipante") Integer idparticipante,
             @Param("nrogiro") String nrogiro,
             @Param("pagado") Integer pagado,
             @Param("acobrar") Integer acobrar,
-            @Param("kit") Integer kit
+            @Param("kit") Integer kit,
+            @Param("tamano") Integer tamano
+
     );
 
 }

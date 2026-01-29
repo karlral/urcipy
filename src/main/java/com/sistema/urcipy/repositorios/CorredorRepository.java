@@ -61,7 +61,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idregional") Integer idregional);
 
     @Query(value = "select co.idcorredor,p.idpersona,ca.idcategoria,p.ci,concat(p.nombre,' ',p.apellido) as corredor,p.fecnac,p.sexo,p.telefono,ca.nomcorto as categoria,cl.nomclub as club, \n" +
-            "p.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua, p.tamano \n" +
+            "p.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua, p.tamano,co.verificar \n" +
             "from corredor co \n" +
             "inner join persona p on p.idpersona=co.persona_idpersona \n" +
             "inner join club cl on cl.idclub = co.club_idclub \n" +
@@ -94,5 +94,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idcategoria") Integer idcategoria
 
     );
+
+    List<Corredor> findAllByRegional_Idregional(Integer idRegional);
 
 }

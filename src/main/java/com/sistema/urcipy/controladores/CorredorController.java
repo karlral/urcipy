@@ -164,8 +164,8 @@ public class CorredorController {
 
     }
     @PutMapping("/updatecategoria")
-    public ResponseEntity<?>  actualizarCategoriaCorredor(){
-        List<Corredor> corredores = new ArrayList<>(corredorService.obtenerCorredores());
+    public ResponseEntity<?>  actualizarCategoriaCorredor(@RequestBody Integer idregional){
+        List<Corredor> corredores = new ArrayList<>(corredorService.obtenerCorredores(idregional));
         List<Corredor> correProblems = new ArrayList<>();
         Categoria categoria;
         Byte sexo, edad,tipo;
@@ -176,6 +176,7 @@ public class CorredorController {
         Integer anonac=0;
         Integer contador=0;
         for (Corredor corredor:corredores) {
+            System.out.println(corredor.toString());
             sexo = corredor.getPersona().getSexo();
 
             calendar.setTime(corredor.getPersona().getFecnac());

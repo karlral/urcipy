@@ -24,8 +24,8 @@ public class ClubServiceImpl implements ClubService{
         return new LinkedHashSet<>(clubRepository.findAll());
     }
     @Override
-    public Set<Club> obtenerClubesRun() {
-        return new LinkedHashSet<>(clubRepository.findByModalidad_Idmodalidad(2));
+    public Set<Club> obtenerClubes(Integer idModalidad) {
+        return new LinkedHashSet<>(clubRepository.findByModalidad_Idmodalidad(idModalidad));
     }
 
     @Override

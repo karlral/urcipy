@@ -42,6 +42,7 @@ public class Resultimio  {
     private Integer pagado;
     private Integer acobrar;
     private Integer kit;
+    private Integer tamano;
 
     public Resultimio() {
     }
@@ -50,7 +51,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar, Integer kit) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar, Integer kit, Integer tamano) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -74,6 +75,7 @@ public class Resultimio  {
         this.pagado = pagado;
         this.acobrar = acobrar;
         this.kit = kit;
+        this.tamano = tamano;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -309,6 +311,14 @@ public class Resultimio  {
 
     public void setKit(Integer kit) {
         this.kit = kit;
+    }
+
+    public Integer getTamano() {
+        return tamano;
+    }
+
+    public void setTamano(Integer tamano) {
+        this.tamano = tamano;
     }
 }
 

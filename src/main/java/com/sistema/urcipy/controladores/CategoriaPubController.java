@@ -24,6 +24,10 @@ public class CategoriaPubController {
     public ResponseEntity<?> listarCategoriaes(){
         return ResponseEntity.ok(categoriaService.obtenerCategoriasActivos());
     }
+    @GetMapping("/mod/{idmodalidad}")
+    public ResponseEntity<?> listarCategoriaes(@PathVariable("idmodalidad") Integer idmodalidad){
+        return ResponseEntity.ok(categoriaService.obtenerCategoriasActivosMod(idmodalidad));
+    }
 
     @GetMapping("/nino")
     public ResponseEntity<?> listarCategoriasNino(){

@@ -56,6 +56,9 @@ public class Categoria  {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
     @JsonIgnore
      private Set<Corredor> corredors = new HashSet<Corredor>(0);
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
+    @JsonIgnore
+    private Set<EventoCategoria> eventoCategorias = new HashSet<EventoCategoria>(0);
 
     public Categoria() {
     }
@@ -64,7 +67,7 @@ public class Categoria  {
         this.modalidad = modalidad;
     }
 
-    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, String codigo, String nomalternativo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad) {
+    public Categoria(String nomcategoria, Boolean activo, String nomcorto, Byte orden, Byte tanda, Boolean ascenso, Byte activonacional, Byte edadinicio, Byte edadfin, Byte sexo, Byte tipo, String codigo, String nomalternativo, Trayecto trayecto, Set<Corredor> corredors, String horario, Modalidad modalidad,Set<EventoCategoria> eventoCategorias) {
        this.nomcategoria = nomcategoria;
        this.activo = activo;
        this.nomcorto = nomcorto;
@@ -82,6 +85,7 @@ public class Categoria  {
        this.corredors = corredors;
        this.horario=horario;
         this.modalidad = modalidad;
+        this.eventoCategorias = eventoCategorias;
     }
 
 
@@ -231,6 +235,14 @@ public class Categoria  {
 
     public void setNomalternativo(String nomalternativo) {
         this.nomalternativo = nomalternativo;
+    }
+
+    public Set<EventoCategoria> getEventoCategorias() {
+        return eventoCategorias;
+    }
+
+    public void setEventoCategorias(Set<EventoCategoria> eventoCategorias) {
+        this.eventoCategorias = eventoCategorias;
     }
 }
 

@@ -14,7 +14,13 @@ public class ClubPubController {
     private ClubService clubService;
 
     @GetMapping("/")
-    public ResponseEntity<?> listarClubes() {
-        return ResponseEntity.ok(clubService.obtenerClubesRun());
+    public ResponseEntity<?> listarClubesRun() {
+        final Integer idModalidad=2;
+        return ResponseEntity.ok(clubService.obtenerClubes(idModalidad));
+    }
+
+    @GetMapping("/clubes/{idmodalidad}")
+    public ResponseEntity<?> listarClubes(@PathVariable Integer idmodalidad) {
+        return ResponseEntity.ok(clubService.obtenerClubes(idmodalidad));
     }
 }

@@ -21,6 +21,9 @@ public class Remera {
      private Integer idremera;
      private String nomremera;
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="remera")
+    @JsonIgnore
+    private Set<EventoRemera> eventoRemeras = new HashSet<EventoRemera>(0);
 
     public Remera() {
     }

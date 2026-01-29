@@ -39,6 +39,10 @@ public class FileSystemStorageService implements StorageService{
     private String mediaLocation2022;
     @Value("${media.location}/carnet/2023")
     private String mediaLocation2023;
+    @Value("${media.location}/carnet/2024")
+    private String mediaLocation2024;
+    @Value("${media.location}/carnet/2025")
+    private String mediaLocation2025;
     private Path rootLocation;
 
     private Path rootLocationBanderas;
@@ -50,6 +54,8 @@ public class FileSystemStorageService implements StorageService{
     private Path rootLocation2021;
     private Path rootLocation2022;
     private Path rootLocation2023;
+    private Path rootLocation2024;
+    private Path rootLocation2025;
     @Override
     @PostConstruct
     public void init() throws IOException {
@@ -64,6 +70,8 @@ public class FileSystemStorageService implements StorageService{
         rootLocation2021=Paths.get(mediaLocation2021);
         rootLocation2022=Paths.get(mediaLocation2022);
         rootLocation2023=Paths.get(mediaLocation2023);
+        rootLocation2024=Paths.get(mediaLocation2024);
+        rootLocation2025=Paths.get(mediaLocation2025);
         //System.out.println("Localizacion del archivo: "+rootLocation);
        // Files.createDirectories(rootLocation);
     }
@@ -79,6 +87,32 @@ public class FileSystemStorageService implements StorageService{
             String filename = file.getOriginalFilename();
             System.out.println("funcion interno 1"+filename);
             Path destinationFile = rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+            return filename;
+        }catch (IOException e) {
+            throw new RuntimeException("Fallo al guardar el archivo "+e);
+        }
+    }
+
+    @Override
+    public String storeLocation(MultipartFile file, String location) {
+        System.out.println("funcion interno 2");
+        try {
+
+            if (file.isEmpty()) {
+                throw new RuntimeException("Fallo al guardar archivo vacio");
+            }
+            String filename = file.getOriginalFilename();
+            System.out.println("funcion interno 2 filename"+filename);
+            Path destinationFile;
+            if(location.equals("2025")){
+                 destinationFile= rootLocation2025.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+            }else{
+                 destinationFile = rootLocation.resolve(Paths.get(filename)).normalize().toAbsolutePath();
+            }
+
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
             }
@@ -127,6 +161,10 @@ public class FileSystemStorageService implements StorageService{
                 file = rootLocation2022.resolve(filename);
             }else if (folder.equals("2023")) {
                 file = rootLocation2023.resolve(filename);
+            }else if (folder.equals("2024")) {
+                file = rootLocation2024.resolve(filename);
+            }else if (folder.equals("2025")) {
+                file = rootLocation2025.resolve(filename);
             }
 
 

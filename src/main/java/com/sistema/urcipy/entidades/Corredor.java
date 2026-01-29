@@ -278,6 +278,16 @@ public class Corredor   {
     public void setMovimientos(Set<Movimiento> movimientos) {
         this.movimientos = movimientos;
     }
+
+    @Override
+    public String toString() {
+        return "Corredor{" +
+                "idcorredor=" + idcorredor +
+                ", persona=" + persona.getNombre() + persona.getApellido()+
+                ", club=" + club.getNomclub() +
+                ", categoria=" + categoria.getNomcategoria() +
+                '}';
+    }
 }
 
 

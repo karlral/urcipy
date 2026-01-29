@@ -32,6 +32,10 @@ public class CorredorServiceImpl implements CorredorService{
     public Set<Corredor> obtenerCorredores() {
         return new LinkedHashSet<>(corredorRepository.findAll());
     }
+    @Override
+    public Set<Corredor> obtenerCorredores(Integer idRegional) {
+        return new LinkedHashSet<>(corredorRepository.findAllByRegional_Idregional(idRegional));
+    }
 
     @Override
     public Corredor obtenerCorredor(Integer idcorredor) {

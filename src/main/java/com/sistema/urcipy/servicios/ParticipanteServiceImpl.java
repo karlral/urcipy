@@ -163,7 +163,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
-    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar,Integer kit){
-        participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar,kit);
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar,Integer kit,Integer tamano){
+        participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar,kit,tamano);
     }
 }

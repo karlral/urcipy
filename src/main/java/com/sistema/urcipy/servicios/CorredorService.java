@@ -17,6 +17,8 @@ public interface CorredorService {
 
     public Set<Corredor> obtenerCorredores();
 
+    public Set<Corredor> obtenerCorredores(Integer idregional);
+
     public Corredor obtenerCorredor(Integer idcorredor);
     public Corredor obtenerCorredorCi(String ci,Integer idregional);
 

@@ -50,6 +50,6 @@ public interface ParticipanteService {
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
     public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo);
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
-    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar, Integer kit);
+    public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar, Integer kit,Integer tamano);
 
 }

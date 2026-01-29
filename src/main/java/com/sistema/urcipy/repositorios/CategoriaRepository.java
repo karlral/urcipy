@@ -23,6 +23,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
 
     List<Categoria> findByActivoIsTrueOrderByTandaAscOrdenAsc();
 
+    List<Categoria> findByActivoIsTrueAndModalidad_IdmodalidadOrderByNomcategoria(Integer idmodalidad);
+
     List<Categoria> findByActivoIsTrueAndTrayecto_IdtrayectoOrderByTandaAscOrdenAsc(Integer idtrayecto);
 
     /*@Query(value = "SELECT * \n"+

@@ -98,6 +98,15 @@ public class Evento  {
     @JsonIgnore
      private Set<Sugerencia> sugerencias = new HashSet<Sugerencia>(0);
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
+    private Set<EventoCategoria> eventoCategorias = new HashSet<EventoCategoria>(0);
+
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
+    @JsonIgnore
+    private Set<EventoRemera> eventoRemeras = new HashSet<EventoRemera>(0);
+
+
     public Evento() {
     }
 
@@ -108,7 +117,7 @@ public class Evento  {
         this.modalidad = modalidad;
     }
 
-    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias, Set<EventoCategoria> eventoCategorias,Set<EventoRemera> eventoRemeras) {
 
         this.club = club;
         this.regional = regional;
@@ -153,6 +162,8 @@ public class Evento  {
         this.enlaceses = enlaceses;
         this.resultimios = resultimios;
         this.sugerencias = sugerencias;
+        this.eventoCategorias= eventoCategorias;
+        this.eventoRemeras= eventoRemeras;
     }
 
 
@@ -233,7 +244,7 @@ public class Evento  {
     }
 
     
-    @Column(name="urlpromocional", length=60)
+    @Column(name="urlpromocional", length=150)
     public String getUrlpromocional() {
         return this.urlpromocional;
     }
@@ -570,6 +581,22 @@ public class Evento  {
 
     public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
+    }
+
+    public Set<EventoCategoria> getEventoCategorias() {
+        return eventoCategorias;
+    }
+
+    public void setEventoCategorias(Set<EventoCategoria> eventoCategorias) {
+        this.eventoCategorias = eventoCategorias;
+    }
+
+    public Set<EventoRemera> getEventoRemeras() {
+        return eventoRemeras;
+    }
+
+    public void setEventoRemeras(Set<EventoRemera> eventoRemeras) {
+        this.eventoRemeras = eventoRemeras;
     }
 }
 
