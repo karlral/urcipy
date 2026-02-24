@@ -1,22 +1,27 @@
 package com.sistema.urcipy.servicios;
 
-import com.sistema.urcipy.entidades.Participante;
-import com.sistema.urcipy.entidades.Resultimio;
+import com.sistema.urcipy.entidades.*;
 import com.sistema.urcipy.entidades.custom.*;
+import com.sistema.urcipy.repositorios.CorredorRepository;
+import com.sistema.urcipy.repositorios.EventoRepository;
 import com.sistema.urcipy.repositorios.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ParticipanteServiceImpl implements ParticipanteService{
 
     @Autowired
     private ParticipanteRepository participanteRepository;
+    @Autowired
+    private CorredorRepository corredorRepository;
+    @Autowired
+    private EventoRepository eventoRepository;
 
     @Override
     public Participante guardarParticipante(Participante participante){
@@ -75,7 +80,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoIdeventoOrderByPuestocat(idevento));
     }
     @Override
-    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional){
+    public Set<Inscripto> obtenerLisParticipantesByEventoActivoReg(Integer activo, Integer idregional){
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoReg(activo,idregional));
     }
     @Override
@@ -120,6 +125,19 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
 
     @Override
+    public Set<Punclub> obtenerPuntajesXClubAll(Integer anho, Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesXClubAllNative(anho,idregional));
+
+    }
+
+    @Override
+    public Set<Punclubpartici> obtenerPuntajesByClubAllPartici(Integer anho, Integer idregional,Integer idclub){
+        return new LinkedHashSet<>(participanteRepository.listaPuntajesByClubAllParticiNative(anho,idregional,idclub));
+
+
+    }
+
+    @Override
     public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional){
         return new LinkedHashSet<>(participanteRepository.listaPuntajesByClubParticiNative(anho,tipoone,tipotwo,idclub,idregional));
     }
@@ -153,6 +171,11 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
+    public void actualizarClubCatTamElige(Partici partici){
+        participanteRepository.updateParticipanteClubCatTamElige(partici.getIdparticipante(),partici.getIdclub(),partici.getIdcategoria(),partici.getTamano());
+    }
+    @Override
+    @Transactional
     public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo){
         participanteRepository.updateParticipanteTamCat(idcorredor,tamano,idcategoria,activo);
     }
@@ -166,4 +189,127 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar,Integer kit,Integer tamano){
         participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar,kit,tamano);
     }
+
+    @Override
+    @Transactional
+    public Inscripto inscribirPartici(Partici partici){
+
+        Participante participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
+                //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
+        if(participanteaux==null) {
+            //System.out.println(idevento);
+            Evento eventoold = eventoRepository.findByIdevento(partici.getIdevento());
+                  //  eventoService.obtenerEvento(partici.getIdevento());
+            //System.out.println(idevento);
+            Integer alianza=eventoold.getAlianza();
+            //System.out.println(alianza);
+            if(alianza==1){
+                // guardamos las inscripciones de cada Regional con su club y con su categoria
+                List<Evento> eventos=eventoRepository.findByActivoAndAlianzaOrderByFecha(1,alianza);
+                      //  eventoService.obtenerEventoActivosAlianza(1,alianza);
+                for(Evento evento:eventos){
+                    //      System.out.println(evento);
+                    Corredor corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),evento.getRegional().getIdregional());
+                            //corredorService.obtenerCorredorCi(partici.getCi(),evento.getRegional().getIdregional());
+                    if (corredor == null) {
+                        throw new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                "Corredor no encontrado"
+                        );
+                       // return ResponseEntity.badRequest().body("Corredor no existe");
+                    }else{
+                        if (corredor.getModificar()){
+                            modificarcorredor(partici);
+                            corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),evento.getRegional().getIdregional());
+                        }
+                        guardarparticipante(corredor,evento,evento.getRegional(),partici.getTamano());
+                    }
+                }
+                participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
+                        //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
+            }else {
+                Corredor corredor;
+                if(eventoold.getModalidad().getIdmodalidad()==2){ //Running
+                    corredor =corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),4); //Running
+                            //corredorService.obtenerCorredorCi(partici.getCi(),4); // Running
+                    corredor.setClub(eventoold.getClub());
+
+                }else{
+                    corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),eventoold.getRegional().getIdregional());
+                          //  corredorService.obtenerCorredorCi(partici.getCi(),eventoold.getRegional().getIdregional());
+                }
+
+                if (corredor == null) {
+                    throw new ResponseStatusException(
+                            HttpStatus.BAD_REQUEST,
+                            "Corredor no encontrado"
+                    );
+                    //return ResponseEntity.badRequest().body("Corredor no existe");
+                }else{
+                    if (corredor.getModificar()){
+                        modificarcorredor(partici);
+                        corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),eventoold.getRegional().getIdregional());
+                    }
+
+                    participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional(),partici.getTamano());
+                }
+            }
+        }else{
+
+
+            if (participanteaux.getEvento().getModalidad().getIdmodalidad()==1 && participanteaux.getCorredor().getModificar()){
+
+
+                    modificarcorredor(partici);
+                    participanteRepository.updateParticipanteClubCat(participanteaux.getEvento().getIdevento(),participanteaux.getCorredor().getIdcorredor());
+
+            }
+
+
+
+        }
+
+
+        Inscripto inscripto = participanteRepository.buscarParticipante(participanteaux.getIdparticipante());
+        return inscripto;
+    }
+
+    private void modificarcorredor(Partici partici) {
+        corredorRepository.updateCorredorTelremera(partici.getIdcorredor(),partici.getTelefono(),partici.getTamano());
+        corredorRepository.updateCorredorClubCatElige(partici.getIdcorredor(),partici.getIdclub(),partici.getIdcategoria());
+    }
+
+
+    private Participante guardarparticipante(Corredor corredor, Evento evento, Regional regional,Integer tamano) {
+        Participante participante,participanteauxiliar;
+
+        participante= new Participante();
+        participante.setCorredor(corredor);
+        participante.setTamano(corredor.getPersona().getTamano());
+
+        participante.setClub(corredor.getClub());
+        participante.setCategoria(corredor.getCategoria());
+
+        Region region;
+        region = corredor.getClub().getRegion();
+        participante.setRegion(region);
+
+        Date fecha = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha);
+        participante.setFecha(fecha);
+
+        participante.setEvento(evento);
+
+        participante.setRegional(regional);
+
+        participante.setCosto(evento.getMontopric());
+        participante.setTamano(tamano);
+
+
+        participanteauxiliar = participanteRepository.save(participante);
+         //       participanteService.guardarParticipante(participante);
+        return  participanteauxiliar;
+    }
+
 }

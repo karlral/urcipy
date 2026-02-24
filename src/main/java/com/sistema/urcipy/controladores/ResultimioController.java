@@ -30,6 +30,8 @@ public class ResultimioController {
     private RegionalService regionalService;
     @Autowired
     private CategoriaService categoriaService;
+    @Autowired
+    private MovimientoService movimientoService;
 
     @PostMapping("/")
     public ResponseEntity<Resultimio> guardarResultimio(@RequestBody Resultimio resultimio){
@@ -39,7 +41,8 @@ public class ResultimioController {
     @PostMapping("/activoone")
     public ResponseEntity<?> guardarListaResultimio(@RequestBody List<Resultimio> resultimios){
 
-        Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+        //Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+        Integer idevento = resultimios.get(0).getIdevento();
         Evento evento=eventoService.obtenerEvento(idevento);
         Integer idregional=evento.getRegional().getIdregional();
 
@@ -119,7 +122,12 @@ public class ResultimioController {
             Byte uno =1;
             resultimio.setProceso(uno);
             resultimio.setCompleto(1);
-            resultimio.setPuntajeclub(2);
+            if (idregional==2){
+                resultimio.setPuntajeclub(1);
+            }else {
+                resultimio.setPuntajeclub(puntaje);
+            }
+
 
             Resultimio resultimioGuardada = resultimioService.guardarResultimio(resultimio);
 
@@ -339,7 +347,7 @@ public class ResultimioController {
             Byte uno =1;
             resultimio.setProceso(uno);
             resultimio.setCompleto(1);
-            resultimio.setPuntajeclub(2);
+            resultimio.setPuntajeclub(1);
 
             Resultimio resultimioGuardada = resultimioService.guardarResultimio(resultimio);
 
@@ -518,5 +526,55 @@ public class ResultimioController {
         }
         return corredorGuardada;
     }
+
+
+    @PostMapping("/putuarall")
+    public ResponseEntity<?> guardarpuntuarListaResultimio(@RequestBody List<Resultimio> resultimios) {
+
+        //Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
+        Integer idevento = resultimios.get(0).getIdevento();
+        Evento evento = eventoService.obtenerEvento(idevento);
+        Integer idregional = evento.getRegional().getIdregional();
+
+        resultimioService.eliminarSendtimioEvento(idevento);
+        Corredor corredor;
+        int hora, min, seg, puntaje;
+        for (Resultimio resultimio : resultimios) {
+
+            resultimio.setEvento(evento);
+
+            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
+            if (corredor == null) {
+                return ResponseEntity.badRequest().body("Corredor no existe CI: " + resultimio.getCi()
+                        + " Corredor: " + resultimio.getNomparticipante());
+            }
+
+
+            System.out.println("Encontro: " + resultimio.getNomparticipante() + resultimio.getPoscategoria() + resultimio.getTiempos());
+            corredor.setPuntua(1);
+            corredorService.guardarCorredor(corredor);
+
+            Movimiento movimiento = new Movimiento();
+            movimiento.setCorredor(corredor);
+            movimiento.setFecha(new Date());
+
+            Usuario usuario = new Usuario();
+            usuario.setIdusuario(1);
+
+
+            movimiento.setUsuario(usuario);
+            Concepto concepto = new Concepto();
+            concepto.setIdconcepto(2);
+            movimiento.setConcepto(concepto);
+            movimiento.setEntrada(20000);
+            movimiento.setSalida(0);
+            movimientoService.guardarMovimiento(movimiento);
+
+
+
+        }
+        return ResponseEntity.ok(ResponseEntity.ok().build());
+    }
+
 
 }

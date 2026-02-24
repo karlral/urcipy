@@ -3,6 +3,7 @@ package com.sistema.urcipy.servicios;
 
 
 import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.custom.Correbus;
 import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
 
@@ -33,4 +34,6 @@ public interface CorredorService {
     public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub);
 
     public void updateCatCorre(Integer idcorredor,Integer idcategoria);
+    public void updateTelremera(Correbus correbus);
+    public void updateCorredorClubCatElige(Integer idcorredor,Integer idclub,Integer idcategoria);
 }

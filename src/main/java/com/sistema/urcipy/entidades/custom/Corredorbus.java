@@ -20,4 +20,8 @@ public interface Corredorbus {
     Integer getPuntua();
     Integer getTamano();
     Byte getVerificar();
+    Integer getIdclub();
+    Integer getTipocat();
+    Byte getModificar();
+
 }

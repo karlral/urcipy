@@ -1,6 +1,8 @@
 package com.sistema.urcipy.controladores;
 
 import com.sistema.urcipy.entidades.*;
+import com.sistema.urcipy.entidades.custom.Inscripto;
+import com.sistema.urcipy.entidades.custom.Partici;
 import com.sistema.urcipy.entidades.custom.Punclub;
 import com.sistema.urcipy.entidades.custom.Punclubpartici;
 import com.sistema.urcipy.servicios.*;
@@ -146,7 +148,7 @@ public class ParticiPubController {
            punclubs= participanteService.obtenerPuntajesInClub(anho,tipoone,tipotwo,idregional);
         }else{
             if (idregional==2) {
-                punclubs = participanteService.obtenerPuntajesXClubTwo(anho,tipoone,tipotwo,idregional);
+                punclubs = participanteService.obtenerPuntajesXClubAll(anho,idregional);
             }
         }
         return ResponseEntity.ok(punclubs);
@@ -172,7 +174,7 @@ public class ParticiPubController {
             punclubparticis= participanteService.obtenerPuntajesByClubPartici(anho,tipoone,tipotwo,idclub,idregional);
         }else{
             if (idregional==2) {
-                punclubparticis = participanteService.obtenerPuntajesByClubTwoPartici(anho,tipoone,tipotwo,idclub,idregional);
+                punclubparticis = participanteService.obtenerPuntajesByClubAllPartici(anho,idregional,idclub);
             }
         }
 
@@ -208,4 +210,19 @@ public class ParticiPubController {
         participanteauxiliar = participanteService.guardarParticipante(participante);
         return  participanteauxiliar;
     }
+
+    @PutMapping("/catclub")
+    public void actuaParticiCatClub(@RequestBody Partici partici){
+        participanteService.actualizarClubCatTamElige(partici);
+
+    }
+
+    @PostMapping("/inscrip")
+    public ResponseEntity<?> inscriPartici(@RequestBody Partici partici){
+
+        Inscripto inscriptoparticipante=participanteService.inscribirPartici(partici);
+
+        return ResponseEntity.ok(inscriptoparticipante);
+    }
+
 }

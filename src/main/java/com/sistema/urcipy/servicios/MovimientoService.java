@@ -21,4 +21,5 @@ public interface MovimientoService {
 
     public void eliminarMovimiento(Integer idmovimiento);
 
+    public void eliminarMoviRankin(String ci, Integer idregional);
 }

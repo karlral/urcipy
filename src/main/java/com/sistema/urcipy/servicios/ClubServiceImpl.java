@@ -1,6 +1,7 @@
 package com.sistema.urcipy.servicios;
 
 import com.sistema.urcipy.entidades.Club;
+import com.sistema.urcipy.entidades.custom.Clube;
 import com.sistema.urcipy.repositorios.ClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,11 @@ public class ClubServiceImpl implements ClubService{
     @Override
     public Set<Club> obtenerClubes(Integer idModalidad) {
         return new LinkedHashSet<>(clubRepository.findByModalidad_Idmodalidad(idModalidad));
+    }
+    @Override
+    public Set<Clube> obtenerClube(Integer idModalidad) {
+        return new LinkedHashSet<>(clubRepository.saarchByClube(idModalidad));
+
     }
 
     @Override

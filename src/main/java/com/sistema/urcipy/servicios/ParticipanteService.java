@@ -25,7 +25,7 @@ public interface ParticipanteService {
     public void eliminarParticipantesEvento(Integer idevento);
     public void eliminarParticipantesEventoNotCompleto(Integer idevento);
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
-    public Set<Inscriptos> obtenerLisParticipantesByEventoActivoReg(Integer activo,Integer idregional);
+    public Set<Inscripto> obtenerLisParticipantesByEventoActivoReg(Integer activo, Integer idregional);
     public List<Participante> obtenerLisParticipantesByEvento(Integer idevento);
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento);
 
@@ -41,6 +41,11 @@ public interface ParticipanteService {
     public Set<Punclub> obtenerPuntajesInClub(Integer anho, Integer tipoone, Integer tipotwo, Integer idregional);
     public Set<Punclub> obtenerPuntajesXClubTwo(Integer anho, Integer tipoone, Integer tipotwo, Integer idregional);
 
+    public Set<Punclub> obtenerPuntajesXClubAll(Integer anho, Integer idregional);
+
+    public Set<Punclubpartici> obtenerPuntajesByClubAllPartici(Integer anho, Integer idregional,Integer idclub);
+
+
     public Set<Punclubpartici> obtenerPuntajesByClubPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional);
     public Set<Punclubpartici> obtenerPuntajesByClubTwoPartici(Integer anho, Integer tipoone, Integer tipotwo, Integer idclub,Integer idregional);
 
@@ -48,8 +53,9 @@ public interface ParticipanteService {
     public void desactivarPuntaje(Integer idcorredor);
     public void actualizarPromedio(Integer idevento);
     public void actualizarClubCat(Integer idevento,Integer idcorredor);
+    public void actualizarClubCatTamElige(Partici partici);
     public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo);
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
     public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar, Integer kit,Integer tamano);
-
+    public Inscripto inscribirPartici(Partici partici);
 }

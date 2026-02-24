@@ -46,4 +46,11 @@ public class MovimientoServiceImpl implements MovimientoService{
         movimiento.setIdmovimiento(idmovimiento);
         movimientoRepository.delete(movimiento);
     }
+    @Override
+    public void eliminarMoviRankin(String ci, Integer idregional){
+        Corredorank corredoRank =movimientoRepository.moviRankByCiAndIdregional(ci.trim(),idregional);
+        Movimiento movimiento= new Movimiento();
+        movimiento.setIdmovimiento(corredoRank.getIdmovimiento());
+        movimientoRepository.delete(movimiento);
+    }
 }

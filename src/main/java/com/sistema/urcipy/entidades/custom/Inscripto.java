@@ -3,7 +3,7 @@ package com.sistema.urcipy.entidades.custom;
 
 import java.util.Date;
 
-public interface Inscriptos
+public interface Inscripto
 {
     Integer getId();
     Date getFecha();
@@ -28,4 +28,7 @@ public interface Inscriptos
     String getHorario();
     Integer getTamano();
     Integer getKit();
+    String getTamanoc();
+    String getLogoclub();
+    String getLogoevento();
 }

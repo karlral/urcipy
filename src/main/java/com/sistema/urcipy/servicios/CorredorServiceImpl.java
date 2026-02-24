@@ -1,6 +1,7 @@
 package com.sistema.urcipy.servicios;
 
 import com.sistema.urcipy.entidades.Corredor;
+import com.sistema.urcipy.entidades.custom.Correbus;
 import com.sistema.urcipy.entidades.custom.Corredorbus;
 import com.sistema.urcipy.entidades.custom.Corredormen;
 import com.sistema.urcipy.repositorios.CorredorRepository;
@@ -77,5 +78,15 @@ public class CorredorServiceImpl implements CorredorService{
     @Transactional
     public void updateCatCorre(Integer idcorredor,Integer idcategoria){
         corredorRepository.updateCorredorCat(idcorredor,idcategoria);
+    }
+    @Override
+    @Transactional
+    public void updateTelremera(Correbus correbus){
+        corredorRepository.updateCorredorTelremera(correbus.getIdcorredor(),correbus.getTelefono(),correbus.getTamano());
+    }
+    @Override
+    @Transactional
+    public void updateCorredorClubCatElige(Integer idcorredor,Integer idclub,Integer idcategoria){
+        corredorRepository.updateCorredorClubCatElige(idcorredor,idclub,idcategoria);
     }
 }

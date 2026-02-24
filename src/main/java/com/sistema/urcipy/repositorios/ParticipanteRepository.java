@@ -37,7 +37,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
             "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
             "t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip,\n" +
-            "c.tanda,c.orden,c.horario,p.tamano,p.kit \n" +
+            "c.tanda,c.orden,c.horario,p.tamano,p.kit,r.nomremera as tamanoc \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -47,12 +47,34 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
             "inner join club cl on cl.idclub = p.club_idclub\n" +
             "inner join evento e on e.idevento=p.evento_idevento\n" +
-            "left outer join dorsal d on d.iddorsal=p.dorsal\n" +
-            "where e.activo=:activo and p.regional_idregional=:idregional order by p.fecha",nativeQuery = true)
-    List<Inscriptos> buscarParticipantesByEventoActivoReg(
+            "left outer join dorsal d on d.iddorsal=p.dorsal \n" +
+            "left outer join remera r on r.idremera=pe.tamano \n" +
+            "where e.activo=:activo and p.regional_idregional= :idregional order by p.fecha",nativeQuery = true)
+    List<Inscripto> buscarParticipantesByEventoActivoReg(
             @Param("activo") Integer activo,
             @Param("idregional")  Integer idregional
             );
+    @Query(value = "SELECT p.idparticipante as id,p.fecha,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,pe.sexo,\n" +
+            "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
+            "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
+            "t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip,\n" +
+            "c.tanda,c.orden,c.horario,p.tamano,p.kit,r.nomremera as tamanoc,cl.ruta as logoclub,clu.rutagrande as logoevento \n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join trayecto t on t.idtrayecto=c.trayecto_idtrayecto\n" +
+            "inner join ciudad ci on ci.idciudad=pe.ciudad_idciudad\n" +
+            "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
+            "inner join club cl on cl.idclub = p.club_idclub\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "inner join club clu on clu.idclub = e.club_idclub \n" +
+            "left outer join dorsal d on d.iddorsal=p.dorsal \n" +
+            "left outer join remera r on r.idremera=pe.tamano \n" +
+            "where p.idparticipante= :idparticipante ",nativeQuery = true)
+    Inscripto buscarParticipante(
+            @Param("idparticipante") Integer idparticipante
+    );
     List<Participante> findParticipantesByEventoIdeventoOrderByCategoria_Nomcorto
             (Integer idevento);
 
@@ -167,6 +189,34 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("anho") Integer anho,@Param("tipoone") Integer tipoone,
             @Param("tipotwo") Integer tipotwo,@Param("idregional") Integer idregional);
 
+    @Query(value = "SELECT cl.idclub,cl.ruta,cl.nomclub,sum(p.puntajeclub) as puntaje\n" +
+            "FROM participante p \n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join club cl on cl.idclub=p.club_idclub\n" +
+            "where year(p.fecha)=:anho and p.completo=1 " +
+            "and p.regional_idregional=:idregional " +
+            "and p.puntua=1 \n" +
+            " group by cl.idclub,cl.ruta,cl.nomclub order by 4 desc",nativeQuery = true)
+    List<Punclub> listaPuntajesXClubAllNative(
+            @Param("anho") Integer anho,
+            @Param("idregional") Integer idregional);
+
+    @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(pe.nombre,' ',pe.apellido) as partici,p.puntajeclub as puntaje \n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "inner join club cl on cl.idclub=e.club_idclub\n" +
+            "where year(p.fecha)=:anho and p.completo=1  " +
+            "and p.puntua=1 " +
+            "and p.regional_idregional=:idregional and p.club_idclub=:idclub \n" +
+            " order by e.fecha,p.puntaje desc",nativeQuery = true)
+    List<Punclubpartici> listaPuntajesByClubAllParticiNative(
+            @Param("anho") Integer anho
+            ,@Param("idregional") Integer idregional
+            ,@Param("idclub") Integer idclub);
+
     @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(pe.nombre,' ',pe.apellido) as partici,p.puntaje\n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
@@ -277,6 +327,18 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "where p.evento_idevento=:idevento and c.idcorredor=:idcorredor",nativeQuery = true)
     void updateParticipanteClubCat(
             @Param("idevento") Integer idevento,  @Param("idcorredor") Integer idcorredor
+    );
+
+    @Modifying
+    @Query(value = "update participante p  " +
+            "set p.club_idclub = :idclub, p.categoria_idcategoria=:idcategoria,p.tamano=:tamano  \n" +
+            "where p.idparticipante=:idparticipante ",nativeQuery = true)
+    void updateParticipanteClubCatTamElige(
+            @Param("idparticipante") Integer idparticipante,
+            @Param("idclub") Integer idclub,
+            @Param("idcategoria") Integer idcategoria,
+            @Param("tamano") Integer tamano
+
     );
 
     @Modifying

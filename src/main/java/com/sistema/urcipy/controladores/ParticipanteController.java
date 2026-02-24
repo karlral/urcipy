@@ -1,10 +1,8 @@
 package com.sistema.urcipy.controladores;
 
-import com.sistema.urcipy.entidades.Corredor;
 import com.sistema.urcipy.entidades.Dorsal;
 import com.sistema.urcipy.entidades.Participante;
 import com.sistema.urcipy.entidades.Resultimio;
-import com.sistema.urcipy.entidades.custom.Inscriptos;
 import com.sistema.urcipy.servicios.DorsalService;
 import com.sistema.urcipy.servicios.EventoService;
 import com.sistema.urcipy.servicios.ParticipanteService;
@@ -12,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/participante")

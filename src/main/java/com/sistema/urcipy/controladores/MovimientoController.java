@@ -44,4 +44,8 @@ public class MovimientoController {
     public void eliminarMovimiento(@PathVariable("idmovimiento") Integer idmovimiento){
         movimientoService.eliminarMovimiento(idmovimiento);
     }
+    @DeleteMapping("/eli/{ci}/{idregional}")
+    public void eliminarMovimiento(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
+        movimientoService.eliminarMoviRankin(ci,idregional);
+    }
 }
