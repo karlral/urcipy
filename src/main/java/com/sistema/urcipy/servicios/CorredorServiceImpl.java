@@ -70,9 +70,9 @@ public class CorredorServiceImpl implements CorredorService{
     }
     @Override
     @Transactional
-    public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub) {
+    public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub,Byte tipo) {
 
-        corredorRepository.updateCorredorAlianza(idpersona,idcategoria,idclub);
+        corredorRepository.updateCorredorAlianza(idpersona,idcategoria,idclub,tipo);
     }
     @Override
     @Transactional

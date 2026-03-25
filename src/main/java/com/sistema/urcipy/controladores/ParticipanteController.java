@@ -49,6 +49,10 @@ public class ParticipanteController {
     public ResponseEntity<?> listarParticipantesEvento(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
         return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEventoActivoReg(activo,idregional));
     }
+    @GetMapping("/puntaje/{activo}/{idregional}")
+    public ResponseEntity<?> listarParticipantesEventoPuntaje(@PathVariable("activo") Integer activo,@PathVariable("idregional") Integer idregional){
+        return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEventoActivoPuntaje(activo,idregional));
+    }
     @GetMapping("/pago/{activo}")
     public ResponseEntity<?> listarPagParticipantesEvento(@PathVariable("activo") Integer activo){
         Integer idevento;

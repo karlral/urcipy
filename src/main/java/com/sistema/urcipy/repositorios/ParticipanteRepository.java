@@ -54,6 +54,20 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("activo") Integer activo,
             @Param("idregional")  Integer idregional
             );
+    @Query(value = "SELECT p.idparticipante,co.idcorredor,e.idevento,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,\n" +
+            "cl.nomclub as club,c.nomcorto as categoria,\n" +
+            "p.puestocat,p.puntaje,p.puntajeclub,p.puntajeaux,p.puntua \n" +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join club cl on cl.idclub = p.club_idclub\n" +
+            "inner join evento e on e.idevento=p.evento_idevento\n" +
+            "where e.activo=:activo and p.regional_idregional= :idregional and p.completo=1 order by p.fecha",nativeQuery = true)
+    List<Participuntaje> buscarParticipantesByEventoActivoPuntaje(
+            @Param("activo") Integer activo,
+            @Param("idregional")  Integer idregional
+    );
     @Query(value = "SELECT p.idparticipante as id,p.fecha,pe.ci, concat(pe.nombre,' ',pe.apellido) as  corredor,pe.sexo,\n" +
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
             "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
@@ -201,7 +215,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("anho") Integer anho,
             @Param("idregional") Integer idregional);
 
-    @Query(value = "SELECT month(e.fecha) as mes,cl.rutagrande,e.nomevento,concat(pe.nombre,' ',pe.apellido) as partici,p.puntajeclub as puntaje \n" +
+    @Query(value = "SELECT date_format(e.fecha,'%m%d') as mes,cl.rutagrande,e.nomevento,concat(pe.nombre,' ',pe.apellido) as partici,p.puntajeclub as puntaje \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
@@ -252,13 +266,13 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     @Query(value = "update participante p inner join corredor co on co.idcorredor=p.corredor_idcorredor " +
             "            inner join persona pe on pe.idpersona=co.persona_idpersona \n" +
             "set p.tiempo = :tiempo, p.puestocat=:puestocat,p.puesto=:puesto," +
-            "p.dorsal=:dorsal,p.puntaje=:puntaje,p.puntajeaux=:puntajeaux,p.completo=:completo, p.puntajeclub = :puntajeclub " +
+            "p.dorsal=:dorsal,p.puntaje=:puntaje,p.puntajeaux=:puntajeaux,p.completo=:completo, p.puntajeclub = :puntajeclub, p.puntua= :puntua " +
             " where p.evento_idevento = :idevento and pe.ci = :ci ",nativeQuery = true)
     int setPuntajePosicion( @Param("tiempo") Date tiempo, @Param("puestocat") Integer puestocat,
                             @Param("puesto") Integer puesto, @Param("dorsal")    Integer dorsal,
                             @Param("puntaje")     Integer puntaje, @Param("puntajeaux")     Integer puntajeaux,
                             @Param("completo")     Integer completo, @Param("idevento")     Integer idevento,
-                            @Param("ci")     String ci,@Param("puntajeclub") Integer puntajeclub);
+                            @Param("ci")     String ci,@Param("puntajeclub") Integer puntajeclub,@Param("puntua") Integer puntua);
 
     @Modifying
     @Query(value = "DELETE FROM participante \n" +
@@ -374,6 +388,16 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             @Param("kit") Integer kit,
             @Param("tamano") Integer tamano
 
+    );
+
+    @Modifying
+    @Query(value = "update participante set puntaje=:puntaje,puntajeaux =:puntajeaux,puntajeclub=:puntajeclub  \n" +
+            "where idparticipante = :idparticipante",nativeQuery = true)
+    void updatePuntaje(
+            @Param("idparticipante") Integer idparticipante,
+            @Param("puntaje") Integer puntaje,
+            @Param("puntajeaux") Integer puntajeaux,
+            @Param("puntajeclub") Integer puntajeclub
     );
 
 }

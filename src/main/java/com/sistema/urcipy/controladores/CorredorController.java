@@ -119,7 +119,10 @@ public class CorredorController {
             Evento evento=eventoService.obtenerEventoActivoRegional(1,corredor1.getRegional().getIdregional());
             participanteService.actualizarClubCat(evento.getIdevento(),corredor1.getIdcorredor());
             //System.out.println("Paso 1");
-            corredorService.catAlianza(corredor1.getPersona().getIdpersona(),corredor1.getCategoria().getIdcategoria(),corredor1.getClub().getIdclub());
+            if(corredor1.getCatalianza()){
+                corredorService.catAlianza(corredor1.getPersona().getIdpersona(),corredor1.getCategoria().getIdcategoria(),corredor1.getClub().getIdclub(),corredor1.getCategoria().getTipo());
+            }
+
             //System.out.println("Paso 2");
             return corredor1;
         }

@@ -33,7 +33,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         int rows=participanteRepository.setPuntajePosicion(resultimio.getTiempo(),resultimio.getPoscategoria(),
                 resultimio.getPoscategoria(),resultimio.getDorsal(),resultimio.getPuntaje(),
                 resultimio.getPuntajeaux(),resultimio.getCompleto(),resultimio.getEvento().getIdevento(),
-                resultimio.getCi(),resultimio.getPuntajeclub());
+                resultimio.getCi(),resultimio.getPuntajeclub(),resultimio.getPuntua());
         return rows;
     }
     @Override
@@ -82,6 +82,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Override
     public Set<Inscripto> obtenerLisParticipantesByEventoActivoReg(Integer activo, Integer idregional){
         return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoReg(activo,idregional));
+    }
+    @Override
+    public Set<Participuntaje> obtenerLisParticipantesByEventoActivoPuntaje(Integer activo, Integer idregional){
+        return new LinkedHashSet<>(participanteRepository.buscarParticipantesByEventoActivoPuntaje(activo,idregional));
     }
     @Override
     public List<Participante> obtenerLisParticipantesByEvento(Integer idevento){
@@ -189,6 +193,29 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado,Integer acobrar,Integer kit,Integer tamano){
         participanteRepository.actuaPagosId(idparticipante,nrogiro,pagado,acobrar,kit,tamano);
     }
+    @Override
+    @Transactional
+    public void actualizarPuntaje(EventoAsignacion eventoAsignacion) {
+        Integer puntaje=0,puntajeaux=0,puntajeclub=0;
+        Participante participante= participanteRepository.getById(eventoAsignacion.getIdparticipante());
+        if(eventoAsignacion.getAsignacion().getTipoAsignacion()==0){
+            puntaje = participante.getPuntaje()-eventoAsignacion.getPuntaje();
+            puntajeaux=participante.getPuntajeaux()-eventoAsignacion.getPuntaje();
+            puntajeclub=participante.getPuntajeclub();
+        } else if (eventoAsignacion.getAsignacion().getTipoAsignacion()==1){
+            puntaje = participante.getPuntaje()+eventoAsignacion.getPuntaje();
+            puntajeaux=participante.getPuntajeaux()+eventoAsignacion.getPuntaje();
+            puntajeclub=participante.getPuntajeclub();
+        }else if (eventoAsignacion.getAsignacion().getTipoAsignacion()==2){
+            puntaje = participante.getPuntaje()*2;
+            puntajeaux=participante.getPuntajeaux()*2;
+            puntajeclub=participante.getPuntajeclub()*2;
+        }
+        if(participante.getPuntua()==1){
+            puntaje = 0;
+        }
+        participanteRepository.updatePuntaje(eventoAsignacion.getIdparticipante(),puntaje,puntajeaux,puntajeclub);
+    }
 
     @Override
     @Transactional
@@ -218,11 +245,15 @@ public class ParticipanteServiceImpl implements ParticipanteService{
                         );
                        // return ResponseEntity.badRequest().body("Corredor no existe");
                     }else{
-                        if (corredor.getModificar()){
+                        if (corredor.getModificar() == null){
+                            corredor.setModificar(false);
+                        }
+
+                        if ( corredor.getModificar()){
                             modificarcorredor(partici);
                             corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),evento.getRegional().getIdregional());
                         }
-                        guardarparticipante(corredor,evento,evento.getRegional(),partici.getTamano());
+                        guardarparticipante(corredor,evento,evento.getRegional(),partici.getTamano(),corredor.getClub().getIdclub());
                     }
                 }
                 participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
@@ -246,12 +277,15 @@ public class ParticipanteServiceImpl implements ParticipanteService{
                     );
                     //return ResponseEntity.badRequest().body("Corredor no existe");
                 }else{
+                    if (corredor.getModificar() == null){
+                        corredor.setModificar(false);
+                    }
                     if (corredor.getModificar()){
                         modificarcorredor(partici);
                         corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),eventoold.getRegional().getIdregional());
                     }
 
-                    participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional(),partici.getTamano());
+                    participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional(),partici.getTamano(),partici.getIdclub());
                 }
             }
         }else{
@@ -280,14 +314,16 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
 
 
-    private Participante guardarparticipante(Corredor corredor, Evento evento, Regional regional,Integer tamano) {
+    private Participante guardarparticipante(Corredor corredor, Evento evento, Regional regional,Integer tamano,Integer idclub) {
         Participante participante,participanteauxiliar;
 
         participante= new Participante();
         participante.setCorredor(corredor);
         participante.setTamano(corredor.getPersona().getTamano());
 
-        participante.setClub(corredor.getClub());
+        Club club = new Club();
+        club.setIdclub(idclub);
+        participante.setClub(club);
         participante.setCategoria(corredor.getCategoria());
 
         Region region;

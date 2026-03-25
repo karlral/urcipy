@@ -77,11 +77,13 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
     @Query(value = "update corredor co  " +
             "inner join persona pe on pe.idpersona=co.persona_idpersona \n" +
             "set  co.categoria_idcategoria=:idcategoria, co.club_idclub=:idclub  \n" +
+            ", co.tipocat=:tipo \n" +
             "where co.persona_idpersona=:idpersona and co.catalianza=1",nativeQuery = true)
     void updateCorredorAlianza(
             @Param("idpersona") Integer idpersona,
             @Param("idcategoria") Integer idcategoria,
-            @Param("idclub") Integer idclub
+            @Param("idclub") Integer idclub,
+            @Param("tipo") Byte tipo
 
     );
 

@@ -460,7 +460,7 @@ public class ResultimioController {
             participante.setPuntua(corredor.getPuntua());
 
             participante.setKm(corregroup.getDistancia());
-            participante.setPuntua(corredor.getPuntua());
+
             participante.setCompleto(0);
 
             participanteService.guardarParticipante(participante);
@@ -551,6 +551,10 @@ public class ResultimioController {
 
 
             System.out.println("Encontro: " + resultimio.getNomparticipante() + resultimio.getPoscategoria() + resultimio.getTiempos());
+            if (corredor.getPuntua()==1){
+                System.out.println("CORREDOR YA PUNTUA");
+                continue;
+            }
             corredor.setPuntua(1);
             corredorService.guardarCorredor(corredor);
 
@@ -566,7 +570,11 @@ public class ResultimioController {
             Concepto concepto = new Concepto();
             concepto.setIdconcepto(2);
             movimiento.setConcepto(concepto);
-            movimiento.setEntrada(20000);
+            if(corredor.getCategoria().getNomcategoria().contains("Niñ")){
+                movimiento.setEntrada(0);
+            }else {
+                movimiento.setEntrada(20000);
+            }
             movimiento.setSalida(0);
             movimientoService.guardarMovimiento(movimiento);
 

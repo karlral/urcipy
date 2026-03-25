@@ -2,6 +2,7 @@ package com.sistema.urcipy.servicios;
 
 
 
+import com.sistema.urcipy.entidades.EventoAsignacion;
 import com.sistema.urcipy.entidades.Participante;
 import com.sistema.urcipy.entidades.Resultimio;
 import com.sistema.urcipy.entidades.custom.*;
@@ -26,6 +27,7 @@ public interface ParticipanteService {
     public void eliminarParticipantesEventoNotCompleto(Integer idevento);
     public Set<Resultado> obtenerParticipantesByEvento(Integer idevento);
     public Set<Inscripto> obtenerLisParticipantesByEventoActivoReg(Integer activo, Integer idregional);
+    public Set<Participuntaje> obtenerLisParticipantesByEventoActivoPuntaje(Integer activo, Integer idregional);
     public List<Participante> obtenerLisParticipantesByEvento(Integer idevento);
     public Set<Inscripagos> obtenerLisPagParticipantesByEvento(Integer idevento);
 
@@ -58,4 +60,5 @@ public interface ParticipanteService {
     public void actuaPartiDorsal(Integer idparticipante,Integer iddorsal);
     public void actuaPartiPagos(Integer idparticipante,String nrogiro, Integer pagado, Integer acobrar, Integer kit,Integer tamano);
     public Inscripto inscribirPartici(Partici partici);
+    public void actualizarPuntaje(EventoAsignacion eventoAsignacion);
 }
