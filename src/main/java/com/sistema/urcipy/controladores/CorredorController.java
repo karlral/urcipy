@@ -205,6 +205,40 @@ public class CorredorController {
         return ResponseEntity.ok(correProblems);
     }
 
+    @PutMapping("/updatecatreg")
+    public ResponseEntity<?>  actualizarCatCorrReg3(@RequestBody Integer idregional){
+        List<Corredor> corredores = new ArrayList<>(corredorService.obtenerCorredores(1));
+        List<Corredor> correProblems = new ArrayList<>();
+        Corredor corredoraux;
+        Boolean problema=false;
+
+        Integer contador=0;
+        for (Corredor corredor:corredores) {
+            System.out.println(corredor.toString());
+
+            corredoraux=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),idregional);
+
+            if (corredoraux==null){
+                correProblems.add(corredor);
+                problema=true;
+            }else{
+                corredoraux.setClub(corredor.getClub());
+                corredoraux.setTipocat(corredor.getTipocat());
+                corredoraux.setCategoria(corredor.getCategoria());
+
+                corredorService.guardarCorredor(corredoraux);
+
+                contador=contador+1;
+            }
+        }
+       if (problema) {
+           return ResponseEntity.ok(correProblems);
+       }else {
+           return ResponseEntity.ok(contador);
+       }
+
+    }
+
     @PutMapping("/updatecategoriarun/{idevento}")
     public ResponseEntity<?>  actualizarCategoriaCorredorrun(@PathVariable("idevento") Integer idevento){
         List<Participante> participantes = new ArrayList<>(participanteService.obtenerLisParticipantesByEvento(idevento));

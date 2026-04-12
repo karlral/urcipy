@@ -16,6 +16,8 @@ public interface CorredorService {
     public Corredor guardarCorredor(Corredor corredor);
     public void guardarCorredores(List<Corredor> corredores);
 
+    public Corredor guardarCorredorInscripcion(Corredor corredor);
+
     public Set<Corredor> obtenerCorredores();
 
     public Set<Corredor> obtenerCorredores(Integer idregional);
@@ -35,5 +37,5 @@ public interface CorredorService {
 
     public void updateCatCorre(Integer idcorredor,Integer idcategoria);
     public void updateTelremera(Correbus correbus);
-    public void updateCorredorClubCatElige(Integer idcorredor,Integer idclub,Integer idcategoria);
+
 }

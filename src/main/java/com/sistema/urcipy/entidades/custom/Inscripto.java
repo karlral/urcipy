@@ -31,4 +31,5 @@ public interface Inscripto
     String getTamanoc();
     String getLogoclub();
     String getLogoevento();
+    String getCatalternativo();
 }

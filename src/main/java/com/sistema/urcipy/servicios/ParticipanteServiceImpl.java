@@ -22,6 +22,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     private CorredorRepository corredorRepository;
     @Autowired
     private EventoRepository eventoRepository;
+    @Autowired
+    private CorredorService corredorService;
 
     @Override
     public Participante guardarParticipante(Participante participante){
@@ -221,6 +223,11 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Transactional
     public Inscripto inscribirPartici(Partici partici){
 
+        if(partici.getIdregional()==3 && partici.getRegcorredor()){
+           Corredor corredor = this.registrarcorredor(partici);
+
+        }
+
         Participante participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
                 //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
         if(participanteaux==null) {
@@ -230,6 +237,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
             //System.out.println(idevento);
             Integer alianza=eventoold.getAlianza();
             //System.out.println(alianza);
+            partici.setModificar(0);
             if(alianza==1){
                 // guardamos las inscripciones de cada Regional con su club y con su categoria
                 List<Evento> eventos=eventoRepository.findByActivoAndAlianzaOrderByFecha(1,alianza);
@@ -308,9 +316,46 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return inscripto;
     }
 
+    private Corredor registrarcorredor(Partici partici) {
+        Persona persona =new Persona();
+        persona.setCi(partici.getCi());
+        persona.setNombre(partici.getNombre());
+        persona.setApellido(partici.getApellido());
+        persona.setTelefono(partici.getTelefono());
+        persona.setTamano(partici.getTamano());
+        Ciudad ciudad=new Ciudad();
+        ciudad.setIdciudad(1);
+        Pais pais=new Pais();
+        pais.setIdpais(1);
+        ciudad.setPais(pais);
+        persona.setCiudad(ciudad);
+        persona.setFecnac(partici.getFecnac());
+        persona.setSexo(partici.getSexo());
+        persona.setNacionalidad(partici.getNacionalidad());
+
+        Corredor corredor = new Corredor();
+        corredor.setPersona(persona);
+        corredor.setTipocat(partici.getTipocat());
+        Categoria categoria = new Categoria();
+        categoria.setIdcategoria(partici.getIdcategoria());
+        corredor.setCategoria(categoria);
+        Club club = new Club();
+        club.setIdclub(partici.getIdclub());
+        corredor.setClub(club);
+        corredor.setModificar(true);
+        corredor.setCatalianza(true);
+        Regional regional = new Regional();
+        regional.setIdregional(partici.getIdregional());
+        corredor.setRegional(regional);
+        Usuario usuario = new Usuario();
+        usuario.setIdusuario(91);
+        corredor.setUsuario(usuario);
+        return corredorService.guardarCorredorInscripcion(corredor);
+    }
+
     private void modificarcorredor(Partici partici) {
         corredorRepository.updateCorredorTelremera(partici.getIdcorredor(),partici.getTelefono(),partici.getTamano());
-        corredorRepository.updateCorredorClubCatElige(partici.getIdcorredor(),partici.getIdclub(),partici.getIdcategoria());
+        corredorRepository.updateCorredorClubCatElige(partici.getIdcorredor(),partici.getIdclub(),partici.getIdcategoria(),partici.getTipocat(),partici.getModificar());
     }
 
 

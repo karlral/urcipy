@@ -72,7 +72,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
             "pe.fecnac, pe.telefono,ci.nomciudad as ciudad, pa.nompais as pais,\n" +
             "cl.nomclub as club,c.nomcorto as categoria,c.codigo,\n" +
             "t.km as km,p.acobrar,p.pagado,p.dorsal,p.nrogiro,d.chip,\n" +
-            "c.tanda,c.orden,c.horario,p.tamano,p.kit,r.nomremera as tamanoc,cl.ruta as logoclub,clu.rutagrande as logoevento \n" +
+            "c.tanda,c.orden,c.horario,p.tamano,p.kit,r.nomremera as tamanoc,cl.ruta as logoclub,clu.rutagrande as logoevento,c.nomalternativo as catalternativo \n" +
             "FROM participante p \n" +
             "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
             "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +

@@ -112,12 +112,14 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
     @Modifying
     @Query(value = "update corredor co  " +
             "set  co.categoria_idcategoria=:idcategoria, \n" +
-            " co.club_idclub=:idclub, co.modificar=0 \n" +
+            " co.club_idclub=:idclub,co.tipocat = :tipocat, co.modificar=:modificar \n" +
             "where co.idcorredor=:idcorredor",nativeQuery = true)
     void updateCorredorClubCatElige(
             @Param("idcorredor") Integer idcorredor,
             @Param("idclub") Integer idclub,
-            @Param("idcategoria") Integer idcategoria
+            @Param("idcategoria") Integer idcategoria,
+            @Param("tipocat") Byte tipocat,
+            @Param("modificar") Integer modificar
 
     );
 }
