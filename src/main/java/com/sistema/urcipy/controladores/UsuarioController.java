@@ -42,6 +42,7 @@ public class UsuarioController {
         return usuarioService.guardarUsuario(usuario,roles);
     }
 
+
     @GetMapping("/{username}")
     public Usuario obtenerUsuario(@PathVariable("username") String username){
         return usuarioService.obtenerUsuario(username);

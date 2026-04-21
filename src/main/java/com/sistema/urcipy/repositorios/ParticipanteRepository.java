@@ -89,6 +89,24 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     Inscripto buscarParticipante(
             @Param("idparticipante") Integer idparticipante
     );
+
+    @Query(value = "SELECT p.idparticipante,e.idevento,co.idcorredor,c.idcategoria,cl.idclub," +
+            "pe.ci,p.tamano,pe.telefono,p.regional_idregional as idregional,co.modificar,c.tipo as tipocat," +
+            "concat(pe.nombre,' ',pe.apellido) as  corredor,pe.nombre,pe.apellido,pe.fecnac,pe.sexo,\n" +
+            " pa.nacionalidad " +
+            "FROM participante p \n" +
+            "inner join corredor co on co.idcorredor=p.corredor_idcorredor\n" +
+            "inner join persona pe on pe.idpersona=co.persona_idpersona\n" +
+            "inner join categoria c on c.idcategoria=p.categoria_idcategoria\n" +
+            "inner join ciudad ci on ci.idciudad=pe.ciudad_idciudad\n" +
+            "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
+            "inner join club cl on cl.idclub = p.club_idclub\n" +
+            "inner join evento e on e.idevento=p.evento_idevento \n" +
+            "where p.idparticipante= :idparticipante ",nativeQuery = true)
+    Participa buscarPartici(
+            @Param("idparticipante") Integer idparticipante
+    );
+
     List<Participante> findParticipantesByEventoIdeventoOrderByCategoria_Nomcorto
             (Integer idevento);
 
@@ -359,13 +377,14 @@ public interface ParticipanteRepository extends JpaRepository<Participante,Integ
     @Query(value = "update participante p " +
             "inner join evento e on e.idevento =p.evento_idevento "+
             "inner join modalidad m on m.idmodalidad =e.modalidad_idmodalidad "+
-            "set  p.tamano=:tamano ,p.categoria_idcategoria=:idcategoria \n" +
-            "where p.corredor_idcorredor=:idcorredor and m.idmodalidad=2 and e.activo=:activo",nativeQuery = true)
-    void updateParticipanteTamCat(
+            "set  p.club_idclub=:idclub ,p.categoria_idcategoria=:idcategoria,p.tamano=:tamano \n" +
+            "where p.corredor_idcorredor=:idcorredor and e.idevento=:idevento",nativeQuery = true)
+    void updateParticipanteClubCatTam(
             @Param("idcorredor") Integer idcorredor,
-            @Param("tamano") Integer tamano,
+            @Param("idclub") Integer idclub,
             @Param("idcategoria") Integer idcategoria,
-            @Param("activo") Integer activo
+            @Param("tamano") Integer tamano,
+            @Param("idevento") Integer idevento
 
     );
 

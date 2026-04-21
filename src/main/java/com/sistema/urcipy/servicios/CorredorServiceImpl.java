@@ -150,8 +150,8 @@ public class CorredorServiceImpl implements CorredorService{
     }
     @Override
     @Transactional
-    public void updateCatCorre(Integer idcorredor,Integer idcategoria){
-        corredorRepository.updateCorredorCat(idcorredor,idcategoria);
+    public void updateCatClubCorre(Corredor corredor){
+        corredorRepository.updateCorredorClubCatElige(corredor.getIdcorredor(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria(),corredor.getTipocat(),corredor.getModificar());
     }
     @Override
     @Transactional

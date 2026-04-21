@@ -12,7 +12,7 @@ public class Partici {
      private Integer tamano;
      private String telefono;
      private Integer idregional;
-     private Integer modificar;
+     private Boolean modificar;
      private Byte tipocat;
      private String corredor;
      private String nombre;
@@ -26,7 +26,7 @@ public class Partici {
     public Partici() {
     }
 
-    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, String ci, Integer tamano, String telefono, Integer idregional, Integer modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor) {
+    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, String ci, Integer tamano, String telefono, Integer idregional, Boolean modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor) {
         this.idparticipante = idparticipante;
         this.idevento = idevento;
         this.idcorredor = idcorredor;
@@ -119,11 +119,11 @@ public class Partici {
         this.idregional = idregional;
     }
 
-    public Integer getModificar() {
+    public Boolean getModificar() {
         return modificar;
     }
 
-    public void setModificar(Integer modificar) {
+    public void setModificar(Boolean modificar) {
         this.modificar = modificar;
     }
 

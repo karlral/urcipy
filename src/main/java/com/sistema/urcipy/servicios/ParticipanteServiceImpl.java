@@ -2,9 +2,7 @@ package com.sistema.urcipy.servicios;
 
 import com.sistema.urcipy.entidades.*;
 import com.sistema.urcipy.entidades.custom.*;
-import com.sistema.urcipy.repositorios.CorredorRepository;
-import com.sistema.urcipy.repositorios.EventoRepository;
-import com.sistema.urcipy.repositorios.ParticipanteRepository;
+import com.sistema.urcipy.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     private EventoRepository eventoRepository;
     @Autowired
     private CorredorService corredorService;
+    @Autowired
+    private ClubRepository clubRepository;
+    @Autowired
+    private PersonaRepository personaRepository;
 
     @Override
     public Participante guardarParticipante(Participante participante){
@@ -182,8 +184,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
     @Override
     @Transactional
-    public void actualizarPartiTamCat(Integer idcorredor,Integer tamano,Integer idcategoria,Integer activo){
-        participanteRepository.updateParticipanteTamCat(idcorredor,tamano,idcategoria,activo);
+    public void actualizarPartiClubCatTam(Integer idcorredor,Integer idclub,Integer idcategoria,Integer tamano,Integer idevento){
+        participanteRepository.updateParticipanteClubCatTam(idcorredor,idclub,idcategoria,tamano,idevento);
     }
     @Override
     @Transactional
@@ -220,6 +222,34 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     }
 
     @Override
+    public Partici obtenerPartici(Integer idparticipante) {
+        Participa participa= participanteRepository.buscarPartici(idparticipante);
+        Partici partici= new Partici();
+        partici.setIdparticipante(participa.getIdparticipante());
+        partici.setIdevento(participa.getIdevento());
+        partici.setIdcorredor(participa.getIdcorredor());
+        partici.setIdcategoria(participa.getIdcategoria());
+        partici.setIdclub(participa.getIdclub());
+        partici.setCi(participa.getCi());
+        partici.setTamano(participa.getTamano());
+        partici.setTelefono(participa.getTelefono());
+        partici.setIdregional(participa.getIdregional());
+        if (participa.getModificar()==null){
+            partici.setModificar(false);
+        }else{ partici.setModificar(participa.getModificar()==1);}
+
+        partici.setTipocat(participa.getTipocat());
+        partici.setCorredor(participa.getCorredor());
+        partici.setNombre(participa.getNombre());
+        partici.setApellido(participa.getApellido());
+        partici.setFecnac(participa.getFecnac());
+        partici.setSexo(participa.getSexo());
+        partici.setNacionalidad(participa.getNacionalidad());
+
+        return partici;
+    }
+
+    @Override
     @Transactional
     public Inscripto inscribirPartici(Partici partici){
 
@@ -237,7 +267,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
             //System.out.println(idevento);
             Integer alianza=eventoold.getAlianza();
             //System.out.println(alianza);
-            partici.setModificar(0);
+            partici.setModificar(false);
             if(alianza==1){
                 // guardamos las inscripciones de cada Regional con su club y con su categoria
                 List<Evento> eventos=eventoRepository.findByActivoAndAlianzaOrderByFecha(1,alianza);
@@ -316,6 +346,48 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         return inscripto;
     }
 
+    @Override
+    public Inscripto searchParticipante(Integer idparticipante){
+        Inscripto inscripto = participanteRepository.buscarParticipante(idparticipante);
+        return inscripto;
+    }
+
+    @Override
+    @Transactional
+    public Inscripto actualizaPartici(Partici partici){
+        Participante participanteaux=participanteRepository.findById(partici.getIdparticipante()).get();
+
+        Categoria categoria = new Categoria();
+        categoria.setIdcategoria(partici.getIdcategoria());
+        participanteaux.setCategoria(categoria);
+
+        Club club = new Club();
+        club.setIdclub(partici.getIdclub());
+        participanteaux.setClub(club);
+
+        participanteRepository.saveAndFlush(participanteaux);
+
+        Corredor corredor = participanteaux.getCorredor();
+
+        corredor.setCategoria(categoria);
+        corredor.setClub(participanteaux.getClub());
+        corredor.setTipocat(partici.getTipocat());
+
+        corredorRepository.saveAndFlush(corredor);
+
+        Persona persona = corredor.getPersona();
+        persona.setNombre(partici.getNombre());
+        persona.setApellido(partici.getApellido());
+        persona.setTelefono(partici.getTelefono());
+        persona.setFecnac(partici.getFecnac());
+        persona.setSexo(partici.getSexo());
+        persona.setNacionalidad(partici.getNacionalidad());
+
+        personaRepository.saveAndFlush(persona);
+
+        return participanteRepository.buscarParticipante(participanteaux.getIdparticipante());
+    }
+
     private Corredor registrarcorredor(Partici partici) {
         Persona persona =new Persona();
         persona.setCi(partici.getCi());
@@ -372,7 +444,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         participante.setCategoria(corredor.getCategoria());
 
         Region region;
-        region = corredor.getClub().getRegion();
+        region=clubRepository.findById(idclub).get().getRegion();
+
         participante.setRegion(region);
 
         Date fecha = new Date();

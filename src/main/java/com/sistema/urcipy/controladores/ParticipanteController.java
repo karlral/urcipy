@@ -3,6 +3,8 @@ package com.sistema.urcipy.controladores;
 import com.sistema.urcipy.entidades.Dorsal;
 import com.sistema.urcipy.entidades.Participante;
 import com.sistema.urcipy.entidades.Resultimio;
+import com.sistema.urcipy.entidades.custom.Inscripto;
+import com.sistema.urcipy.entidades.custom.Partici;
 import com.sistema.urcipy.servicios.DorsalService;
 import com.sistema.urcipy.servicios.EventoService;
 import com.sistema.urcipy.servicios.ParticipanteService;
@@ -31,6 +33,10 @@ public class ParticipanteController {
     @GetMapping("/{idparticipante}")
     public Participante obtenerParticipantePorId(@PathVariable("idparticipante") Integer idparticipante){
         return participanteService.obtenerParticipante(idparticipante);
+    }
+    @GetMapping("/partici/{idparticipante}")
+    public Partici obtenerParticiPorId(@PathVariable("idparticipante") Integer idparticipante){
+        return participanteService.obtenerPartici(idparticipante);
     }
 
     @GetMapping("/")
@@ -93,5 +99,13 @@ public class ParticipanteController {
 
         }
         return ResponseEntity.ok(participanteService.obtenerLisParticipantesByEventoActivoReg(activo,idregional));
+    }
+
+    @PutMapping("/actualizapar")
+    public ResponseEntity<?> inscriPartici(@RequestBody Partici partici){
+
+        Inscripto inscriptoparticipante=participanteService.actualizaPartici(partici);
+
+        return ResponseEntity.ok(inscriptoparticipante);
     }
 }

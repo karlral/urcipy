@@ -56,7 +56,7 @@ public class ParticiPubController {
                 Corredor corredor;
                 if(eventoold.getModalidad().getIdmodalidad()==2){ //Running
                     corredor = corredorService.obtenerCorredorCi(ci,4); // Running
-                    corredor.setClub(eventoold.getClub());
+
 
                 }else{
                     corredor = corredorService.obtenerCorredorCi(ci,eventoold.getRegional().getIdregional());
@@ -68,7 +68,27 @@ public class ParticiPubController {
                     participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional());
                 }
             }
+        }else{
+
+
+            if (participanteaux.getEvento().getModalidad().getIdmodalidad()==2){
+
+                Corredor corredor=participanteaux.getCorredor();
+                participanteService.actualizarPartiClubCatTam(corredor.getIdcorredor(),corredor.getClub().getIdclub(),corredor.getCategoria().getIdcategoria(),corredor.getPersona().getTamano(),participanteaux.getEvento().getIdevento());
+
+                Participante participanteaux2= participanteService.obtenerParticipante(participanteaux.getIdparticipante());
+                participanteaux=participanteaux2;
+            }
+
+
+
         }
+
+
+
+        //Inscripto inscripto = participanteService.searchParticipante(participanteaux.getIdparticipante());
+
+        //return ResponseEntity.ok(inscripto);
         return ResponseEntity.ok(participanteaux);
     }
 
@@ -110,6 +130,11 @@ public class ParticiPubController {
     @GetMapping("/id/{idparticipante}")
     public Participante obtenerParticipantePorId(@PathVariable("idparticipante") Integer idparticipante){
         return participanteService.obtenerParticipante(idparticipante);
+    }
+
+    @GetMapping("/partici/{idparticipante}")
+    public Partici obtenerParticiPorId(@PathVariable("idparticipante") Integer idparticipante){
+        return participanteService.obtenerPartici(idparticipante);
     }
 
     @GetMapping("/puntajes/{idregional}")

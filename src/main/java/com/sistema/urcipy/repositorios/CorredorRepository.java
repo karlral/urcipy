@@ -119,7 +119,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idclub") Integer idclub,
             @Param("idcategoria") Integer idcategoria,
             @Param("tipocat") Byte tipocat,
-            @Param("modificar") Integer modificar
+            @Param("modificar") Boolean modificar
 
     );
 }

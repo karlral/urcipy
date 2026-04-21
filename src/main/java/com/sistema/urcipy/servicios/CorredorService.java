@@ -35,7 +35,7 @@ public interface CorredorService {
     public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado, Integer idregional);
     public void catAlianza(Integer idpersona,Integer idcategoria,Integer idclub,Byte tipo);
 
-    public void updateCatCorre(Integer idcorredor,Integer idcategoria);
+    public void updateCatClubCorre(Corredor corredor);
     public void updateTelremera(Correbus correbus);
 
 }
