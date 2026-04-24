@@ -16,4 +16,5 @@ public interface DorsalService {
 
     public void eliminarDorsal(Integer iddorsal);
 
+    void guardarDorsales(List<Dorsal> dorsales);
 }

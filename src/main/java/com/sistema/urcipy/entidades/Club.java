@@ -46,6 +46,7 @@ public class Club   {
      private String email;
      private String ruta;
      private String rutagrande;
+     private Byte organizador;
     @OneToMany(fetch=FetchType.LAZY, mappedBy="club")
     @JsonIgnore
      private Set<Evento> eventos = new HashSet<Evento>(0);
@@ -67,7 +68,7 @@ public class Club   {
         this.region = region;
         this.modalidad = modalidad;
     }
-    public Club(Region region, Modalidad modalidad, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes) {
+    public Club(Region region, Modalidad modalidad, String nomclub, String presidente, String telpresi, String vicepresidente, String telvice, String telefono, String email, String ruta, String rutagrande, Byte organizador, Set<Evento> eventos, Set<Campeones> campeoneses, Set<Participante> participantes) {
 
         this.region = region;
         this.modalidad = modalidad;
@@ -80,7 +81,8 @@ public class Club   {
        this.email = email;
        this.ruta = ruta;
        this.rutagrande = rutagrande;
-       this.eventos = eventos;
+        this.organizador = organizador;
+        this.eventos = eventos;
        this.campeoneses = campeoneses;
 
        this.participantes=participantes;
@@ -234,6 +236,14 @@ public class Club   {
 
     public void setModalidad(Modalidad modalidad) {
         this.modalidad = modalidad;
+    }
+
+    public Byte getOrganizador() {
+        return organizador;
+    }
+
+    public void setOrganizador(Byte organizador) {
+        this.organizador = organizador;
     }
 }
 

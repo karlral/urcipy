@@ -16,7 +16,14 @@ public interface ClubRepository extends JpaRepository<Club,Integer> {
 
     List<Club> findByModalidad_Idmodalidad(Integer idmodalidad);
 
-    @Query(value = "SELECT c.idclub,c.nomclub \n" +
+    @Query(value = "SELECT c.idclub,c.nomclub,c.organizador \n" +
+            "FROM club c \n" +
+            "where c.modalidad_idmodalidad=:idmodalidad and c.organizador=:organizador",nativeQuery = true)
+    List<Clube> saarchByClube(
+            @Param("idmodalidad") Integer idmodalidad,
+            @Param("organizador") Byte organizador);
+
+    @Query(value = "SELECT c.idclub,c.nomclub,c.organizador \n" +
             "FROM club c \n" +
             "where c.modalidad_idmodalidad=:idmodalidad",nativeQuery = true)
     List<Clube> saarchByClube(

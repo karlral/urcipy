@@ -14,6 +14,7 @@ public interface ClubService {
 
     public Set<Club> obtenerClubes();
     public Set<Club> obtenerClubes(Integer idModalidad);
+    public Set<Clube> obtenerClube(Integer idModalidad, Byte organizador);
     public Set<Clube> obtenerClube(Integer idModalidad);
 
     public Club obtenerClub(Integer idclub);

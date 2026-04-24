@@ -39,4 +39,9 @@ public class DorsalServiceImpl implements DorsalService {
         dorsal.setIddorsal(iddorsal);
         dorsalRepository.delete(dorsal);
     }
+
+    @Override
+    public void guardarDorsales(List<Dorsal> dorsales) {
+        dorsalRepository.saveAll(dorsales);
+    }
 }

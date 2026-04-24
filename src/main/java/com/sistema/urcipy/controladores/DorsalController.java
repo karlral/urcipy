@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/dorsal")
 @CrossOrigin("*")
@@ -19,6 +21,12 @@ public class DorsalController {
         Dorsal dorsalGuardada = dorsalService.guardarDorsal(dorsal);
         return ResponseEntity.ok(dorsalGuardada);
     }
+    @PostMapping("/dorsales")
+    public ResponseEntity<?> guardarDorsales(@RequestBody List<Dorsal> dorsales){
+        dorsalService.guardarDorsales(dorsales);
+        return ResponseEntity.ok(ResponseEntity.ok().build());
+    }
+
     @GetMapping("/{iddorsal}")
     public Dorsal obtenerDorsalPorId(@PathVariable("iddorsal") Integer iddorsal){
         return dorsalService.obtenerDorsal(iddorsal);

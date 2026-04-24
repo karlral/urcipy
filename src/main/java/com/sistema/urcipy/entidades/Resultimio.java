@@ -43,6 +43,7 @@ public class Resultimio  {
     private Integer acobrar;
     private Integer kit;
     private Integer tamano;
+    private String chip;
 
     public Resultimio() {
     }
@@ -51,7 +52,7 @@ public class Resultimio  {
     public Resultimio(Evento evento) {
         this.evento = evento;
     }
-    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar, Integer kit, Integer tamano) {
+    public Resultimio(Evento evento, Integer nro, String categoria, Integer poscategoria, String nomparticipante, Integer dorsal, String ci, Integer distancia, Date tiempo, String club, Byte proceso, Integer id, Integer puntaje, Integer completo, String tiempos, Integer puntua, Integer puntajeaux, Integer puntajeclub, Integer idevento, String nrogiro, Integer pagado, Integer acobrar, Integer kit, Integer tamano, String chip) {
        this.evento = evento;
        this.nro = nro;
        this.categoria = categoria;
@@ -76,6 +77,7 @@ public class Resultimio  {
         this.acobrar = acobrar;
         this.kit = kit;
         this.tamano = tamano;
+        this.chip = chip;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -319,6 +321,14 @@ public class Resultimio  {
 
     public void setTamano(Integer tamano) {
         this.tamano = tamano;
+    }
+
+    public String getChip() {
+        return chip;
+    }
+
+    public void setChip(String chip) {
+        this.chip = chip;
     }
 }
 

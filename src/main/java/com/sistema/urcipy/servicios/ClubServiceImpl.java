@@ -29,11 +29,15 @@ public class ClubServiceImpl implements ClubService{
         return new LinkedHashSet<>(clubRepository.findByModalidad_Idmodalidad(idModalidad));
     }
     @Override
+    public Set<Clube> obtenerClube(Integer idModalidad,Byte organizador) {
+        return new LinkedHashSet<>(clubRepository.saarchByClube(idModalidad,organizador));
+
+    }
+    @Override
     public Set<Clube> obtenerClube(Integer idModalidad) {
         return new LinkedHashSet<>(clubRepository.saarchByClube(idModalidad));
 
     }
-
     @Override
     public Club obtenerClub(Integer idclub) {
         return clubRepository.findById(idclub).get();
