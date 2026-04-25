@@ -21,12 +21,13 @@ public class Partici {
      private Byte sexo;
      private String nacionalidad;
      private Boolean regcorredor;
+     private Integer licencia;
 
 
     public Partici() {
     }
 
-    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, String ci, Integer tamano, String telefono, Integer idregional, Boolean modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor) {
+    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, String ci, Integer tamano, String telefono, Integer idregional, Boolean modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor, Integer licencia) {
         this.idparticipante = idparticipante;
         this.idevento = idevento;
         this.idcorredor = idcorredor;
@@ -45,6 +46,7 @@ public class Partici {
         this.sexo = sexo;
         this.nacionalidad = nacionalidad;
         this.regcorredor = regcorredor;
+        this.licencia = licencia;
     }
 
     public Integer getIdparticipante() {
@@ -189,6 +191,14 @@ public class Partici {
 
     public void setRegcorredor(Boolean regcorredor) {
         this.regcorredor = regcorredor;
+    }
+
+    public Integer getLicencia() {
+        return licencia;
+    }
+
+    public void setLicencia(Integer licencia) {
+        this.licencia = licencia;
     }
 }
 

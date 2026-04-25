@@ -82,6 +82,8 @@ public class Evento  {
     private String facebook;
     private String instagram;
     private Byte organizador;
+    private Byte conremera;
+    private Byte conlicencia;
 
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evento")
     @JsonIgnore
@@ -118,7 +120,7 @@ public class Evento  {
         this.modalidad = modalidad;
     }
 
-    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Byte organizador, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias, Set<EventoCategoria> eventoCategorias, Set<EventoRemera> eventoRemeras) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Byte organizador, Byte conremera, Byte conlicencia, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias, Set<EventoCategoria> eventoCategorias, Set<EventoRemera> eventoRemeras) {
 
         this.club = club;
         this.regional = regional;
@@ -159,6 +161,8 @@ public class Evento  {
         this.facebook = facebook;
         this.instagram = instagram;
         this.organizador = organizador;
+        this.conremera = conremera;
+        this.conlicencia = conlicencia;
         this.fotoses = fotoses;
         this.participantes = participantes;
         this.enlaceses = enlaceses;
@@ -607,6 +611,22 @@ public class Evento  {
 
     public void setOrganizador(Byte organizador) {
         this.organizador = organizador;
+    }
+
+    public Byte getConremera() {
+        return conremera;
+    }
+
+    public void setConremera(Byte conremera) {
+        this.conremera = conremera;
+    }
+
+    public Byte getConlicencia() {
+        return conlicencia;
+    }
+
+    public void setConlicencia(Byte conlicencia) {
+        this.conlicencia = conlicencia;
     }
 }
 

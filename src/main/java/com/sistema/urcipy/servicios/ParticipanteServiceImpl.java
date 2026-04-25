@@ -415,6 +415,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         club.setIdclub(partici.getIdclub());
         corredor.setClub(club);
         corredor.setModificar(true);
+        corredor.setLicencia(partici.getLicencia());
         corredor.setCatalianza(true);
         Regional regional = new Regional();
         regional.setIdregional(partici.getIdregional());
@@ -427,7 +428,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
 
     private void modificarcorredor(Partici partici) {
         corredorRepository.updateCorredorTelremera(partici.getIdcorredor(),partici.getTelefono(),partici.getTamano());
-        corredorRepository.updateCorredorClubCatElige(partici.getIdcorredor(),partici.getIdclub(),partici.getIdcategoria(),partici.getTipocat(),partici.getModificar());
+        corredorRepository.updateCorredorClubCatElige(partici.getIdcorredor(),partici.getIdclub(),partici.getIdcategoria(),partici.getTipocat(),partici.getModificar(), partici.getLicencia());
     }
 
 

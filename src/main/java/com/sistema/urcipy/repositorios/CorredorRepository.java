@@ -61,7 +61,7 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idregional") Integer idregional);
 
     @Query(value = "select co.idcorredor,p.idpersona,ca.idcategoria,p.ci,concat(p.nombre,' ',p.apellido) as corredor,p.fecnac,p.sexo,p.telefono,ca.nomcorto as categoria,cl.nomclub as club, \n" +
-            "p.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua, p.tamano,co.verificar,cl.idclub,co.tipocat,co.modificar \n" +
+            "p.nacionalidad,ci.nomciudad as ciudad, pa.nompais as pais, co.carnetfpc,  co.puntua, p.tamano,co.verificar,cl.idclub,co.tipocat,co.modificar,co.licencia \n" +
             "from corredor co \n" +
             "inner join persona p on p.idpersona=co.persona_idpersona \n" +
             "inner join club cl on cl.idclub = co.club_idclub \n" +
@@ -111,15 +111,16 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
     );
     @Modifying
     @Query(value = "update corredor co  " +
-            "set  co.categoria_idcategoria=:idcategoria, \n" +
-            " co.club_idclub=:idclub,co.tipocat = :tipocat, co.modificar=:modificar \n" +
+            "set  co.categoria_idcategoria=:idcategoria,co.club_idclub=:idclub, \n" +
+            " co.tipocat = :tipocat, co.modificar=:modificar,co.licencia=:licencia \n" +
             "where co.idcorredor=:idcorredor",nativeQuery = true)
     void updateCorredorClubCatElige(
             @Param("idcorredor") Integer idcorredor,
             @Param("idclub") Integer idclub,
             @Param("idcategoria") Integer idcategoria,
             @Param("tipocat") Byte tipocat,
-            @Param("modificar") Boolean modificar
+            @Param("modificar") Boolean modificar,
+            @Param("licencia") Integer licencia
 
     );
 }

@@ -23,5 +23,6 @@ public interface Corredorbus {
     Integer getIdclub();
     Integer getTipocat();
     Byte getModificar();
+    Integer getLicencia();
 
 }
