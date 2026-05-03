@@ -20,20 +20,23 @@ public class Puntaje {
      private Regional regional;
      private Integer posicion;
      private Integer puntos;
-
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="tipopuntos_idtipopuntos", nullable=false)
+     private Tipopuntos tipopuntos;
 
     public Puntaje() {
     }
 
-
-    public Puntaje(Regional regional) {
+    public Puntaje(Regional regional, Tipopuntos tipopuntos) {
         this.regional = regional;
+        this.tipopuntos = tipopuntos;
     }
 
-    public Puntaje(Regional regional, Integer posicion, Integer puntos) {
+    public Puntaje(Regional regional, Integer posicion, Integer puntos, Tipopuntos tipopuntos) {
         this.regional = regional;
         this.posicion = posicion;
         this.puntos = puntos;
+        this.tipopuntos = tipopuntos;
     }
 
     public Integer getIdpuntaje() {
@@ -66,6 +69,14 @@ public class Puntaje {
 
     public void setPuntos(Integer puntos) {
         this.puntos = puntos;
+    }
+
+    public Tipopuntos getTipopuntos() {
+        return tipopuntos;
+    }
+
+    public void setTipopuntos(Tipopuntos tipopuntos) {
+        this.tipopuntos = tipopuntos;
     }
 }
 

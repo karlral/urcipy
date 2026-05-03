@@ -30,7 +30,7 @@ public class UsuarioRolController {
     }
     @PutMapping("/")
     public UsuarioRol actualizarUsuarioRol(@RequestBody UsuarioRol usuarioRol){
-        return usuarioRolService.guardarUsuarioRol(usuarioRol);
+        return usuarioRolService.actualizarUsuarioRol(usuarioRol);
     }
     @DeleteMapping("/{idusuarioRol}")
     public void eliminarUsuarioRol(@PathVariable("idusuarioRol") Integer idusuarioRol){

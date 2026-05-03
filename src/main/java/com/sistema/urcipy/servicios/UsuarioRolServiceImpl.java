@@ -1,8 +1,10 @@
 package com.sistema.urcipy.servicios;
 
 import com.sistema.urcipy.entidades.Rol;
+import com.sistema.urcipy.entidades.Usuario;
 import com.sistema.urcipy.entidades.UsuarioRol;
 import com.sistema.urcipy.entidades.Tipo;
+import com.sistema.urcipy.repositorios.UsuarioRepository;
 import com.sistema.urcipy.repositorios.UsuarioRolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,20 @@ public class UsuarioRolServiceImpl implements UsuarioRolService{
 
     @Autowired
     private UsuarioRolRepository usuarioRolRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
 
     @Override
     public UsuarioRol guardarUsuarioRol(UsuarioRol usuarioRol){
         return usuarioRolRepository.save(usuarioRol);
+    }
+    @Override
+    public UsuarioRol actualizarUsuarioRol(UsuarioRol usuarioRol){
+        Usuario usuario = usuarioRepository.findByUsername(usuarioRol.getUsuario().getUsername());
+        usuario.setEnabled(usuarioRol.getUsuario().isEnabled());
+        usuarioRepository.saveAndFlush(usuario);
+        return usuarioRolRepository.saveAndFlush(usuarioRol);
     }
 
     @Override

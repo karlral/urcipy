@@ -12,6 +12,8 @@ public interface UsuarioRolService {
 
     public UsuarioRol guardarUsuarioRol(UsuarioRol usuarioRol);
 
+    public UsuarioRol actualizarUsuarioRol(UsuarioRol usuarioRol);
+
     public Set<UsuarioRol> obtenerUsuarioRoles();
     public Set<Rol> obtenerRolUsuarios(Integer idrol);
 

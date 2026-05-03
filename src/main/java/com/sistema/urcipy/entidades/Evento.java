@@ -41,6 +41,9 @@ public class Evento  {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="modalidad_idmodalidad", nullable=false)
     private Modalidad modalidad;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="tipopuntos_idtipopuntos", nullable=false)
+    private Tipopuntos tipopuntos;
      private Date fecha;
      private String nomevento;
      private Integer activo; // si esta activo para inscripcion
@@ -114,17 +117,19 @@ public class Evento  {
     }
 
 	
-    public Evento(Club club, Regional regional, Modalidad modalidad) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Tipopuntos tipopuntos) {
         this.club = club;
         this.regional = regional;
         this.modalidad = modalidad;
+        this.tipopuntos = tipopuntos;
     }
 
-    public Evento(Club club, Regional regional, Modalidad modalidad, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Byte organizador, Byte conremera, Byte conlicencia, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias, Set<EventoCategoria> eventoCategorias, Set<EventoRemera> eventoRemeras) {
+    public Evento(Club club, Regional regional, Modalidad modalidad, Tipopuntos tipopuntos, Date fecha, String nomevento, Integer activo, Integer alianza, String direccion, Integer orden, Integer tipoevento, Integer modo, Integer verencuesta, Integer ranqueable, Integer preinscrip, Integer doble, Integer km, Integer kmpromo, Integer kmmenor, String informacion, String locales, String deposito, String urlpromocional, String urlcategoria, String contacto, Integer montopric, Integer montopris, Integer montomenc, Integer montomens, String fondocolor, String fondo, String ubicacion, String ubidorsal, String gpxprincipal, String gpxpromocional, String dosier, String hoteles, String facebook, String instagram, Byte organizador, Byte conremera, Byte conlicencia, Set<Fotos> fotoses, Set<Participante> participantes, Set<Enlaces> enlaceses, Set<Resultimio> resultimios, Set<Sugerencia> sugerencias, Set<EventoCategoria> eventoCategorias, Set<EventoRemera> eventoRemeras) {
 
         this.club = club;
         this.regional = regional;
         this.modalidad = modalidad;
+        this.tipopuntos = tipopuntos;
         this.fecha = fecha;
         this.nomevento = nomevento;
         this.activo = activo;
@@ -627,6 +632,14 @@ public class Evento  {
 
     public void setConlicencia(Byte conlicencia) {
         this.conlicencia = conlicencia;
+    }
+
+    public Tipopuntos getTipopuntos() {
+        return tipopuntos;
+    }
+
+    public void setTipopuntos(Tipopuntos tipopuntos) {
+        this.tipopuntos = tipopuntos;
     }
 }
 

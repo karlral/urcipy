@@ -24,5 +24,7 @@ public interface Corredorbus {
     Integer getTipocat();
     Byte getModificar();
     Integer getLicencia();
+    String getNombre();
+    String getApellido();
 
 }
