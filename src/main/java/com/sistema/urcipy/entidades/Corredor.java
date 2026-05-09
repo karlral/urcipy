@@ -59,7 +59,7 @@ public class Corredor   {
     public Corredor() {
     }
 
-    public Corredor(Persona persona, Club club, Categoria categoria,  Usuario usuario, Regional regional) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
@@ -68,7 +68,7 @@ public class Corredor   {
     }
 
 
-    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses, Set<Movimiento> movimientos) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses, Set<Movimiento> movimientos) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
@@ -286,6 +286,8 @@ public class Corredor   {
                 ", persona=" + persona.getNombre() + persona.getApellido()+
                 ", club=" + club.getNomclub() +
                 ", categoria=" + categoria.getNomcategoria() +
+                ",regional=" + regional.getNomregional() +
+                ",catalianza=" + catalianza +
                 '}';
     }
 }

@@ -42,6 +42,7 @@ public class DorsalServiceImpl implements DorsalService {
 
     @Override
     public void guardarDorsales(List<Dorsal> dorsales) {
+        dorsalRepository.deleteAll();
         dorsalRepository.saveAll(dorsales);
     }
 }

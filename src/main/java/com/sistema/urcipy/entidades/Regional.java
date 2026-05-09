@@ -70,10 +70,14 @@ public class Regional  {
     @JsonIgnore
     private Set<Puntaje> puntajes = new HashSet<>(0);
 
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="regional")
+    @JsonIgnore
+    private Set<Campeonato> campeonatos = new HashSet<>(0);
+
     public Regional() {
     }
 
-    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, Integer ano, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Integer costoranking, Set<Concepto> conceptos, Set<Campeones> campeoneses, Set<Auspicio> auspicios, Set<Promocion> promocions, Set<Participante> participantes, Set<Usuario> usuarios, Set<Evento> eventos, Set<Corredor> corredors, Set<Puntaje> puntajes) {
+    public Regional(String nomregional, String nomcorto, String telefono, String direccion, String email, Integer ano, String presentacion, String quien, String clubes, String icono, String logo, String frenteabajo1, String frenteabajo2, String frenteabajo3, String regionalcol, Integer avisoactivo, String avisoruta, Integer costoranking, Set<Concepto> conceptos, Set<Campeones> campeoneses, Set<Auspicio> auspicios, Set<Promocion> promocions, Set<Participante> participantes, Set<Usuario> usuarios, Set<Evento> eventos, Set<Corredor> corredors, Set<Puntaje> puntajes, Set<Campeonato> campeonatos) {
         this.nomregional = nomregional;
         this.nomcorto = nomcorto;
         this.telefono = telefono;
@@ -101,6 +105,7 @@ public class Regional  {
         this.eventos = eventos;
         this.corredors = corredors;
         this.puntajes = puntajes;
+        this.campeonatos=campeonatos;
     }
 
     public Integer getIdregional() {
@@ -366,6 +371,14 @@ public class Regional  {
 
     public void setPuntajes(Set<Puntaje> puntajes) {
         this.puntajes = puntajes;
+    }
+
+    public Set<Campeonato> getCampeonatos() {
+        return campeonatos;
+    }
+
+    public void setCampeonatos(Set<Campeonato> campeonatos) {
+        this.campeonatos = campeonatos;
     }
 }
 

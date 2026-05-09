@@ -8,6 +8,8 @@ public class Partici {
     private Integer idcorredor;
      private Integer idcategoria;
      private Integer idclub;
+     private Integer idusuario;
+     private Integer idmodalidad;
      private String ci;
      private Integer tamano;
      private String telefono;
@@ -27,12 +29,14 @@ public class Partici {
     public Partici() {
     }
 
-    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, String ci, Integer tamano, String telefono, Integer idregional, Boolean modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor, Integer licencia) {
+    public Partici(Integer idparticipante, Integer idevento, Integer idcorredor, Integer idcategoria, Integer idclub, Integer idusuario, Integer idmodalidad, String ci, Integer tamano, String telefono, Integer idregional, Boolean modificar, Byte tipocat, String corredor, String nombre, String apellido, Date fecnac, Byte sexo, String nacionalidad, Boolean regcorredor, Integer licencia) {
         this.idparticipante = idparticipante;
         this.idevento = idevento;
         this.idcorredor = idcorredor;
         this.idcategoria = idcategoria;
         this.idclub = idclub;
+        this.idusuario = idusuario;
+        this.idmodalidad = idmodalidad;
         this.ci = ci;
         this.tamano = tamano;
         this.telefono = telefono;
@@ -199,6 +203,49 @@ public class Partici {
 
     public void setLicencia(Integer licencia) {
         this.licencia = licencia;
+    }
+
+    public Integer getIdusuario() {
+        return idusuario;
+    }
+
+    public void setIdusuario(Integer idusuario) {
+        this.idusuario = idusuario;
+    }
+
+    public Integer getIdmodalidad() {
+        return idmodalidad;
+    }
+
+    public void setIdmodalidad(Integer idmodalidad) {
+        this.idmodalidad = idmodalidad;
+    }
+
+    @Override
+    public String toString() {
+        return "Partici{" +
+                "idparticipante=" + idparticipante +
+                ", idevento=" + idevento +
+                ", idcorredor=" + idcorredor +
+                ", idcategoria=" + idcategoria +
+                ", idclub=" + idclub +
+                ", idusuario=" + idusuario +
+                ", idmodalidad=" + idmodalidad +
+                ", ci='" + ci + '\'' +
+                ", tamano=" + tamano +
+                ", telefono='" + telefono + '\'' +
+                ", idregional=" + idregional +
+                ", modificar=" + modificar +
+                ", tipocat=" + tipocat +
+                ", corredor='" + corredor + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", fecnac=" + fecnac +
+                ", sexo=" + sexo +
+                ", nacionalidad='" + nacionalidad + '\'' +
+                ", regcorredor=" + regcorredor +
+                ", licencia=" + licencia +
+                '}';
     }
 }
 

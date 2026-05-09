@@ -253,59 +253,44 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Transactional
     public Inscripto inscribirPartici(Partici partici){
 
-        if(partici.getIdregional()==3 && partici.getRegcorredor()){
+        Participante participanteaux=new Participante();
+        Evento evento = new Evento();
+        evento.setIdevento(partici.getIdevento());
+
+        Regional regional = new Regional();
+        regional.setIdregional(partici.getIdregional());
+
+        if( partici.getRegcorredor()){
+            System.out.println("se procede a guardar nuevo corredor");
            Corredor corredor = this.registrarcorredor(partici);
 
-        }
+           if (corredor != null) {
+               System.out.println(corredor.toString());
+               System.out.println("Guardamos como participante");
+               participanteaux =guardarparticipante(corredor,evento,corredor.getRegional(),partici.getTamano(),partici.getIdclub());
 
-        Participante participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
-                //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
-        if(participanteaux==null) {
-            //System.out.println(idevento);
-            Evento eventoold = eventoRepository.findByIdevento(partici.getIdevento());
-                  //  eventoService.obtenerEvento(partici.getIdevento());
-            //System.out.println(idevento);
-            Integer alianza=eventoold.getAlianza();
-            //System.out.println(alianza);
-            partici.setModificar(false);
-            if(alianza==1){
-                // guardamos las inscripciones de cada Regional con su club y con su categoria
-                List<Evento> eventos=eventoRepository.findByActivoAndAlianzaOrderByFecha(1,alianza);
-                      //  eventoService.obtenerEventoActivosAlianza(1,alianza);
-                for(Evento evento:eventos){
-                    //      System.out.println(evento);
-                    Corredor corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),evento.getRegional().getIdregional());
-                            //corredorService.obtenerCorredorCi(partici.getCi(),evento.getRegional().getIdregional());
-                    if (corredor == null) {
-                        throw new ResponseStatusException(
-                                HttpStatus.BAD_REQUEST,
-                                "Corredor no encontrado"
-                        );
-                       // return ResponseEntity.badRequest().body("Corredor no existe");
-                    }else{
-                        if (corredor.getModificar() == null){
-                            corredor.setModificar(false);
-                        }
 
-                        if ( corredor.getModificar()){
-                            modificarcorredor(partici);
-                            corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),evento.getRegional().getIdregional());
-                        }
-                        guardarparticipante(corredor,evento,evento.getRegional(),partici.getTamano(),corredor.getClub().getIdclub());
-                    }
-                }
-                participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
-                        //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
-            }else {
+           }else{
+               System.out.println("no se pudo guardar");
+               throw new ResponseStatusException(
+                       HttpStatus.BAD_REQUEST,
+                       "Corredor no encontrado");
+           }
+
+        }else{
+
+            participanteaux=participanteRepository.findParticipanteByEventoIdeventoAndCorredorPersonaCi(partici.getIdevento(),partici.getCi());
+            //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
+            if(participanteaux==null) {
+
+
                 Corredor corredor;
-                if(eventoold.getModalidad().getIdmodalidad()==2){ //Running
+                if(partici.getIdmodalidad()==2){ //Running
                     corredor =corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),4); //Running
-                            //corredorService.obtenerCorredorCi(partici.getCi(),4); // Running
-                    corredor.setClub(eventoold.getClub());
 
                 }else{
-                    corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),eventoold.getRegional().getIdregional());
-                          //  corredorService.obtenerCorredorCi(partici.getCi(),eventoold.getRegional().getIdregional());
+                    corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),partici.getIdregional());
+
                 }
 
                 if (corredor == null) {
@@ -320,25 +305,18 @@ public class ParticipanteServiceImpl implements ParticipanteService{
                     }
                     if (corredor.getModificar()){
                         modificarcorredor(partici);
-                        corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),eventoold.getRegional().getIdregional());
+                        corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),partici.getIdregional());
                     }
 
-                    participanteaux =guardarparticipante(corredor,eventoold,eventoold.getRegional(),partici.getTamano(),partici.getIdclub());
+                    participanteaux =guardarparticipante(corredor,evento,regional,partici.getTamano(),partici.getIdclub());
                 }
-            }
-        }else{
 
+            }else{
 
-            if (participanteaux.getEvento().getModalidad().getIdmodalidad()==1 && participanteaux.getCorredor().getModificar()){
-
-
-                    modificarcorredor(partici);
-                    participanteRepository.updateParticipanteClubCat(participanteaux.getEvento().getIdevento(),participanteaux.getCorredor().getIdcorredor());
+                modificarcorredor(partici);
+                participanteRepository.updateParticipanteClubCat(participanteaux.getEvento().getIdevento(), participanteaux.getCorredor().getIdcorredor());
 
             }
-
-
-
         }
 
 
@@ -391,8 +369,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     private Corredor registrarcorredor(Partici partici) {
         Persona persona =new Persona();
         persona.setCi(partici.getCi());
-        persona.setNombre(partici.getNombre());
-        persona.setApellido(partici.getApellido());
+        persona.setNombre(partici.getNombre().toUpperCase());
+        persona.setApellido(partici.getApellido().toUpperCase());
         persona.setTelefono(partici.getTelefono());
         persona.setTamano(partici.getTamano());
         Ciudad ciudad=new Ciudad();
@@ -421,9 +399,33 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         regional.setIdregional(partici.getIdregional());
         corredor.setRegional(regional);
         Usuario usuario = new Usuario();
-        usuario.setIdusuario(91);
+        if(partici.getIdusuario()==null) {
+            usuario.setIdusuario(91);
+        }else {
+            usuario.setIdusuario(partici.getIdusuario());
+        }
         corredor.setUsuario(usuario);
-        return corredorService.guardarCorredorInscripcion(corredor);
+        System.out.println("Cargamos corredor");
+        System.out.println(partici.toString());
+
+        if (partici.getIdmodalidad()==null){
+            partici.setIdmodalidad(1);
+        }
+        if(partici.getIdmodalidad()==2){
+            System.out.println("Guardamos persona");
+            Persona personaGuardada = personaRepository.saveAndFlush(persona);
+            System.out.println("cargamos persona en corredor");
+            corredor.setPersona(personaGuardada);
+            regional.setIdregional(4);
+            System.out.println("Cargamos regional 4 en corredor");
+            corredor.setRegional(regional);
+            System.out.println(corredor.toString());
+            System.out.println("Imprimimos para cargar corredor y guardar corredor");
+            return corredorRepository.saveAndFlush(corredor);
+        }else {
+            System.out.println("Si es distinto de Modalidad ");
+            return corredorService.guardarCorredorInscripcion(corredor);
+        }
     }
 
     private void modificarcorredor(Partici partici) {

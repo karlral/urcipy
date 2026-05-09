@@ -33,7 +33,7 @@ public class Modalidad {
     public Modalidad() {
     }
 
-    public Modalidad(String nommodalidad, Set<Categoria> categorias, Set<Club> clubs, Set<Evento> eventos) {
+    public Modalidad(String nommodalidad, Set<Corredor> corredors, Set<Categoria> categorias, Set<Club> clubs, Set<Evento> eventos) {
         this.nommodalidad = nommodalidad;
         this.categorias = categorias;
         this.clubs = clubs;
