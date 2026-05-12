@@ -253,6 +253,10 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Transactional
     public Inscripto inscribirPartici(Partici partici){
 
+        if(partici.getIdmodalidad()==null){
+            partici.setIdmodalidad(1);
+        }
+
         Participante participanteaux=new Participante();
         Evento evento = new Evento();
         evento.setIdevento(partici.getIdevento());
