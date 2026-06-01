@@ -24,4 +24,8 @@ public class EventoTipoPubController {
     public ResponseEntity<?> listarTiposEvento(@PathVariable("idevento") Integer idevento){
         return ResponseEntity.ok(eventoTipoService.obtenerTiposEvento(idevento));
     }
+    @GetMapping("/categorias/{idevento}")
+    public ResponseEntity<?> listarCategoriasEvento(@PathVariable("idevento") Integer idevento){
+        return ResponseEntity.ok(eventoTipoService.obtenerCategoriasEvento(idevento));
+    }
 }

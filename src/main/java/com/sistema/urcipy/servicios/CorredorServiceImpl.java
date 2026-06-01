@@ -28,29 +28,22 @@ public class CorredorServiceImpl implements CorredorService{
     @Autowired
     private PersonaRepository personaRepository;
 
-    @Autowired
-    private RegionalRepository regionalRepository;
 
     @Override
     public Corredor guardarCorredor(Corredor corredor){
         return corredorRepository.save(corredor);
     }
     @Override
-    public void guardarCorredores(List<Corredor> corredores){
-        //corredores.forEach(corredor -> corredorRepository.save(corredor));
-        corredorRepository.saveAllAndFlush(corredores);
-    }
-    @Override
-    public Corredor guardarCorredorInscripcion(Corredor corredor){
+    public Corredor guardarCorredorPersona(Corredor corredor){
         Corredor corredorGuardada;
-
-        List<Corredor> corredores = new ArrayList<>();
-
         Regional regionalco=corredor.getRegional();
-        System.out.println("guardar dos veces y quedarse con esta regional");
-        System.out.println(regionalco.getIdregional());
+        Integer idregionalco=regionalco.getIdregional();
+        System.out.println("guarda con regional y modalidad");
+        System.out.println(idregionalco);
 
-        corredorGuardada=this.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
+        Integer idmodalidadco=corredor.getModalidad().getIdmodalidad();
+        System.out.println(idmodalidadco);
+        corredorGuardada=corredorRepository.findByPersonaCiAndRegionalIdregionalAndModalidadIdmodalidad(corredor.getPersona().getCi(),idregionalco,idmodalidadco);
         if(corredorGuardada==null) { // vamos a crear el corredor con la regional
             Persona personaGuardada, personaAux;
             personaAux = personaRepository.findPersonaByCi(corredor.getPersona().getCi());
@@ -61,43 +54,23 @@ public class CorredorServiceImpl implements CorredorService{
             personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
             personaGuardada = personaRepository.saveAndFlush(personaAux);
 
-            List<Regional> regionales = regionalRepository.findAll();
-            Corredor corredorVar;
-            for (Regional regional : regionales) {
-                if(regional.getIdregional()==4){//runnig- guardamos de otra forma
-                    break;
-                }
-                corredorVar=new Corredor();
-                corredorVar.setPersona(personaGuardada);
-                corredorVar.setRegional(regional);
+            corredor.setPersona(personaGuardada);
 
-                corredorVar.setPuntua(corredor.getPuntua());
-                corredorVar.setCarnet(corredor.getCarnet());
-                corredorVar.setCategoria(corredor.getCategoria());
-                corredorVar.setClub(corredor.getClub());
-                corredorVar.setCarnetatras(corredor.getCarnetatras());
-                corredorVar.setCatalianza(corredor.getCatalianza());
-                corredorVar.setFecmodi(corredor.getFecmodi());
-                corredorVar.setLicencia(corredor.getLicencia());
-                corredorVar.setModificar(corredor.getModificar());
-                corredorVar.setMontopuntua(corredor.getMontopuntua());
-                corredorVar.setTipocat(corredor.getTipocat());
-                corredorVar.setUsuario(corredor.getUsuario());
-                corredorVar.setVerificar(corredor.getVerificar());
-                corredores.add(corredorVar);
+            corredorGuardada= this.corredorRepository.saveAndFlush(corredor);
 
-                System.out.println("->"+corredorVar.getRegional().getIdregional() + " " + corredorVar.getRegional().getNomregional());
-            }
-            corredores.forEach(corredor1 -> {
-                System.out.println(corredor1.getRegional().getIdregional()+" "+corredor1.getRegional().getNomregional());
-            });
-
-            corredorRepository.saveAllAndFlush(corredores);
-
-
-
-            corredorGuardada=corredorRepository.findByPersonaCiAndRegionalIdregional(corredor.getPersona().getCi(),regionalco.getIdregional());
         }
+        return corredorGuardada;
+    }
+
+    @Override
+    public void guardarCorredores(List<Corredor> corredores){
+        //corredores.forEach(corredor -> corredorRepository.save(corredor));
+        corredorRepository.saveAllAndFlush(corredores);
+    }
+    @Override
+    public Corredor guardarCorredorInscripcion(Corredor corredor){
+        Corredor corredorGuardada;
+        corredorGuardada = this.guardarCorredorPersona( corredor);
 
         return corredorGuardada;
     }
@@ -117,8 +90,8 @@ public class CorredorServiceImpl implements CorredorService{
         return corredorRepository.findByIdcorredor(idcorredor);
     }
     @Override
-    public Corredor obtenerCorredorCi(String ci,Integer idregional) {
-        return corredorRepository.findByPersonaCiAndRegionalIdregional(ci,idregional);
+    public Corredor obtenerCorredorCi(String ci,Integer idregional,Integer idmodalidad) {
+        return corredorRepository.findByPersonaCiAndRegionalIdregionalAndModalidadIdmodalidad(ci,idregional,idmodalidad);
     }
     @Override
     public void eliminarCorredor(Integer idcorredor) {
@@ -131,8 +104,8 @@ public class CorredorServiceImpl implements CorredorService{
         return corredorRepository.correByCi(ci,idregional);
     }
     @Override
-    public Corredorbus obtenerCorredorbusCi(String ci, Integer idregional) {
-        return corredorRepository.corredoresBusCi(ci,idregional);
+    public Corredorbus obtenerCorredorbusCi(String ci, Integer idregional,Integer idmodalidad) {
+        return corredorRepository.corredoresBusCi(ci,idregional,idmodalidad);
     }
     @Override
     public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado,Integer idregional){

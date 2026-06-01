@@ -32,7 +32,7 @@ public class ParticiPubController {
     @GetMapping("/inscrip/{idevento}/{ci}")
     public ResponseEntity<?> inscribirPartiCi(@PathVariable("idevento") Integer idevento,@PathVariable("ci") String ci){
 
-        Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
+       /* Participante participanteaux=participanteService.obtenerParticipantesByEventoCi(idevento,ci);
         if(participanteaux==null) {
             //System.out.println(idevento);
             Evento eventoold = eventoService.obtenerEvento(idevento);
@@ -89,7 +89,8 @@ public class ParticiPubController {
         //Inscripto inscripto = participanteService.searchParticipante(participanteaux.getIdparticipante());
 
         //return ResponseEntity.ok(inscripto);
-        return ResponseEntity.ok(participanteaux);
+        return ResponseEntity.ok(participanteaux);*/
+        return ResponseEntity.ok("ok");
     }
 
     @GetMapping("/proceso")

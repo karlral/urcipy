@@ -19,8 +19,6 @@ public class ParticipanteServiceImpl implements ParticipanteService{
     @Autowired
     private CorredorRepository corredorRepository;
     @Autowired
-    private EventoRepository eventoRepository;
-    @Autowired
     private CorredorService corredorService;
     @Autowired
     private ClubRepository clubRepository;
@@ -257,7 +255,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
             partici.setIdmodalidad(1);
         }
 
-        Participante participanteaux=new Participante();
+        Participante participanteaux;
         Evento evento = new Evento();
         evento.setIdevento(partici.getIdevento());
 
@@ -287,15 +285,8 @@ public class ParticipanteServiceImpl implements ParticipanteService{
             //participanteService.obtenerParticipantesByEventoCi(partici.getIdevento(),partici.getCi());
             if(participanteaux==null) {
 
-
                 Corredor corredor;
-                if(partici.getIdmodalidad()==2){ //Running
-                    corredor =corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),4); //Running
-
-                }else{
-                    corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),partici.getIdregional());
-
-                }
+                corredor = corredorRepository.findByPersonaCiAndRegionalIdregionalAndModalidadIdmodalidad(partici.getCi(),partici.getIdregional(),partici.getIdmodalidad());
 
                 if (corredor == null) {
                     throw new ResponseStatusException(
@@ -309,7 +300,17 @@ public class ParticipanteServiceImpl implements ParticipanteService{
                     }
                     if (corredor.getModificar()){
                         modificarcorredor(partici);
-                        corredor = corredorRepository.findByPersonaCiAndRegionalIdregional(partici.getCi(),partici.getIdregional());
+
+                        Club club = new Club();
+                        club.setIdclub(partici.getIdclub());
+                        corredor.setClub(club);
+                        Categoria categoria = new Categoria();
+                        categoria.setIdcategoria(partici.getIdcategoria());
+                        corredor.setCategoria(categoria);
+                        corredor.setTipocat(partici.getTipocat());
+                        corredor.setModificar(partici.getModificar());
+                        corredor.setLicencia(partici.getLicencia());
+
                     }
 
                     participanteaux =guardarparticipante(corredor,evento,regional,partici.getTamano(),partici.getIdclub());
@@ -402,6 +403,7 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         Regional regional = new Regional();
         regional.setIdregional(partici.getIdregional());
         corredor.setRegional(regional);
+        corredor.setPuntua(0);
         Usuario usuario = new Usuario();
         if(partici.getIdusuario()==null) {
             usuario.setIdusuario(91);
@@ -415,21 +417,12 @@ public class ParticipanteServiceImpl implements ParticipanteService{
         if (partici.getIdmodalidad()==null){
             partici.setIdmodalidad(1);
         }
-        if(partici.getIdmodalidad()==2){
-            System.out.println("Guardamos persona");
-            Persona personaGuardada = personaRepository.saveAndFlush(persona);
-            System.out.println("cargamos persona en corredor");
-            corredor.setPersona(personaGuardada);
-            regional.setIdregional(4);
-            System.out.println("Cargamos regional 4 en corredor");
-            corredor.setRegional(regional);
-            System.out.println(corredor.toString());
-            System.out.println("Imprimimos para cargar corredor y guardar corredor");
-            return corredorRepository.saveAndFlush(corredor);
-        }else {
-            System.out.println("Si es distinto de Modalidad ");
-            return corredorService.guardarCorredorInscripcion(corredor);
-        }
+        Modalidad modalidad= new Modalidad();
+        modalidad.setIdmodalidad(partici.getIdmodalidad());
+        corredor.setModalidad(modalidad);
+
+        return corredorService.guardarCorredorInscripcion(corredor);
+
     }
 
     private void modificarcorredor(Partici partici) {

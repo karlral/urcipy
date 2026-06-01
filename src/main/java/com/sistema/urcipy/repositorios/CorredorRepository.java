@@ -22,8 +22,8 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
 
 
     //@EntityGraph(attributePaths = {"club"})
-    Corredor findByPersonaCiAndRegionalIdregional
-            (String ci,Integer idregional);
+    Corredor findByPersonaCiAndRegionalIdregionalAndModalidadIdmodalidad
+            (String ci,Integer idregional,Integer idmodalidad);
 
     @Query(value = "select co.idcorredor,p.ci,p.nombre,p.apellido,cl.nomclub as club,p.fecnac,ca.nomcorto as categoria, \n" +
             "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, cl.ruta as foto, co.puntua \n" +
@@ -37,11 +37,12 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             @Param("idregional") Integer idregional);
 
     @Query(value = "select co.idcorredor,p.ci,p.nombre,p.apellido,cl.nomclub as club,p.fecnac,ca.nomcorto as categoria, \n" +
-            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, p.foto, co.puntua \n" +
+            "cast(co.fecmodi as date) as fecmodi,concat(p.nombre,' ',p.apellido) as corredor, co.carnetfpc, p.foto, co.puntua,mo.nommodalidad \n" +
             "from corredor co \n" +
             "inner join persona p on p.idpersona=co.persona_idpersona \n" +
             "inner join club cl on cl.idclub = co.club_idclub \n" +
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
+            "inner join modalidad mo on mo.idmodalidad=co.modalidad_idmodalidad \n" +
             "where (p.ci like :buscado or p.nombre like :buscado or p.apellido like :buscado or cl.nomclub like :buscado or ca.nomcorto like :buscado) and co.regional_idregional=:idregional",nativeQuery = true)
     List<Corredormen> corredoresBusCiNomApeClub(
             @Param("buscado") String buscado,
@@ -68,10 +69,11 @@ public interface CorredorRepository extends JpaRepository<Corredor,Integer> {
             "inner join categoria ca on ca.idcategoria=co.categoria_idcategoria \n" +
             "inner join ciudad ci on ci.idciudad=p.ciudad_idciudad\n" +
             "inner join pais pa on pa.idpais = ci.pais_idpais\n" +
-            "where (p.ci = :ci) and co.regional_idregional=:idregional",nativeQuery = true)
+            "where (p.ci = :ci) and co.regional_idregional=:idregional and co.modalidad_idmodalidad=:idmodalidad",nativeQuery = true)
     Corredorbus corredoresBusCi(
             @Param("ci") String ci,
-            @Param("idregional") Integer idregional);
+            @Param("idregional") Integer idregional,
+            @Param("idmodalidad") Integer idmodalidad);
 
     @Modifying
     @Query(value = "update corredor co  " +

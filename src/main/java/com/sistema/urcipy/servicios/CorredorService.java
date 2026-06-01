@@ -14,6 +14,7 @@ import java.util.Set;
 public interface CorredorService {
 
     public Corredor guardarCorredor(Corredor corredor);
+    public Corredor guardarCorredorPersona(Corredor corredor);
     public void guardarCorredores(List<Corredor> corredores);
 
     public Corredor guardarCorredorInscripcion(Corredor corredor);
@@ -23,13 +24,13 @@ public interface CorredorService {
     public Set<Corredor> obtenerCorredores(Integer idregional);
 
     public Corredor obtenerCorredor(Integer idcorredor);
-    public Corredor obtenerCorredorCi(String ci,Integer idregional);
+    public Corredor obtenerCorredorCi(String ci,Integer idregional,Integer idmodalidad);
 
     public void eliminarCorredor(Integer idcorredor);
 
     public Corredormen obtenerCorredormenCi(String ci, Integer idregional);
 
-    public Corredorbus obtenerCorredorbusCi(String ci, Integer idregional);
+    public Corredorbus obtenerCorredorbusCi(String ci, Integer idregional,Integer idmodalidad);
 
     public Set<Corredormen> obtenerCorredoresmenCiNomApeClub(String buscado, Integer idregional);
     public Set<Corredorbus> obtenerCorredoresbusCiNomApeClubDato(String buscado, Integer idregional);

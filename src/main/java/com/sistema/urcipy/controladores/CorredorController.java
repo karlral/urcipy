@@ -32,60 +32,7 @@ public class CorredorController {
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredor(@RequestBody Corredor corredor){
-        Corredor corredorGuardada;
-
-        List<Corredor> corredores = new ArrayList<>();
-
-        Regional regionalco=corredor.getRegional();
-        System.out.println("guardar dos veces y quedarse con esta regional");
-        System.out.println(regionalco.getIdregional());
-        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
-        if(corredorGuardada==null) { // vamos a crear el corredor con la regional
-            Persona personaGuardada, personaAux;
-            personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
-            if (personaAux == null) { //no hay persona en la regional y se crean
-                personaAux = corredor.getPersona();
-            }
-            personaAux.setNombre(corredor.getPersona().getNombre().toUpperCase());
-            personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
-            personaGuardada = personaService.guardarPersonaFlush(personaAux);
-
-            Set<Regional> regionalss=regionalService.obtenerRegionales();
-            List<Regional> regionales = new ArrayList<Regional>(regionalss);
-            Corredor corredorVar=corredor;
-            for (Regional regional : regionales) {
-                if(regional.getIdregional()==4){//runnig- guardamos de otra forma
-                    break;
-                }
-                corredorVar=new Corredor();
-                corredorVar.setPersona(personaGuardada);
-                corredorVar.setRegional(regional);
-
-                corredorVar.setPuntua(corredor.getPuntua());
-                corredorVar.setCarnet(corredor.getCarnet());
-                corredorVar.setCategoria(corredor.getCategoria());
-                corredorVar.setClub(corredor.getClub());
-                corredorVar.setCarnetatras(corredor.getCarnetatras());
-                corredorVar.setCatalianza(corredor.getCatalianza());
-                corredorVar.setFecmodi(corredor.getFecmodi());
-                corredorVar.setLicencia(corredor.getLicencia());
-                corredorVar.setModificar(corredor.getModificar());
-                corredorVar.setMontopuntua(corredor.getMontopuntua());
-                corredorVar.setTipocat(corredor.getTipocat());
-                corredorVar.setUsuario(corredor.getUsuario());
-                corredorVar.setVerificar(corredor.getVerificar());
-                corredores.add(corredorVar);
-
-                System.out.println("->"+corredorVar.getRegional().getIdregional() + " " + corredorVar.getRegional().getNomregional());
-            }
-            corredores.forEach(corredor1 -> {
-                System.out.println(corredor1.getRegional().getIdregional()+" "+corredor1.getRegional().getNomregional());
-            });
-
-            this.corredorService.guardarCorredores(corredores);
-
-            corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
-        }
+        Corredor corredorGuardada = corredorService.guardarCorredorPersona(corredor);
         return ResponseEntity.ok(corredorGuardada);
     }
     @GetMapping("/{idcorredor}")
@@ -93,9 +40,9 @@ public class CorredorController {
         return corredorService.obtenerCorredor(idcorredor);
     }
 
-    @GetMapping("/ci/{ci}/{idregional}")
-    public Corredor obtenerCorredorPorCi(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
-        return corredorService.obtenerCorredorCi(ci,idregional);
+    @GetMapping("/ci/{ci}/{idregional}/{idmodalidad}")
+    public Corredor obtenerCorredorPorCi(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional,@PathVariable("idmodalidad") Integer idmodalidad){
+        return corredorService.obtenerCorredorCi(ci,idregional,idmodalidad);
     }
 
     @GetMapping("/")
@@ -216,7 +163,7 @@ public class CorredorController {
         for (Corredor corredor:corredores) {
             System.out.println(corredor.toString());
 
-            corredoraux=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),idregional);
+            corredoraux=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),idregional,corredor.getModalidad().getIdmodalidad());
 
             if (corredoraux==null){
                 correProblems.add(corredor);

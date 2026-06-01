@@ -31,6 +31,9 @@ public class Corredor   {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="regional_idregional", nullable=false)
     private Regional regional;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="modalidad_idmodalidad", nullable=false)
+    private Modalidad modalidad;
      private Byte verificar;
      private String carnet;
     private String carnetatras;
@@ -59,21 +62,23 @@ public class Corredor   {
     public Corredor() {
     }
 
-    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad, Modalidad modalidad1) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
         this.usuario = usuario;
         this.regional = regional;
+        this.modalidad = modalidad1;
     }
 
 
-    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses, Set<Movimiento> movimientos) {
+    public Corredor(Persona persona, Club club, Categoria categoria, Usuario usuario, Regional regional, Modalidad modalidad, Modalidad modalidad1, Byte verificar, String carnet, String carnetatras, Byte tipocat, Integer licencia, Boolean modificar, Integer puntua, Date fecmodi, Integer montopuntua, Byte carnetfpc, String observacion, Boolean catalianza, Set<Imc> imcs, Set<Participante> participantes, Set<Miembros> miembroses, Set<Movimiento> movimientos) {
         this.persona = persona;
         this.club = club;
         this.categoria = categoria;
         this.usuario = usuario;
         this.regional = regional;
+        this.modalidad = modalidad1;
         this.verificar = verificar;
         this.carnet = carnet;
         this.carnetatras = carnetatras;
@@ -287,8 +292,17 @@ public class Corredor   {
                 ", club=" + club.getNomclub() +
                 ", categoria=" + categoria.getNomcategoria() +
                 ",regional=" + regional.getNomregional() +
+                ",modalidad=" + modalidad.getNommodalidad() +
                 ",catalianza=" + catalianza +
                 '}';
+    }
+
+    public Modalidad getModalidad() {
+        return modalidad;
+    }
+
+    public void setModalidad(Modalidad modalidad) {
+        this.modalidad = modalidad;
     }
 }
 

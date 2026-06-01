@@ -2,6 +2,7 @@ package com.sistema.urcipy.servicios;
 
 
 
+import com.sistema.urcipy.entidades.Categoria;
 import com.sistema.urcipy.entidades.EventoTipo;
 import com.sistema.urcipy.entidades.Tipo;
 
@@ -14,6 +15,7 @@ public interface EventoTipoService {
 
     public Set<EventoTipo> obtenerEventoTipoes();
     public Set<Tipo> obtenerTiposEvento(Integer idevento);
+    Set<Categoria> obtenerCategoriasEvento(Integer idevento);
 
     public EventoTipo obtenerEventoTipo(Integer ideventoTipo);
 

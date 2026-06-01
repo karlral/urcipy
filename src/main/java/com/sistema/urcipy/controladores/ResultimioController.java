@@ -44,6 +44,7 @@ public class ResultimioController {
         //Integer idevento=eventoService.obtenerEventoActivo(1).getIdevento();
         Integer idevento = resultimios.get(0).getIdevento();
         Evento evento=eventoService.obtenerEvento(idevento);
+        Integer idmodalidad= evento.getModalidad().getIdmodalidad();
         Integer idregional=evento.getRegional().getIdregional();
 
         resultimioService.eliminarSendtimioEvento(idevento);
@@ -53,7 +54,7 @@ public class ResultimioController {
 
             resultimio.setEvento(evento);
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional,idmodalidad);
             if (corredor == null) {
                 return ResponseEntity.badRequest().body("Corredor no existe CI: "+resultimio.getCi()
                         +" Corredor: "+resultimio.getNomparticipante());
@@ -203,6 +204,7 @@ public class ResultimioController {
             Integer idevento = resultimios.get(0).getIdevento();
             Evento evento;
             evento = eventoService.obtenerEvento(idevento);
+            Integer idmodalidad = evento.getModalidad().getIdmodalidad();
 
             Regional regional = evento.getRegional();
             Integer idregional = regional.getIdregional();
@@ -210,7 +212,7 @@ public class ResultimioController {
         int cantidad=0;
         for (Resultimio resultimio:resultimios) {
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional,idmodalidad);
             if (corredor == null) {
 
             }else{
@@ -247,6 +249,7 @@ public class ResultimioController {
     private String inscribirtodos(List<Resultimio> resultimios,Integer idevento){
         Evento evento;
         evento = eventoService.obtenerEvento(idevento);
+        Integer idmodalidad = evento.getModalidad().getIdmodalidad();
 
 
         Participante participante;
@@ -265,7 +268,7 @@ public class ResultimioController {
             if (participante == null) {
                 participante = new Participante();
             }
-            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
+            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional,idmodalidad);
             if (corredor == null) {
                 return "Falta: " + resultimio.getCi();
             }
@@ -300,6 +303,7 @@ public class ResultimioController {
 
         Evento evento=eventoService.obtenerEvento(idevento);
         Integer idregional=evento.getRegional().getIdregional();
+        Integer idmodalidad=evento.getModalidad().getIdmodalidad();
 
         resultimioService.eliminarSendtimioEvento(idevento);
         Corredor corredor;
@@ -308,7 +312,7 @@ public class ResultimioController {
 
             resultimio.setEvento(evento);
 
-            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional);
+            corredor= corredorService.obtenerCorredorCi(resultimio.getCi(),idregional,idmodalidad);
             if (corredor == null) {
                 return "Corredor no existe CI: "+resultimio.getCi()
                         +" Corredor: "+resultimio.getNomparticipante();
@@ -365,6 +369,7 @@ public class ResultimioController {
     private String inscribirTodosCorre(List<Corregroup> corregroups,Integer idevento){
         Evento evento;
         evento = eventoService.obtenerEvento(idevento);
+        Integer idmodalidad=evento.getModalidad().getIdmodalidad();
 
 
         Participante participante;
@@ -383,7 +388,7 @@ public class ResultimioController {
             if (participante == null) {
                 participante = new Participante();
             }
-            corredor = corredorService.obtenerCorredorCi(corregroup.getCi(), idregional);
+            corredor = corredorService.obtenerCorredorCi(corregroup.getCi(), idregional,idmodalidad);
             if (corredor == null) {
                 Persona persona = new Persona();
                 persona.setCi(corregroup.getCi());
@@ -477,7 +482,7 @@ public class ResultimioController {
         Regional regionalco=corredor.getRegional();
         System.out.println("guardar dos veces y quedarse con esta regional");
         System.out.println(regionalco.getIdregional());
-        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
+        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional(),corredor.getModalidad().getIdmodalidad());
         if(corredorGuardada==null) { // vamos a crear el corredor con la regional
             Persona personaGuardada, personaAux;
             personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
@@ -492,7 +497,7 @@ public class ResultimioController {
             List<Regional> regionales = new ArrayList<Regional>(regionalss);
             Corredor corredorVar=corredor;
             for (Regional regional : regionales) {
-                if(regional.getIdregional()==4){//runnig- guardamos de otra forma
+                if(regional.getIdregional()==5){//runnig- guardamos de otra forma
                     break;
                 }
                 corredorVar=new Corredor();
@@ -522,7 +527,7 @@ public class ResultimioController {
 
             this.corredorService.guardarCorredores(corredores);
 
-            corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
+            corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional(),corredor.getModalidad().getIdmodalidad());
         }
         return corredorGuardada;
     }
@@ -535,6 +540,7 @@ public class ResultimioController {
         Integer idevento = resultimios.get(0).getIdevento();
         Evento evento = eventoService.obtenerEvento(idevento);
         Integer idregional = evento.getRegional().getIdregional();
+        Integer idmodalidad = evento.getModalidad().getIdmodalidad();
 
         resultimioService.eliminarSendtimioEvento(idevento);
         Corredor corredor;
@@ -543,7 +549,7 @@ public class ResultimioController {
 
             resultimio.setEvento(evento);
 
-            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional);
+            corredor = corredorService.obtenerCorredorCi(resultimio.getCi(), idregional,idmodalidad);
             if (corredor == null) {
                 return ResponseEntity.badRequest().body("Corredor no existe CI: " + resultimio.getCi()
                         + " Corredor: " + resultimio.getNomparticipante());

@@ -15,4 +15,5 @@ public interface Corredormen {
     Integer getCarnetfpc();
     String getFoto();
     Integer getPuntua();
+    String getNommodalidad();
 }

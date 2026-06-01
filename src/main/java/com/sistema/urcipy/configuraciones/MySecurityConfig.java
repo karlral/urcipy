@@ -72,9 +72,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                         ,"/media/**","/media/*/**"
                         ,"/eventopub/*","/regionalpub/*","/eventopub/*/*","/eventopub/*/*/*","/eventopub/modo/*/*"
                         ,"/participub/*","/participub/*/*","/participub/*/*/*","/participub/*/*/*/*"
-                        ,"/campeonespub/*","/correpub/actuacatam","/correpub/*","/correpub/*/*","/correpub/busci/*/*","/correpub/corbusci/*/*","/movipub/*/*"
+                        ,"/campeonespub/*","/correpub/actuacatam","/correpub/*","/correpub/*/*","/correpub/busci/*/*/*","/correpub/corbusci/*/*/*","/movipub/*/*"
                         ,"/categoriapub/*","/historialpub/*","/clubpub/*","/clubpub/*/*","/clubpub/*/*/*","/ciudadpub/*","/paispub/*"
-                        ,"/eventocategoriapub/*","/eventoremerapub/*","/eventotipopub/*","/tipopub/*"
+                        ,"/eventocategoriapub/*","/eventoremerapub/*","/eventotipopub/*","/eventotipopub/categorias/*","/tipopub/*"
                         ,"/personapub/ci/*" ).permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()

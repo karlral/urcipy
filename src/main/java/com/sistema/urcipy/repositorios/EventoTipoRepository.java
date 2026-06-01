@@ -13,4 +13,6 @@ public interface EventoTipoRepository extends JpaRepository<EventoTipo,Integer> 
 
     Set<EventoTipo> findAllByEvento_Idevento(Integer idEvento);
 
+
+
 }

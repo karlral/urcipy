@@ -25,73 +25,33 @@ public class CorrePubController {
     private CorredorService corredorService;
     @Autowired
     private PersonaService personaService;
-    @Autowired
-    private ParticipanteService participanteService;
 
 
     @GetMapping("/{ci}/{idregional}")
     public Corredormen obtenerCorredorPorId(@PathVariable("ci") String ci,@PathVariable("idregional") Integer idregional){
         return corredorService.obtenerCorredormenCi(ci,idregional);
     }
-    @GetMapping("/busci/{ci}/{idregional}")
-    public ResponseEntity<?> obtenerCorredorPorCi(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional){
-        Corredorbus corredorbus=corredorService.obtenerCorredorbusCi(ci,idregional);
+    @GetMapping("/busci/{ci}/{idregional}/{idmodalidad}")
+    public ResponseEntity<?> obtenerCorredorPorCi(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional, @PathVariable("idmodalidad") Integer idmodalidad){
+        Corredorbus corredorbus=corredorService.obtenerCorredorbusCi(ci,idregional,idmodalidad);
         return ResponseEntity.ok(corredorbus);
     }
-    @GetMapping("/corbusci/{ci}/{idregional}")
-    public ResponseEntity<?> obtenerCorredorbusPorCi(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional){
-        Corredorbus corredorbus=corredorService.obtenerCorredorbusCi(ci,idregional);
+    @GetMapping("/corbusci/{ci}/{idregional}/{idmodalidad}")
+    public ResponseEntity<?> obtenerCorredorbusPorCi(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional,@PathVariable("idmodalidad") Integer idmodalidad){
+        Corredorbus corredorbus=corredorService.obtenerCorredorbusCi(ci,idregional,idmodalidad);
         if (corredorbus == null) {
             return ResponseEntity.badRequest().body("Corredor no existe");
         }
         return ResponseEntity.ok(corredorbus);
     }
-    @GetMapping("/buscar/{ci}/{idregional}")
-    public ResponseEntity<?> obtenerCorredorPorCiFull(@PathVariable("ci") String ci, @PathVariable("idregional") Integer idregional){
 
-        return ResponseEntity.ok(corredorService.obtenerCorredorCi(ci,idregional));
-    }
 
     @PostMapping("/")
     public ResponseEntity<Corredor> guardarCorredorRun(@RequestBody Corredor corredor){
         Corredor corredorGuardada;
+        corredorGuardada = corredorService.guardarCorredorInscripcion(corredor);
 
-        Regional regionalco= new Regional();
-        regionalco.setIdregional(4);
 
-        corredorGuardada=corredorService.obtenerCorredorCi(corredor.getPersona().getCi(),regionalco.getIdregional());
-        if(corredorGuardada==null) { // vamos a crear el corredor con la regional
-            Persona personaGuardada, personaAux;
-            personaAux = personaService.obtenerPersonaCi(corredor.getPersona().getCi());
-            if (personaAux == null) { //no hay persona en la regional y se crean
-                personaAux = corredor.getPersona();
-            }
-            personaAux.setNombre(corredor.getPersona().getNombre().toUpperCase());
-            personaAux.setApellido(corredor.getPersona().getApellido().toUpperCase());
-            personaGuardada = personaService.guardarPersonaFlush(personaAux);
-
-            //guardar en la regional 4 que es running
-            Corredor corredorVar;
-            corredorVar=new Corredor();
-            corredorVar.setPersona(personaGuardada);
-            corredorVar.setRegional(regionalco);
-
-            corredorVar.setPuntua(corredor.getPuntua());
-            corredorVar.setCarnet(corredor.getCarnet());
-            corredorVar.setCategoria(corredor.getCategoria());
-            corredorVar.setClub(corredor.getClub());
-            corredorVar.setCarnetatras(corredor.getCarnetatras());
-            corredorVar.setCatalianza(corredor.getCatalianza());
-            corredorVar.setFecmodi(corredor.getFecmodi());
-            corredorVar.setLicencia(corredor.getLicencia());
-            corredorVar.setModificar(corredor.getModificar());
-            corredorVar.setMontopuntua(corredor.getMontopuntua());
-            corredorVar.setTipocat(corredor.getTipocat());
-            corredorVar.setUsuario(corredor.getUsuario());
-            corredorVar.setVerificar(corredor.getVerificar());
-            corredorGuardada=corredorService.guardarCorredor(corredorVar);
-
-        }
         return ResponseEntity.ok(corredorGuardada);
     }
     @PutMapping("/actuacatam")
